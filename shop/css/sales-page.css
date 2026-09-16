@@ -1,6 +1,6 @@
 /* =========================================================
    Ajustes da página de vendas (index.html)
-   0. Logo   1. Banner principal   2. Seção "Indicado para"   3. Cards de oferta
+   0. Logo   1. Banner principal   2. Seção "Indicado para"   3. Cards de oferta   4. Título das ofertas
    ========================================================= */
 
 /* ---------- 0. Logo (fundo branco arredondado sobre o cabeçalho) ----------
@@ -138,3 +138,8 @@ a.yk-offer:active .yk-offer__cta { transform: translateY(1cqi); box-shadow: 0 .2
 @media (prefers-reduced-motion: reduce) {
   a.yk-offer, .yk-offer__cta { transition: none; }
 }
+
+/* ---------- 4. Título "Escolha a melhor oferta" ----------
+   O CSS original do Elementor define line-height de 0.1em nesse texto, e as 3 linhas ficavam sobrepostas. */
+.elementor-5894 .elementor-element.elementor-element-757a02f8 .elementor-widget-container { line-height: 1.08; margin-bottom: 8px; }
+.elementor-5894 .elementor-element.elementor-element-757a02f8 p { margin: 0; line-height: 1.08; }
