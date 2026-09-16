@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="robots" content="noindex">
+  <title>Produto</title>
+  <link rel="icon" href="../wp-content/uploads/2020/10/favicon.png" sizes="32x32">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../shop/css/shop.css">
+</head>
+<body class="page-produto">
+  <div class="nav-progress" aria-hidden="true"></div>
+
+  <header class="topbar" data-topbar>
+    <div class="container topbar__inner">
+      <button class="icon-btn" type="button" data-action="back" aria-label="Voltar">
+        <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      </button>
+      <p class="topbar__title" data-bind="product-name"></p>
+      <button class="icon-btn" type="button" data-action="share" aria-label="Compartilhar">
+        <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="m16 6-4-4-4 4"/><path d="M12 2v13"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="pdp">
+    <div class="pdp__container">
+      <div class="pdp__grid">
+        <!-- Galeria -->
+        <div class="pdp__media" data-mount="gallery">
+          <div class="gallery">
+            <div class="media" style="aspect-ratio:1"></div>
+          </div>
+        </div>
+
+        <!-- Informações principais -->
+        <div class="pdp__stack">
+          <div data-mount="flash"></div>
+          <section class="card" data-mount="summary" aria-label="Resumo do produto">
+            <div class="summary">
+              <span class="skeleton skeleton--title" style="width:40%;height:32px"></span>
+              <span class="skeleton skeleton--title"></span>
+              <span class="skeleton skeleton--text" style="width:60%"></span>
+            </div>
+          </section>
+          <section class="card" data-mount="offers" aria-label="Opções"></section>
+          <section class="card" data-mount="shipping" aria-label="Frete e garantia"></section>
+          <section class="card" data-mount="store" aria-label="Loja"></section>
+        </div>
+      </div>
+
+      <nav class="section-tabs" aria-label="Seções do produto" data-mount="tabs"></nav>
+
+      <div class="pdp__content">
+        <section class="card span-2" id="beneficios" data-mount="benefits" data-reveal></section>
+        <section class="card span-2 reviews-card" id="avaliacoes" data-mount="reviews" data-reveal></section>
+        <section class="card span-2" id="duvidas" data-mount="faq" data-reveal></section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-foot" data-mount="footer"></footer>
+
+  <div class="buybar" data-buybar data-mount="buybar"></div>
+
+  <script src="../shop/js/config.js" defer></script>
+  <script src="../shop/js/ui.js" defer></script>
+  <script src="../shop/js/produto.js" defer></script>
+</body>
+</html>
