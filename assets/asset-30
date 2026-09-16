@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+	<meta charset="UTF-8">
+		<script data-cfasync="false" data-no-defer="1" data-no-minify="1" data-no-optimize="1">var ewww_webp_supported=!1;function check_webp_feature(A,e){var w;e=void 0!==e?e:function(){},ewww_webp_supported?e(ewww_webp_supported):((w=new Image).onload=function(){ewww_webp_supported=0<w.width&&0<w.height,e&&e(ewww_webp_supported)},w.onerror=function(){e&&e(!1)},w.src="data:image/webp;base64,"+{alpha:"UklGRkoAAABXRUJQVlA4WAoAAAAQAAAAAAAAAAAAQUxQSAwAAAARBxAR/Q9ERP8DAABWUDggGAAAABQBAJ0BKgEAAQAAAP4AAA3AAP7mtQAAAA=="}[A])}check_webp_feature("alpha");</script><script data-cfasync="false" data-no-defer="1" data-no-minify="1" data-no-optimize="1">var Arrive=function(c,w){"use strict";if(c.MutationObserver&&"undefined"!=typeof HTMLElement){var r,a=0,u=(r=HTMLElement.prototype.matches||HTMLElement.prototype.webkitMatchesSelector||HTMLElement.prototype.mozMatchesSelector||HTMLElement.prototype.msMatchesSelector,{matchesSelector:function(e,t){return e instanceof HTMLElement&&r.call(e,t)},addMethod:function(e,t,r){var a=e[t];e[t]=function(){return r.length==arguments.length?r.apply(this,arguments):"function"==typeof a?a.apply(this,arguments):void 0}},callCallbacks:function(e,t){t&&t.options.onceOnly&&1==t.firedElems.length&&(e=[e[0]]);for(var r,a=0;r=e[a];a++)r&&r.callback&&r.callback.call(r.elem,r.elem);t&&t.options.onceOnly&&1==t.firedElems.length&&t.me.unbindEventWithSelectorAndCallback.call(t.target,t.selector,t.callback)},checkChildNodesRecursively:function(e,t,r,a){for(var i,n=0;i=e[n];n++)r(i,t,a)&&a.push({callback:t.callback,elem:i}),0<i.childNodes.length&&u.checkChildNodesRecursively(i.childNodes,t,r,a)},mergeArrays:function(e,t){var r,a={};for(r in e)e.hasOwnProperty(r)&&(a[r]=e[r]);for(r in t)t.hasOwnProperty(r)&&(a[r]=t[r]);return a},toElementsArray:function(e){return e=void 0!==e&&("number"!=typeof e.length||e===c)?[e]:e}}),e=(l.prototype.addEvent=function(e,t,r,a){a={target:e,selector:t,options:r,callback:a,firedElems:[]};return this._beforeAdding&&this._beforeAdding(a),this._eventsBucket.push(a),a},l.prototype.removeEvent=function(e){for(var t,r=this._eventsBucket.length-1;t=this._eventsBucket[r];r--)e(t)&&(this._beforeRemoving&&this._beforeRemoving(t),(t=this._eventsBucket.splice(r,1))&&t.length&&(t[0].callback=null))},l.prototype.beforeAdding=function(e){this._beforeAdding=e},l.prototype.beforeRemoving=function(e){this._beforeRemoving=e},l),t=function(i,n){var o=new e,l=this,s={fireOnAttributesModification:!1};return o.beforeAdding(function(t){var e=t.target;e!==c.document&&e!==c||(e=document.getElementsByTagName("html")[0]);var r=new MutationObserver(function(e){n.call(this,e,t)}),a=i(t.options);r.observe(e,a),t.observer=r,t.me=l}),o.beforeRemoving(function(e){e.observer.disconnect()}),this.bindEvent=function(e,t,r){t=u.mergeArrays(s,t);for(var a=u.toElementsArray(this),i=0;i<a.length;i++)o.addEvent(a[i],e,t,r)},this.unbindEvent=function(){var r=u.toElementsArray(this);o.removeEvent(function(e){for(var t=0;t<r.length;t++)if(this===w||e.target===r[t])return!0;return!1})},this.unbindEventWithSelectorOrCallback=function(r){var a=u.toElementsArray(this),i=r,e="function"==typeof r?function(e){for(var t=0;t<a.length;t++)if((this===w||e.target===a[t])&&e.callback===i)return!0;return!1}:function(e){for(var t=0;t<a.length;t++)if((this===w||e.target===a[t])&&e.selector===r)return!0;return!1};o.removeEvent(e)},this.unbindEventWithSelectorAndCallback=function(r,a){var i=u.toElementsArray(this);o.removeEvent(function(e){for(var t=0;t<i.length;t++)if((this===w||e.target===i[t])&&e.selector===r&&e.callback===a)return!0;return!1})},this},i=new function(){var s={fireOnAttributesModification:!1,onceOnly:!1,existing:!1};function n(e,t,r){return!(!u.matchesSelector(e,t.selector)||(e._id===w&&(e._id=a++),-1!=t.firedElems.indexOf(e._id)))&&(t.firedElems.push(e._id),!0)}var c=(i=new t(function(e){var t={attributes:!1,childList:!0,subtree:!0};return e.fireOnAttributesModification&&(t.attributes=!0),t},function(e,i){e.forEach(function(e){var t=e.addedNodes,r=e.target,a=[];null!==t&&0<t.length?u.checkChildNodesRecursively(t,i,n,a):"attributes"===e.type&&n(r,i)&&a.push({callback:i.callback,elem:r}),u.callCallbacks(a,i)})})).bindEvent;return i.bindEvent=function(e,t,r){t=void 0===r?(r=t,s):u.mergeArrays(s,t);var a=u.toElementsArray(this);if(t.existing){for(var i=[],n=0;n<a.length;n++)for(var o=a[n].querySelectorAll(e),l=0;l<o.length;l++)i.push({callback:r,elem:o[l]});if(t.onceOnly&&i.length)return r.call(i[0].elem,i[0].elem);setTimeout(u.callCallbacks,1,i)}c.call(this,e,t,r)},i},o=new function(){var a={};function i(e,t){return u.matchesSelector(e,t.selector)}var n=(o=new t(function(){return{childList:!0,subtree:!0}},function(e,r){e.forEach(function(e){var t=e.removedNodes,e=[];null!==t&&0<t.length&&u.checkChildNodesRecursively(t,r,i,e),u.callCallbacks(e,r)})})).bindEvent;return o.bindEvent=function(e,t,r){t=void 0===r?(r=t,a):u.mergeArrays(a,t),n.call(this,e,t,r)},o};d(HTMLElement.prototype),d(NodeList.prototype),d(HTMLCollection.prototype),d(HTMLDocument.prototype),d(Window.prototype);var n={};return s(i,n,"unbindAllArrive"),s(o,n,"unbindAllLeave"),n}function l(){this._eventsBucket=[],this._beforeAdding=null,this._beforeRemoving=null}function s(e,t,r){u.addMethod(t,r,e.unbindEvent),u.addMethod(t,r,e.unbindEventWithSelectorOrCallback),u.addMethod(t,r,e.unbindEventWithSelectorAndCallback)}function d(e){e.arrive=i.bindEvent,s(i,e,"unbindArrive"),e.leave=o.bindEvent,s(o,e,"unbindLeave")}}(window,void 0),ewww_webp_supported=!1;function check_webp_feature(e,t){var r;ewww_webp_supported?t(ewww_webp_supported):((r=new Image).onload=function(){ewww_webp_supported=0<r.width&&0<r.height,t(ewww_webp_supported)},r.onerror=function(){t(!1)},r.src="data:image/webp;base64,"+{alpha:"UklGRkoAAABXRUJQVlA4WAoAAAAQAAAAAAAAAAAAQUxQSAwAAAARBxAR/Q9ERP8DAABWUDggGAAAABQBAJ0BKgEAAQAAAP4AAA3AAP7mtQAAAA==",animation:"UklGRlIAAABXRUJQVlA4WAoAAAASAAAAAAAAAAAAQU5JTQYAAAD/////AABBTk1GJgAAAAAAAAAAAAAAAAAAAGQAAABWUDhMDQAAAC8AAAAQBxAREYiI/gcA"}[e])}function ewwwLoadImages(e){if(e){for(var t=document.querySelectorAll(".batch-image img, .image-wrapper a, .ngg-pro-masonry-item a, .ngg-galleria-offscreen-seo-wrapper a"),r=0,a=t.length;r<a;r++)ewwwAttr(t[r],"data-src",t[r].getAttribute("data-webp")),ewwwAttr(t[r],"data-thumbnail",t[r].getAttribute("data-webp-thumbnail"));for(var i=document.querySelectorAll("div.woocommerce-product-gallery__image"),r=0,a=i.length;r<a;r++)ewwwAttr(i[r],"data-thumb",i[r].getAttribute("data-webp-thumb"))}for(var n=document.querySelectorAll("video"),r=0,a=n.length;r<a;r++)ewwwAttr(n[r],"poster",e?n[r].getAttribute("data-poster-webp"):n[r].getAttribute("data-poster-image"));for(var o,l=document.querySelectorAll("img.ewww_webp_lazy_load"),r=0,a=l.length;r<a;r++)e&&(ewwwAttr(l[r],"data-lazy-srcset",l[r].getAttribute("data-lazy-srcset-webp")),ewwwAttr(l[r],"data-srcset",l[r].getAttribute("data-srcset-webp")),ewwwAttr(l[r],"data-lazy-src",l[r].getAttribute("data-lazy-src-webp")),ewwwAttr(l[r],"data-src",l[r].getAttribute("data-src-webp")),ewwwAttr(l[r],"data-orig-file",l[r].getAttribute("data-webp-orig-file")),ewwwAttr(l[r],"data-medium-file",l[r].getAttribute("data-webp-medium-file")),ewwwAttr(l[r],"data-large-file",l[r].getAttribute("data-webp-large-file")),null!=(o=l[r].getAttribute("srcset"))&&!1!==o&&o.includes("R0lGOD")&&ewwwAttr(l[r],"src",l[r].getAttribute("data-lazy-src-webp"))),l[r].className=l[r].className.replace(/\bewww_webp_lazy_load\b/,"");for(var s=document.querySelectorAll(".ewww_webp"),r=0,a=s.length;r<a;r++)e?(ewwwAttr(s[r],"srcset",s[r].getAttribute("data-srcset-webp")),ewwwAttr(s[r],"src",s[r].getAttribute("data-src-webp")),ewwwAttr(s[r],"data-orig-file",s[r].getAttribute("data-webp-orig-file")),ewwwAttr(s[r],"data-medium-file",s[r].getAttribute("data-webp-medium-file")),ewwwAttr(s[r],"data-large-file",s[r].getAttribute("data-webp-large-file")),ewwwAttr(s[r],"data-large_image",s[r].getAttribute("data-webp-large_image")),ewwwAttr(s[r],"data-src",s[r].getAttribute("data-webp-src"))):(ewwwAttr(s[r],"srcset",s[r].getAttribute("data-srcset-img")),ewwwAttr(s[r],"src",s[r].getAttribute("data-src-img"))),s[r].className=s[r].className.replace(/\bewww_webp\b/,"ewww_webp_loaded");window.jQuery&&jQuery.fn.isotope&&jQuery.fn.imagesLoaded&&(jQuery(".fusion-posts-container-infinite").imagesLoaded(function(){jQuery(".fusion-posts-container-infinite").hasClass("isotope")&&jQuery(".fusion-posts-container-infinite").isotope()}),jQuery(".fusion-portfolio:not(.fusion-recent-works) .fusion-portfolio-wrapper").imagesLoaded(function(){jQuery(".fusion-portfolio:not(.fusion-recent-works) .fusion-portfolio-wrapper").isotope()}))}function ewwwWebPInit(e){ewwwLoadImages(e),ewwwNggLoadGalleries(e),document.arrive(".ewww_webp",function(){ewwwLoadImages(e)}),document.arrive(".ewww_webp_lazy_load",function(){ewwwLoadImages(e)}),document.arrive("videos",function(){ewwwLoadImages(e)}),"loading"==document.readyState?document.addEventListener("DOMContentLoaded",ewwwJSONParserInit):("undefined"!=typeof galleries&&ewwwNggParseGalleries(e),ewwwWooParseVariations(e))}function ewwwAttr(e,t,r){null!=r&&!1!==r&&e.setAttribute(t,r)}function ewwwJSONParserInit(){"undefined"!=typeof galleries&&check_webp_feature("alpha",ewwwNggParseGalleries),check_webp_feature("alpha",ewwwWooParseVariations)}function ewwwWooParseVariations(e){if(e)for(var t=document.querySelectorAll("form.variations_form"),r=0,a=t.length;r<a;r++){var i=t[r].getAttribute("data-product_variations"),n=!1;try{for(var o in i=JSON.parse(i))void 0!==i[o]&&void 0!==i[o].image&&(void 0!==i[o].image.src_webp&&(i[o].image.src=i[o].image.src_webp,n=!0),void 0!==i[o].image.srcset_webp&&(i[o].image.srcset=i[o].image.srcset_webp,n=!0),void 0!==i[o].image.full_src_webp&&(i[o].image.full_src=i[o].image.full_src_webp,n=!0),void 0!==i[o].image.gallery_thumbnail_src_webp&&(i[o].image.gallery_thumbnail_src=i[o].image.gallery_thumbnail_src_webp,n=!0),void 0!==i[o].image.thumb_src_webp&&(i[o].image.thumb_src=i[o].image.thumb_src_webp,n=!0));n&&ewwwAttr(t[r],"data-product_variations",JSON.stringify(i))}catch(e){}}}function ewwwNggParseGalleries(e){if(e)for(var t in galleries){var r=galleries[t];galleries[t].images_list=ewwwNggParseImageList(r.images_list)}}function ewwwNggLoadGalleries(e){e&&document.addEventListener("ngg.galleria.themeadded",function(e,t){window.ngg_galleria._create_backup=window.ngg_galleria.create,window.ngg_galleria.create=function(e,t){var r=$(e).data("id");return galleries["gallery_"+r].images_list=ewwwNggParseImageList(galleries["gallery_"+r].images_list),window.ngg_galleria._create_backup(e,t)}})}function ewwwNggParseImageList(e){for(var t in e){var r=e[t];if(void 0!==r["image-webp"]&&(e[t].image=r["image-webp"],delete e[t]["image-webp"]),void 0!==r["thumb-webp"]&&(e[t].thumb=r["thumb-webp"],delete e[t]["thumb-webp"]),void 0!==r.full_image_webp&&(e[t].full_image=r.full_image_webp,delete e[t].full_image_webp),void 0!==r.srcsets)for(var a in r.srcsets)nggSrcset=r.srcsets[a],void 0!==r.srcsets[a+"-webp"]&&(e[t].srcsets[a]=r.srcsets[a+"-webp"],delete e[t].srcsets[a+"-webp"]);if(void 0!==r.full_srcsets)for(var i in r.full_srcsets)nggFSrcset=r.full_srcsets[i],void 0!==r.full_srcsets[i+"-webp"]&&(e[t].full_srcsets[i]=r.full_srcsets[i+"-webp"],delete e[t].full_srcsets[i+"-webp"])}return e}check_webp_feature("alpha",ewwwWebPInit);</script><title>Yumme Kids &#8211; Estimule o Aprendizado Infanti</title>
+<link crossorigin data-rocket-preconnect href="https://www.youtube.com" rel="preconnect"><link rel="preload" data-rocket-preload as="image" href="https://yummekids.com.br/wp-content/uploads/2024/01/BANNER-SITE-DESKTOP-3-1.jpg.webp" fetchpriority="high">
+<meta name='robots' content='max-image-preview:large' />
+<script type='application/javascript'  id='pys-version-script'>console.log('PixelYourSite Free version 11.0.0.3');</script>
+
+<link rel="alternate" type="application/rss+xml" title="Yumme Kids &raquo; Feed" href="https://yummekids.com.br/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Yumme Kids &raquo; Feed de comentários" href="https://yummekids.com.br/comments/feed/" />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://yummekids.com.br/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fyummekids.com.br%2F" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://yummekids.com.br/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fyummekids.com.br%2F&#038;format=xml" />
+<style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id="wp-emoji-styles-inline-css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<style id="classic-theme-styles-inline-css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}.wp-block-button{--wp--preset--dimension--25: 25%;--wp--preset--dimension--50: 50%;--wp--preset--dimension--75: 75%;--wp--preset--dimension--100: 100%;}:where(body) { margin: 0; }:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:root :where(.wp-block-icon svg){width: 24px;}
+:where(.wp-block-gallery.is-layout-flex){gap: var( --wp--style--gallery-gap-default, var( --gallery-block--gutter-size, var( --wp--style--block-gap, 0.5em ) ) );}:where(.wp-block-gallery.is-layout-grid){gap: var( --wp--style--gallery-gap-default, var( --gallery-block--gutter-size, var( --wp--style--block-gap, 0.5em ) ) );}
+:where(.wp-block-latest-posts.is-layout-flex){gap: 1.25em;}:where(.wp-block-latest-posts.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-term-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-term-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+<link rel='stylesheet' id='hello-elementor-css' href='https://yummekids.com.br/wp-content/themes/hello-elementor/style.min.css?ver=3.0.1' media='all' />
+<link rel='stylesheet' id='hello-elementor-theme-style-css' href='https://yummekids.com.br/wp-content/themes/hello-elementor/theme.min.css?ver=3.0.1' media='all' />
+<link rel='stylesheet' id='hello-elementor-header-footer-css' href='https://yummekids.com.br/wp-content/themes/hello-elementor/header-footer.min.css?ver=3.0.1' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-icons-css' href='https://yummekids.com.br/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css?ver=1788222016' media='all' />
+<link rel='stylesheet' id='elementor-frontend-css' href='https://yummekids.com.br/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=4.2.4' media='all' />
+<link rel='stylesheet' id='elementor-post-186-css' href='https://yummekids.com.br/wp-content/uploads/elementor/css/post-186.css?ver=1788222016' media='all' />
+<link rel='stylesheet' id='widget-image-css' href='https://yummekids.com.br/wp-content/plugins/elementor/assets/css/widget-image.min.css?ver=4.2.4' media='all' />
+<link data-minify="1" rel='stylesheet' id='swiper-css' href='https://yummekids.com.br/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css?ver=1788222535' media='all' />
+<link rel='stylesheet' id='e-swiper-css' href='https://yummekids.com.br/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.min.css?ver=4.2.4' media='all' />
+<link rel='stylesheet' id='widget-image-carousel-css' href='https://yummekids.com.br/wp-content/plugins/elementor/assets/css/widget-image-carousel.min.css?ver=4.2.4' media='all' />
+<link rel='stylesheet' id='widget-icon-list-css' href='https://yummekids.com.br/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css?ver=4.2.4' media='all' />
+<link rel='stylesheet' id='e-shapes-css' href='https://yummekids.com.br/wp-content/plugins/elementor/assets/css/conditionals/shapes.min.css?ver=4.2.4' media='all' />
+<link rel='stylesheet' id='widget-spacer-css' href='https://yummekids.com.br/wp-content/plugins/elementor/assets/css/widget-spacer.min.css?ver=4.2.4' media='all' />
+<link rel='stylesheet' id='widget-video-css' href='https://yummekids.com.br/wp-content/plugins/elementor/assets/css/widget-video.min.css?ver=4.2.4' media='all' />
+<link rel='stylesheet' id='widget-menu-anchor-css' href='https://yummekids.com.br/wp-content/plugins/elementor/assets/css/widget-menu-anchor.min.css?ver=4.2.4' media='all' />
+<link rel='stylesheet' id='widget-toggle-css' href='https://yummekids.com.br/wp-content/plugins/elementor/assets/css/widget-toggle.min.css?ver=4.2.4' media='all' />
+<link rel='stylesheet' id='widget-divider-css' href='https://yummekids.com.br/wp-content/plugins/elementor/assets/css/widget-divider.min.css?ver=4.2.4' media='all' />
+<link rel='stylesheet' id='elementor-post-5894-css' href='https://yummekids.com.br/wp-content/uploads/elementor/css/post-5894.css?ver=1788222774' media='all' />
+<link data-minify="1" rel='stylesheet' id='hurrytimer-css' href='https://yummekids.com.br/wp-content/cache/min/1/wp-content/uploads/hurrytimer/css/4114cace4ef2de01.css?ver=1788222016' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-gf-local-roboto-css' href='https://yummekids.com.br/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/roboto.css?ver=1788222016' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-gf-local-robotoslab-css' href='https://yummekids.com.br/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/robotoslab.css?ver=1788222016' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-gf-local-rubik-css' href='https://yummekids.com.br/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/rubik.css?ver=1788222774' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-gf-local-mplusrounded1c-css' href='https://yummekids.com.br/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/mplusrounded1c.css?ver=1788222017' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-gf-local-montserrat-css' href='https://yummekids.com.br/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/montserrat.css?ver=1788222774' media='all' />
+<link rel='stylesheet' id='elementor-icons-shared-0-css' href='https://yummekids.com.br/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css?ver=5.15.3' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-icons-fa-solid-css' href='https://yummekids.com.br/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.min.css?ver=1788222017' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-icons-fa-brands-css' href='https://yummekids.com.br/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/brands.min.css?ver=1788222017' media='all' />
+<script id="jquery-core-js" src="https://yummekids.com.br/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" data-rocket-defer defer></script>
+<script id="jquery-migrate-js" src="https://yummekids.com.br/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" data-rocket-defer defer></script>
+<script id="jquery-bind-first-js" src="https://yummekids.com.br/wp-content/plugins/pixelyoursite/dist/scripts/jquery.bind-first-0.2.3.min.js?ver=7.1" data-rocket-defer defer></script>
+<script id="js-cookie-pys-js" src="https://yummekids.com.br/wp-content/plugins/pixelyoursite/dist/scripts/js.cookie-2.1.3.min.js?ver=2.1.3" data-rocket-defer defer></script>
+<script id="js-tld-js" src="https://yummekids.com.br/wp-content/plugins/pixelyoursite/dist/scripts/tld.min.js?ver=2.3.1" data-rocket-defer defer></script>
+<script id="pys-js-extra">
+var pysOptions = {"staticEvents":{"facebook":{"init_event":[{"delay":0,"type":"static","ajaxFire":true,"name":"PageView","pixelIds":["262188809846072"],"eventID":"7eaa47bc-b8da-445d-ab30-cb663f1ec4f3","params":{"page_title":"Yumme Kids","post_type":"page","post_id":5894,"plugin":"PixelYourSite","user_role":"guest","event_url":"yummekids.com.br/"},"e_id":"init_event","ids":[],"hasTimeWindow":false,"timeWindow":0,"woo_order":"","edd_order":""}]}},"dynamicEvents":[],"triggerEvents":[],"triggerEventTypes":[],"facebook":{"pixelIds":["262188809846072"],"advancedMatching":[],"advancedMatchingEnabled":true,"removeMetadata":false,"wooVariableAsSimple":false,"serverApiEnabled":true,"wooCRSendFromServer":false,"send_external_id":null,"enabled_medical":false,"do_not_track_medical_param":["event_url","post_title","page_title","landing_page","content_name","categories","category_name","tags"],"meta_ldu":false},"debug":"","siteUrl":"https://yummekids.com.br","ajaxUrl":"https://yummekids.com.br/wp-admin/admin-ajax.php","ajax_event":"4d132791ff","enable_remove_download_url_param":"","cookie_duration":"7","last_visit_duration":"60","enable_success_send_form":"","ajaxForServerEvent":"1","ajaxForServerStaticEvent":"1","send_external_id":"1","external_id_expire":"180","track_cookie_for_subdomains":"1","google_consent_mode":"1","gdpr":{"ajax_enabled":false,"all_disabled_by_api":true,"facebook_disabled_by_api":false,"analytics_disabled_by_api":false,"google_ads_disabled_by_api":false,"pinterest_disabled_by_api":false,"bing_disabled_by_api":false,"externalID_disabled_by_api":false,"facebook_prior_consent_enabled":true,"analytics_prior_consent_enabled":true,"google_ads_prior_consent_enabled":null,"pinterest_prior_consent_enabled":true,"bing_prior_consent_enabled":true,"cookiebot_integration_enabled":false,"cookiebot_facebook_consent_category":"marketing","cookiebot_analytics_consent_category":"statistics","cookiebot_tiktok_consent_category":"marketing","cookiebot_google_ads_consent_category":"marketing","cookiebot_pinterest_consent_category":"marketing","cookiebot_bing_consent_category":"marketing","consent_magic_integration_enabled":false,"real_cookie_banner_integration_enabled":false,"cookie_notice_integration_enabled":false,"cookie_law_info_integration_enabled":false,"analytics_storage":{"enabled":true,"value":"granted","filter":false},"ad_storage":{"enabled":true,"value":"granted","filter":false},"ad_user_data":{"enabled":true,"value":"granted","filter":false},"ad_personalization":{"enabled":true,"value":"granted","filter":false}},"cookie":{"disabled_all_cookie":false,"disabled_start_session_cookie":false,"disabled_advanced_form_data_cookie":false,"disabled_landing_page_cookie":false,"disabled_first_visit_cookie":false,"disabled_trafficsource_cookie":false,"disabled_utmTerms_cookie":false,"disabled_utmId_cookie":false},"tracking_analytics":{"TrafficSource":"direct","TrafficLanding":"undefined","TrafficUtms":[],"TrafficUtmsId":[]},"GATags":{"ga_datalayer_type":"default","ga_datalayer_name":"dataLayerPYS"},"woo":{"enabled":false},"edd":{"enabled":false},"cache_bypass":"1789556786"};
+//# sourceURL=pys-js-extra
+</script>
+<script data-minify="1" id="pys-js" src="https://yummekids.com.br/wp-content/cache/min/1/wp-content/plugins/pixelyoursite/dist/scripts/public.js?ver=1751031987" data-rocket-defer defer></script>
+<link rel="https://api.w.org/" href="https://yummekids.com.br/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://yummekids.com.br/wp-json/wp/v2/pages/5894" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://yummekids.com.br/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 7.1" />
+<link rel="canonical" href="https://yummekids.com.br/" />
+<link rel='shortlink' href='https://yummekids.com.br/' />
+<meta name="generator" content="Elementor 4.2.4; features: additional_custom_breakpoints; settings: css_print_method-external, google_font-enabled, font_display-auto">
+			<style>
+				.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload),
+				.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload) * {
+					background-image: none !important;
+				}
+				@media screen and (max-height: 1024px) {
+					.e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload),
+					.e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload) * {
+						background-image: none !important;
+					}
+				}
+				@media screen and (max-height: 640px) {
+					.e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload),
+					.e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload) * {
+						background-image: none !important;
+					}
+				}
+			</style>
+			<noscript><style>.lazyload[data-src]{display:none !important;}</style></noscript><style>.lazyload{background-image:none !important;}.lazyload:before{background-image:none !important;}</style><style>.wp-block-gallery.is-cropped .blocks-gallery-item picture{height:100%;width:100%;}</style><link rel="icon" href="https://yummekids.com.br/wp-content/uploads/2020/10/favicon.png" sizes="32x32" />
+<link rel="icon" href="https://yummekids.com.br/wp-content/uploads/2020/10/favicon.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://yummekids.com.br/wp-content/uploads/2020/10/favicon.png" />
+<meta name="msapplication-TileImage" content="https://yummekids.com.br/wp-content/uploads/2020/10/favicon.png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" /><style id="rocket-lazyrender-inline-css">[data-wpr-lazyrender] {content-visibility: auto;}</style><meta name="generator" content="WP Rocket 3.19.0.1" data-wpr-features="wpr_defer_js wpr_minify_js wpr_preconnect_external_domains wpr_automatic_lazy_rendering wpr_oci wpr_minify_css wpr_desktop" /></head>
+<body class="home wp-singular page-template page-template-elementor_canvas page page-id-5894 wp-custom-logo wp-theme-hello-elementor elementor-default elementor-template-canvas elementor-kit-186 elementor-page elementor-page-5894">
+<script data-cfasync="false" data-no-defer="1" data-no-minify="1" data-no-optimize="1">if(typeof ewww_webp_supported==="undefined"){var ewww_webp_supported=!1}if(ewww_webp_supported){document.body.classList.add("webp-support")}</script>
+			<div  data-elementor-type="wp-post" data-elementor-id="5894" class="elementor elementor-5894" data-elementor-post-type="page">
+						<section class="elementor-section elementor-top-section elementor-element elementor-element-3bea5676 elementor-section-full_width elementor-section-content-middle elementor-hidden-desktop elementor-hidden-tablet elementor-section-height-default elementor-section-height-default" data-id="3bea5676" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-2b2bf05f" data-id="2b2bf05f" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-59a24d0 elementor-widget elementor-widget-image" data-id="59a24d0" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+																<a href="https://yummekids.com.br/">
+							<picture><source   type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/logo.png.webp"><img decoding="async" width="300" height="68" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAABEAQAAAAAT1jVbAAAAAnRSTlMAAHaTzTgAAAAZSURBVEjH7cExAQAAAMKg9U9tCU+gAADgYwpcAAEKhcJ+AAAAAElFTkSuQmCC" class="attachment-large size-large wp-image-752 lazyload" alt="yumme kids" data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/05/logo.png" data-eio-rwidth="300" data-eio-rheight="68" /></picture><noscript><img decoding="async" width="300" height="68" src="https://yummekids.com.br/wp-content/uploads/2021/05/logo.png" class="attachment-large size-large wp-image-752" alt="yumme kids" data-eio="l" /></noscript>								</a>
+															</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-6eef652 elementor-section-full_width elementor-section-height-default elementor-section-height-default" data-id="6eef652" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;shape_divider_bottom&quot;:&quot;mountains&quot;}">
+					<div  class="elementor-shape elementor-shape-bottom" aria-hidden="true" data-negative="false">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+	<path class="elementor-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"/>
+	<path class="elementor-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"/>
+	<path class="elementor-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
+</svg>		</div>
+					<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-9e725fb" data-id="9e725fb" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-dc1a129 elementor-hidden-desktop elementor-hidden-tablet elementor-widget-mobile__width-inherit elementor-widget elementor-widget-image-carousel" data-id="dc1a129" data-element_type="widget" data-e-type="widget" data-settings="{&quot;slides_to_show&quot;:&quot;1&quot;,&quot;slides_to_show_mobile&quot;:&quot;1&quot;,&quot;navigation&quot;:&quot;none&quot;,&quot;pause_on_hover&quot;:&quot;no&quot;,&quot;pause_on_interaction&quot;:&quot;no&quot;,&quot;autoplay&quot;:&quot;yes&quot;,&quot;autoplay_speed&quot;:5000,&quot;infinite&quot;:&quot;yes&quot;,&quot;effect&quot;:&quot;slide&quot;,&quot;speed&quot;:500}" data-widget_type="image-carousel.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-image-carousel-wrapper swiper" role="region" aria-roledescription="carousel" aria-label="Carrossel de imagens" dir="ltr">
+			<div class="elementor-image-carousel swiper-wrapper" aria-live="off">
+								<div class="swiper-slide" role="group" aria-roledescription="slide" aria-label="1 of 1"><a data-elementor-open-lightbox="yes" data-elementor-lightbox-slideshow="dc1a129" data-elementor-lightbox-title="BANNER-MOBILE (5)" data-e-action-hash="#elementor-action%3Aaction%3Dlightbox%26settings%3DeyJpZCI6NjEyNywidXJsIjoiaHR0cHM6XC9cL3l1bW1la2lkcy5jb20uYnJcL3dwLWNvbnRlbnRcL3VwbG9hZHNcLzIwMjRcLzAxXC9CQU5ORVItTU9CSUxFLTUtMS5qcGciLCJzbGlkZXNob3ciOiJkYzFhMTI5In0%3D" href="#checkout"><figure class="swiper-slide-inner"><picture><source   type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2024/01/BANNER-MOBILE-5-1.jpg.webp"><img decoding="async" class="swiper-slide-image lazyload" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAi8AAAPiAQAAAACfrgA3AAAAAnRSTlMAAHaTzTgAAABbSURBVHja7cExAQAAAMKg9U9tDQ+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4MRO9AAF30MEMAAAAAElFTkSuQmCC" alt="BANNER-MOBILE (5)" data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2024/01/BANNER-MOBILE-5-1.jpg" width="559" height="994" data-eio-rwidth="559" data-eio-rheight="994" /></picture><noscript><img decoding="async" class="swiper-slide-image" src="https://yummekids.com.br/wp-content/uploads/2024/01/BANNER-MOBILE-5-1.jpg" alt="BANNER-MOBILE (5)" data-eio="l" /></noscript></figure></a></div>			</div>
+					</div>
+						</div>
+				</div>
+				<section class="elementor-section elementor-inner-section elementor-element elementor-element-9dc081d elementor-section-full_width elementor-hidden-tablet elementor-hidden-phone elementor-section-height-default elementor-section-height-default" data-id="9dc081d" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-25 elementor-inner-column elementor-element elementor-element-a798203" data-id="a798203" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-abbb797 elementor-widget elementor-widget-image" data-id="abbb797" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+																<a href="https://yummekids.com.br/">
+							<picture><source   type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/logo.png.webp"><img decoding="async" width="300" height="68" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAABEAQAAAAAT1jVbAAAAAnRSTlMAAHaTzTgAAAAZSURBVEjH7cExAQAAAMKg9U9tCU+gAADgYwpcAAEKhcJ+AAAAAElFTkSuQmCC" class="attachment-full size-full wp-image-752 lazyload" alt="yumme kids" data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/05/logo.png" data-eio-rwidth="300" data-eio-rheight="68" /></picture><noscript><img decoding="async" width="300" height="68" src="https://yummekids.com.br/wp-content/uploads/2021/05/logo.png" class="attachment-full size-full wp-image-752" alt="yumme kids" data-eio="l" /></noscript>								</a>
+															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-25 elementor-inner-column elementor-element elementor-element-e0a0462" data-id="e0a0462" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-73325ee elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="73325ee" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-icon-list-items">
+							<li class="elementor-icon-list-item">
+											<a href="#perguntas">
+
+												<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check"></i>						</span>
+										<span class="elementor-icon-list-text">PERGUNTAS FREQUENTES</span>
+											</a>
+									</li>
+						</ul>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-25 elementor-inner-column elementor-element elementor-element-2545b1d" data-id="2545b1d" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap">
+							</div>
+		</div>
+				<div class="elementor-column elementor-col-25 elementor-inner-column elementor-element elementor-element-4781fce" data-id="4781fce" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-32d31f1 elementor-align-center elementor-widget elementor-widget-button" data-id="32d31f1" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="https://api.whatsapp.com/send?phone=5544999316589">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">ACOMPANHE SEU PEDIDO</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<div class="elementor-element elementor-element-60c744c elementor-hidden-phone elementor-arrows-position-inside elementor-widget elementor-widget-image-carousel" data-id="60c744c" data-element_type="widget" data-e-type="widget" data-settings="{&quot;slides_to_show&quot;:&quot;1&quot;,&quot;navigation&quot;:&quot;arrows&quot;,&quot;pause_on_hover&quot;:&quot;no&quot;,&quot;autoplay&quot;:&quot;yes&quot;,&quot;pause_on_interaction&quot;:&quot;yes&quot;,&quot;autoplay_speed&quot;:5000,&quot;infinite&quot;:&quot;yes&quot;,&quot;effect&quot;:&quot;slide&quot;,&quot;speed&quot;:500}" data-widget_type="image-carousel.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-image-carousel-wrapper swiper" role="region" aria-roledescription="carousel" aria-label="Carrossel de imagens" dir="ltr">
+			<div class="elementor-image-carousel swiper-wrapper swiper-image-stretch" aria-live="off">
+								<div class="swiper-slide" role="group" aria-roledescription="slide" aria-label="1 of 1"><a data-elementor-open-lightbox="yes" data-elementor-lightbox-slideshow="60c744c" data-elementor-lightbox-title="BANNER-SITE-DESKTOP (3)" data-e-action-hash="#elementor-action%3Aaction%3Dlightbox%26settings%3DeyJpZCI6NjEyNiwidXJsIjoiaHR0cHM6XC9cL3l1bW1la2lkcy5jb20uYnJcL3dwLWNvbnRlbnRcL3VwbG9hZHNcLzIwMjRcLzAxXC9CQU5ORVItU0lURS1ERVNLVE9QLTMtMS5qcGciLCJzbGlkZXNob3ciOiI2MGM3NDRjIn0%3D" href="#checkout"><figure class="swiper-slide-inner"><picture><source   type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2024/01/BANNER-SITE-DESKTOP-3-1.jpg.webp"><img fetchpriority="high" decoding="async" class="swiper-slide-image" src="https://yummekids.com.br/wp-content/uploads/2024/01/BANNER-SITE-DESKTOP-3-1.jpg" alt="BANNER-SITE-DESKTOP (3)" data-eio="p" /></picture></figure></a></div>			</div>
+					</div>
+						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-52ba332b elementor-section-full_width elementor-hidden-desktop elementor-hidden-tablet elementor-hidden-mobile elementor-section-height-default elementor-section-height-default" data-id="52ba332b" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;shape_divider_top&quot;:&quot;mountains&quot;}">
+					<div  class="elementor-shape elementor-shape-top" aria-hidden="true" data-negative="false">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+	<path class="elementor-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"/>
+	<path class="elementor-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"/>
+	<path class="elementor-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
+</svg>		</div>
+					<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-36e04699" data-id="36e04699" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-4973bf9d elementor-widget elementor-widget-text-editor" data-id="4973bf9d" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p class="title is-2 novecento-bold color-title-destaque2 is-2 is-size-3-mobile ">CONHEÇA ALGUNS DOS</p><p> </p><p class="title is-2 novecento-bold color-title-destaque2 is-2 is-size-3-mobile ">BENEFÍCIOS DO COMPOSTO</p><p> </p><p class="title is-2 novecento-bold color-title-destaque2 is-2 is-size-3-mobile ">DE YUMME KIDS</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-585290c9 elementor-widget elementor-widget-text-editor" data-id="585290c9" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p class="subtitle is-size-5 has-text-black">Segundo estudos, a suplementação de ácidos graxos essenciais ajudam no bom desenvolvimento infantil, pois:</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-57897b97 elementor-pagination-position-outside elementor-widget elementor-widget-image-carousel" data-id="57897b97" data-element_type="widget" data-e-type="widget" data-settings="{&quot;slides_to_show&quot;:&quot;4&quot;,&quot;navigation&quot;:&quot;dots&quot;,&quot;pause_on_hover&quot;:&quot;no&quot;,&quot;pause_on_interaction&quot;:&quot;no&quot;,&quot;image_spacing_custom&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:30,&quot;sizes&quot;:[]},&quot;slides_to_show_mobile&quot;:&quot;1&quot;,&quot;autoplay&quot;:&quot;yes&quot;,&quot;autoplay_speed&quot;:5000,&quot;infinite&quot;:&quot;yes&quot;,&quot;speed&quot;:500,&quot;image_spacing_custom_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="image-carousel.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-image-carousel-wrapper swiper" role="region" aria-roledescription="carousel" aria-label="Carrossel de imagens" dir="ltr">
+			<div class="elementor-image-carousel swiper-wrapper" aria-live="off">
+								<div class="swiper-slide" role="group" aria-roledescription="slide" aria-label="1 of 5"><figure class="swiper-slide-inner"><picture><source   type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/003-1024x1024-1.jpg.webp"><img decoding="async" class="swiper-slide-image lazyload" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsAQAAAABRBrPYAAAAAnRSTlMAAHaTzTgAAAAiSURBVGje7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAB4GS20AAH/6QlrAAAAAElFTkSuQmCC" alt="yumme kids" data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/05/003-1024x1024-1.jpg" width="300" height="300" data-eio-rwidth="300" data-eio-rheight="300" /></picture><noscript><img decoding="async" class="swiper-slide-image" src="https://yummekids.com.br/wp-content/uploads/2021/05/003-1024x1024-1.jpg" alt="yumme kids" data-eio="l" /></noscript></figure></div><div class="swiper-slide" role="group" aria-roledescription="slide" aria-label="2 of 5"><figure class="swiper-slide-inner"><picture><source   type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/005-1024x1024-1.jpg.webp"><img decoding="async" class="swiper-slide-image lazyload" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsAQAAAABRBrPYAAAAAnRSTlMAAHaTzTgAAAAiSURBVGje7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAB4GS20AAH/6QlrAAAAAElFTkSuQmCC" alt="yumme kids" data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/05/005-1024x1024-1.jpg" width="300" height="300" data-eio-rwidth="300" data-eio-rheight="300" /></picture><noscript><img decoding="async" class="swiper-slide-image" src="https://yummekids.com.br/wp-content/uploads/2021/05/005-1024x1024-1.jpg" alt="yumme kids" data-eio="l" /></noscript></figure></div><div class="swiper-slide" role="group" aria-roledescription="slide" aria-label="3 of 5"><figure class="swiper-slide-inner"><picture><source   type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/010-1024x1024-1.jpg.webp"><img decoding="async" class="swiper-slide-image lazyload" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsAQAAAABRBrPYAAAAAnRSTlMAAHaTzTgAAAAiSURBVGje7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAB4GS20AAH/6QlrAAAAAElFTkSuQmCC" alt="yumme kids" data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/05/010-1024x1024-1.jpg" width="300" height="300" data-eio-rwidth="300" data-eio-rheight="300" /></picture><noscript><img decoding="async" class="swiper-slide-image" src="https://yummekids.com.br/wp-content/uploads/2021/05/010-1024x1024-1.jpg" alt="yumme kids" data-eio="l" /></noscript></figure></div><div class="swiper-slide" role="group" aria-roledescription="slide" aria-label="4 of 5"><figure class="swiper-slide-inner"><picture><source   type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/4456528-1024x1024-1.jpg.webp"><img decoding="async" class="swiper-slide-image lazyload" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsAQAAAABRBrPYAAAAAnRSTlMAAHaTzTgAAAAiSURBVGje7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAB4GS20AAH/6QlrAAAAAElFTkSuQmCC" alt="atenção e concentração" data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/05/4456528-1024x1024-1.jpg" width="300" height="300" data-eio-rwidth="300" data-eio-rheight="300" /></picture><noscript><img decoding="async" class="swiper-slide-image" src="https://yummekids.com.br/wp-content/uploads/2021/05/4456528-1024x1024-1.jpg" alt="atenção e concentração" data-eio="l" /></noscript></figure></div><div class="swiper-slide" role="group" aria-roledescription="slide" aria-label="5 of 5"><figure class="swiper-slide-inner"><picture><source   type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/001-1024x1024-1.jpg.webp"><img decoding="async" class="swiper-slide-image lazyload" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsAQAAAABRBrPYAAAAAnRSTlMAAHaTzTgAAAAiSURBVGje7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAB4GS20AAH/6QlrAAAAAElFTkSuQmCC" alt="desempenho escolar" data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/05/001-1024x1024-1.jpg" width="300" height="300" data-eio-rwidth="300" data-eio-rheight="300" /></picture><noscript><img decoding="async" class="swiper-slide-image" src="https://yummekids.com.br/wp-content/uploads/2021/05/001-1024x1024-1.jpg" alt="desempenho escolar" data-eio="l" /></noscript></figure></div>			</div>
+							
+									<div class="swiper-pagination"></div>
+									</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-1c927076 elementor-hidden-tablet elementor-hidden-phone elementor-widget elementor-widget-spacer" data-id="1c927076" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-spacer">
+			<div class="elementor-spacer-inner"></div>
+		</div>
+						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-78d15185 elementor-section-full_width elementor-section-height-default elementor-section-height-default" data-id="78d15185" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;shape_divider_top&quot;:&quot;mountains&quot;}">
+					<div  class="elementor-shape elementor-shape-top" aria-hidden="true" data-negative="false">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+	<path class="elementor-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"/>
+	<path class="elementor-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"/>
+	<path class="elementor-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
+</svg>		</div>
+					<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-5efa291e" data-id="5efa291e" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-6845338e elementor-widget elementor-widget-text-editor" data-id="6845338e" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>QUEM USA YUMME KIDS,</p><p> </p><p>RECOMENDA!</p><p> </p>								</div>
+				</div>
+				<section class="elementor-section elementor-inner-section elementor-element elementor-element-b7fd821 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="b7fd821" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-wider">
+					<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-5deeddf" data-id="5deeddf" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-497a06c0 elementor-widget elementor-widget-video" data-id="497a06c0" data-element_type="widget" data-e-type="widget" data-settings="{&quot;youtube_url&quot;:&quot;https:\/\/youtu.be\/V0nJ1vAmPpU&quot;,&quot;yt_privacy&quot;:&quot;yes&quot;,&quot;video_type&quot;:&quot;youtube&quot;,&quot;controls&quot;:&quot;yes&quot;}" data-widget_type="video.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-wrapper elementor-open-inline">
+			<div class="elementor-video"></div>		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-56c19e53 elementor-widget elementor-widget-video" data-id="56c19e53" data-element_type="widget" data-e-type="widget" data-settings="{&quot;youtube_url&quot;:&quot;https:\/\/youtu.be\/IaUdXVuip2U&quot;,&quot;yt_privacy&quot;:&quot;yes&quot;,&quot;video_type&quot;:&quot;youtube&quot;,&quot;controls&quot;:&quot;yes&quot;}" data-widget_type="video.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-wrapper elementor-open-inline">
+			<div class="elementor-video"></div>		</div>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-7c8c9255" data-id="7c8c9255" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-27719d89 elementor-widget elementor-widget-video" data-id="27719d89" data-element_type="widget" data-e-type="widget" data-settings="{&quot;youtube_url&quot;:&quot;https:\/\/youtu.be\/j-lpD_EoBXQ&quot;,&quot;yt_privacy&quot;:&quot;yes&quot;,&quot;video_type&quot;:&quot;youtube&quot;,&quot;controls&quot;:&quot;yes&quot;}" data-widget_type="video.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-wrapper elementor-open-inline">
+			<div class="elementor-video"></div>		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-336b02f0 elementor-widget elementor-widget-video" data-id="336b02f0" data-element_type="widget" data-e-type="widget" data-settings="{&quot;youtube_url&quot;:&quot;https:\/\/youtu.be\/-VcgQuPKquU&quot;,&quot;yt_privacy&quot;:&quot;yes&quot;,&quot;video_type&quot;:&quot;youtube&quot;,&quot;controls&quot;:&quot;yes&quot;}" data-widget_type="video.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-wrapper elementor-open-inline">
+			<div class="elementor-video"></div>		</div>
+						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<div class="elementor-element elementor-element-15b61450 elementor-align-center elementor-hidden-tablet elementor-hidden-phone elementor-widget elementor-widget-button" data-id="15b61450" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-xl" href="#checkout">
+						<span class="elementor-button-content-wrapper">
+						<span class="elementor-button-icon">
+				<i aria-hidden="true" class="fas fa-check-double"></i>			</span>
+									<span class="elementor-button-text">SIM, QUERO EXPERIMENTAR!</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+				<div class="elementor-element elementor-element-77a73745 elementor-align-center elementor-hidden-desktop elementor-widget elementor-widget-button" data-id="77a73745" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-lg" href="#checkout">
+						<span class="elementor-button-content-wrapper">
+						<span class="elementor-button-icon">
+				<i aria-hidden="true" class="fas fa-check-double"></i>			</span>
+									<span class="elementor-button-text">SIM, QUERO EXPERIMENTAR!</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+				<div class="elementor-element elementor-element-c5b52bf elementor-widget elementor-widget-image" data-id="c5b52bf" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<picture><source  sizes='(max-width: 800px) 100vw, 800px' type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png.webp 800w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-300x27.png.webp 300w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-768x70.png.webp 768w"><img fetchpriority="high" decoding="async" width="800" height="73" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAABJAQAAAADtGH/KAAAAAnRSTlMAAHaTzTgAAAAeSURBVFjD7cExAQAAAMKg9U9tDQ+gAAAAAAAAAA4NHM0AAQ/mDPMAAAAASUVORK5CYII=" class="attachment-full size-full wp-image-759 lazyload" alt=""   data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png 800w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-300x27.png 300w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-768x70.png 768w" data-sizes="auto" data-eio-rwidth="800" data-eio-rheight="73" /></picture><noscript><img fetchpriority="high" decoding="async" width="800" height="73" src="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png" class="attachment-full size-full wp-image-759" alt="" srcset="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png 800w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-300x27.png 300w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-768x70.png 768w" sizes="(max-width: 800px) 100vw, 800px" data-eio="l" /></noscript>															</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-42124e12 elementor-section-full_width elementor-section-height-default elementor-section-height-default" data-id="42124e12" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-390fe94" data-id="390fe94" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-37acab00 elementor-widget elementor-widget-text-editor" data-id="37acab00" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>POR QUE O YUMME KIDS É DIFERENTE?</p>								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-73422e64 elementor-section-content-middle elementor-hidden-desktop elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="73422e64" data-element_type="section" data-e-type="section" data-settings="{&quot;shape_divider_top&quot;:&quot;arrow&quot;}">
+					<div  class="elementor-shape elementor-shape-top" aria-hidden="true" data-negative="false">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 10" preserveAspectRatio="none">
+	<path class="elementor-shape-fill" d="M350,10L340,0h20L350,10z"/>
+</svg>		</div>
+					<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-20 elementor-top-column elementor-element elementor-element-22dc584d" data-id="22dc584d" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-7e9a998f elementor-widget elementor-widget-image" data-id="7e9a998f" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<picture><source   type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/07/1yumme-leve-150-x-150-1.png.webp"><img loading="lazy" decoding="async" width="150" height="153" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACZAQAAAADlLP6aAAAAAnRSTlMAAHaTzTgAAAAZSURBVEjH7cEBDQAAAMKg909tDwcUAADwbAv0AAF68O59AAAAAElFTkSuQmCC" class="attachment-2048x2048 size-2048x2048 wp-image-1588 lazyload" alt="" data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/07/1yumme-leve-150-x-150-1.png" data-eio-rwidth="150" data-eio-rheight="153" /></picture><noscript><img loading="lazy" decoding="async" width="150" height="153" src="https://yummekids.com.br/wp-content/uploads/2021/07/1yumme-leve-150-x-150-1.png" class="attachment-2048x2048 size-2048x2048 wp-image-1588" alt="" data-eio="l" /></noscript>															</div>
+				</div>
+				<div class="elementor-element elementor-element-6f26b2f elementor-widget elementor-widget-text-editor" data-id="6f26b2f" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>*Nova Embalagem* Imagens Meramente ilustrativa*</p>								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-20 elementor-top-column elementor-element elementor-element-8f207ed" data-id="8f207ed" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-46694616 elementor-widget elementor-widget-text-editor" data-id="46694616" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>VS</p>								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-20 elementor-top-column elementor-element elementor-element-42174d3c" data-id="42174d3c" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-2c9c81a7 elementor-widget elementor-widget-image" data-id="2c9c81a7" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<picture><source  sizes='(max-width: 335px) 100vw, 335px' type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2020/10/bote-right_572f9e2b-5fc6-4457-aaac-96ad4221b52f_335x.png.webp 335w, https://yummekids.com.br/wp-content/uploads/2020/10/bote-right_572f9e2b-5fc6-4457-aaac-96ad4221b52f_335x-300x260.png.webp 300w"><img loading="lazy" decoding="async" width="335" height="290" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAU8AAAEiAQAAAABR3G3bAAAAAnRSTlMAAHaTzTgAAAAjSURBVGje7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAHgYwtgABsfqsrAAAAABJRU5ErkJggg==" class="attachment-large size-large wp-image-14 lazyload" alt=""   data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2020/10/bote-right_572f9e2b-5fc6-4457-aaac-96ad4221b52f_335x.png" data-srcset="https://yummekids.com.br/wp-content/uploads/2020/10/bote-right_572f9e2b-5fc6-4457-aaac-96ad4221b52f_335x.png 335w, https://yummekids.com.br/wp-content/uploads/2020/10/bote-right_572f9e2b-5fc6-4457-aaac-96ad4221b52f_335x-300x260.png 300w" data-sizes="auto" data-eio-rwidth="335" data-eio-rheight="290" /></picture><noscript><img loading="lazy" decoding="async" width="335" height="290" src="https://yummekids.com.br/wp-content/uploads/2020/10/bote-right_572f9e2b-5fc6-4457-aaac-96ad4221b52f_335x.png" class="attachment-large size-large wp-image-14" alt="" srcset="https://yummekids.com.br/wp-content/uploads/2020/10/bote-right_572f9e2b-5fc6-4457-aaac-96ad4221b52f_335x.png 335w, https://yummekids.com.br/wp-content/uploads/2020/10/bote-right_572f9e2b-5fc6-4457-aaac-96ad4221b52f_335x-300x260.png 300w" sizes="(max-width: 335px) 100vw, 335px" data-eio="l" /></noscript>															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-20 elementor-top-column elementor-element elementor-element-5b25ee60" data-id="5b25ee60" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-3d4f7f28 elementor-align-start elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="3d4f7f28" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-icon-list-items">
+							<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check-circle"></i>						</span>
+										<span class="elementor-icon-list-text">EFICIENTE</span>
+									</li>
+								<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check-circle"></i>						</span>
+										<span class="elementor-icon-list-text">PREÇO JUSTO</span>
+									</li>
+								<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check-circle"></i>						</span>
+										<span class="elementor-icon-list-text">AROMA DELICIOSO</span>
+									</li>
+								<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check-circle"></i>						</span>
+										<span class="elementor-icon-list-text">DIVERTIDO DE COMER</span>
+									</li>
+								<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check-circle"></i>						</span>
+										<span class="elementor-icon-list-text">SEM EFEITOS COLATERAIS</span>
+									</li>
+						</ul>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-20 elementor-top-column elementor-element elementor-element-4ce93609" data-id="4ce93609" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-229efcaf elementor-align-start elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="229efcaf" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-icon-list-items">
+							<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-times-circle"></i>						</span>
+										<span class="elementor-icon-list-text">RESULTADOS INSATISFATÓRIOS</span>
+									</li>
+								<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-times-circle"></i>						</span>
+										<span class="elementor-icon-list-text">PREÇO ABUSIVO</span>
+									</li>
+								<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-times-circle"></i>						</span>
+										<span class="elementor-icon-list-text">CHEIRO TERRÍVEL</span>
+									</li>
+								<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-times-circle"></i>						</span>
+										<span class="elementor-icon-list-text">DIFÍCIL DE ENGOLIR</span>
+									</li>
+								<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-times-circle"></i>						</span>
+										<span class="elementor-icon-list-text">EFEITOS INDESEJÁVEIS</span>
+									</li>
+						</ul>
+						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-6065f330 elementor-hidden-tablet elementor-hidden-phone elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="6065f330" data-element_type="section" data-e-type="section" data-settings="{&quot;shape_divider_top&quot;:&quot;arrow&quot;,&quot;background_background&quot;:&quot;classic&quot;}">
+					<div  class="elementor-shape elementor-shape-top" aria-hidden="true" data-negative="false">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 10" preserveAspectRatio="none">
+	<path class="elementor-shape-fill" d="M350,10L340,0h20L350,10z"/>
+</svg>		</div>
+					<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-20 elementor-top-column elementor-element elementor-element-6d8216df" data-id="6d8216df" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-6977cd6b elementor-align-start elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="6977cd6b" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-icon-list-items">
+							<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check-circle"></i>						</span>
+										<span class="elementor-icon-list-text">EFICIENTE</span>
+									</li>
+								<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check-circle"></i>						</span>
+										<span class="elementor-icon-list-text">PREÇO JUSTO</span>
+									</li>
+								<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check-circle"></i>						</span>
+										<span class="elementor-icon-list-text">AROMA DELICIOSO</span>
+									</li>
+								<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check-circle"></i>						</span>
+										<span class="elementor-icon-list-text">DIVERTIDO DE COMER</span>
+									</li>
+								<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check-circle"></i>						</span>
+										<span class="elementor-icon-list-text">SEM EFEITOS COLATERAIS</span>
+									</li>
+						</ul>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-20 elementor-top-column elementor-element elementor-element-5bf53e89" data-id="5bf53e89" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-315d9360 elementor-widget elementor-widget-image" data-id="315d9360" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<picture><source   type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/07/1yumme-leve-150-x-150-1.png.webp"><img loading="lazy" decoding="async" width="150" height="153" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACZAQAAAADlLP6aAAAAAnRSTlMAAHaTzTgAAAAZSURBVEjH7cEBDQAAAMKg909tDwcUAADwbAv0AAF68O59AAAAAElFTkSuQmCC" class="attachment-large size-large wp-image-1588 lazyload" alt="" data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/07/1yumme-leve-150-x-150-1.png" data-eio-rwidth="150" data-eio-rheight="153" /></picture><noscript><img loading="lazy" decoding="async" width="150" height="153" src="https://yummekids.com.br/wp-content/uploads/2021/07/1yumme-leve-150-x-150-1.png" class="attachment-large size-large wp-image-1588" alt="" data-eio="l" /></noscript>															</div>
+				</div>
+				<div class="elementor-element elementor-element-66ab58c elementor-widget elementor-widget-text-editor" data-id="66ab58c" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>**Nova Embalagem *Imagens meramente ilustrativa</p>								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-20 elementor-top-column elementor-element elementor-element-4aa69683" data-id="4aa69683" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<section class="elementor-section elementor-inner-section elementor-element elementor-element-63e64a35 elementor-hidden-tablet elementor-hidden-phone elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="63e64a35" data-element_type="section" data-e-type="section">
+						<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-3fa2c10e" data-id="3fa2c10e" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+							</div>
+		</div>
+					</div>
+		</section>
+				<div class="elementor-element elementor-element-7a6118d0 elementor-widget elementor-widget-text-editor" data-id="7a6118d0" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>VS</p>								</div>
+				</div>
+				<section class="elementor-section elementor-inner-section elementor-element elementor-element-621dae1a elementor-hidden-tablet elementor-hidden-phone elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="621dae1a" data-element_type="section" data-e-type="section">
+						<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-14aa25ab" data-id="14aa25ab" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+							</div>
+		</div>
+					</div>
+		</section>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-20 elementor-top-column elementor-element elementor-element-791b2d47" data-id="791b2d47" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-5c126c93 elementor-widget elementor-widget-image" data-id="5c126c93" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<picture><source  sizes='(max-width: 335px) 100vw, 335px' type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2020/10/bote-right_572f9e2b-5fc6-4457-aaac-96ad4221b52f_335x.png.webp 335w, https://yummekids.com.br/wp-content/uploads/2020/10/bote-right_572f9e2b-5fc6-4457-aaac-96ad4221b52f_335x-300x260.png.webp 300w"><img loading="lazy" decoding="async" width="335" height="290" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAU8AAAEiAQAAAABR3G3bAAAAAnRSTlMAAHaTzTgAAAAjSURBVGje7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAHgYwtgABsfqsrAAAAABJRU5ErkJggg==" class="attachment-large size-large wp-image-14 lazyload" alt=""   data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2020/10/bote-right_572f9e2b-5fc6-4457-aaac-96ad4221b52f_335x.png" data-srcset="https://yummekids.com.br/wp-content/uploads/2020/10/bote-right_572f9e2b-5fc6-4457-aaac-96ad4221b52f_335x.png 335w, https://yummekids.com.br/wp-content/uploads/2020/10/bote-right_572f9e2b-5fc6-4457-aaac-96ad4221b52f_335x-300x260.png 300w" data-sizes="auto" data-eio-rwidth="335" data-eio-rheight="290" /></picture><noscript><img loading="lazy" decoding="async" width="335" height="290" src="https://yummekids.com.br/wp-content/uploads/2020/10/bote-right_572f9e2b-5fc6-4457-aaac-96ad4221b52f_335x.png" class="attachment-large size-large wp-image-14" alt="" srcset="https://yummekids.com.br/wp-content/uploads/2020/10/bote-right_572f9e2b-5fc6-4457-aaac-96ad4221b52f_335x.png 335w, https://yummekids.com.br/wp-content/uploads/2020/10/bote-right_572f9e2b-5fc6-4457-aaac-96ad4221b52f_335x-300x260.png 300w" sizes="(max-width: 335px) 100vw, 335px" data-eio="l" /></noscript>															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-20 elementor-top-column elementor-element elementor-element-59b2e315" data-id="59b2e315" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-1c255d17 elementor-align-start elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="1c255d17" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-icon-list-items">
+							<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-times-circle"></i>						</span>
+										<span class="elementor-icon-list-text">RESULTADOS INSATISFATÓRIOS</span>
+									</li>
+								<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-times-circle"></i>						</span>
+										<span class="elementor-icon-list-text">PREÇO ABUSIVO</span>
+									</li>
+								<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-times-circle"></i>						</span>
+										<span class="elementor-icon-list-text">CHEIRO TERRÍVEL</span>
+									</li>
+								<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-times-circle"></i>						</span>
+										<span class="elementor-icon-list-text">DIFÍCIL DE ENGOLIR</span>
+									</li>
+								<li class="elementor-icon-list-item">
+											<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-times-circle"></i>						</span>
+										<span class="elementor-icon-list-text">EFEITOS INDESEJADOS</span>
+									</li>
+						</ul>
+						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section  class="elementor-section elementor-top-section elementor-element elementor-element-7e85a480 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="7e85a480" data-element_type="section" data-e-type="section">
+						<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-3bcd657d" data-id="3bcd657d" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-74b86ecc elementor-align-center elementor-hidden-tablet elementor-hidden-phone elementor-widget elementor-widget-button" data-id="74b86ecc" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-xl" href="#checkout">
+						<span class="elementor-button-content-wrapper">
+						<span class="elementor-button-icon">
+				<i aria-hidden="true" class="fas fa-check-double"></i>			</span>
+									<span class="elementor-button-text">SIM, QUERO AJUDAR MEU FILHO!</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+				<div class="elementor-element elementor-element-5154a983 elementor-align-center elementor-hidden-desktop elementor-widget elementor-widget-button" data-id="5154a983" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-lg" href="#checkout">
+						<span class="elementor-button-content-wrapper">
+						<span class="elementor-button-icon">
+				<i aria-hidden="true" class="fas fa-check-double"></i>			</span>
+									<span class="elementor-button-text">SIM, QUERO AJUDAR MEU FILHO!</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+				<div class="elementor-element elementor-element-1508fd54 elementor-widget elementor-widget-image" data-id="1508fd54" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<picture><source  sizes='(max-width: 800px) 100vw, 800px' type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png.webp 800w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-300x27.png.webp 300w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-768x70.png.webp 768w"><img loading="lazy" decoding="async" width="800" height="73" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAABJAQAAAADtGH/KAAAAAnRSTlMAAHaTzTgAAAAeSURBVFjD7cExAQAAAMKg9U9tDQ+gAAAAAAAAAA4NHM0AAQ/mDPMAAAAASUVORK5CYII=" class="attachment-large size-large wp-image-759 lazyload" alt=""   data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png 800w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-300x27.png 300w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-768x70.png 768w" data-sizes="auto" data-eio-rwidth="800" data-eio-rheight="73" /></picture><noscript><img loading="lazy" decoding="async" width="800" height="73" src="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png" class="attachment-large size-large wp-image-759" alt="" srcset="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png 800w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-300x27.png 300w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-768x70.png 768w" sizes="(max-width: 800px) 100vw, 800px" data-eio="l" /></noscript>															</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-47471ef7 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="47471ef7" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;shape_divider_top&quot;:&quot;mountains&quot;}">
+					<div  class="elementor-shape elementor-shape-top" aria-hidden="true" data-negative="false">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+	<path class="elementor-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"/>
+	<path class="elementor-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"/>
+	<path class="elementor-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
+</svg>		</div>
+					<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-4e6f4a17" data-id="4e6f4a17" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-812cd1e elementor-hidden-tablet elementor-hidden-phone elementor-widget elementor-widget-spacer" data-id="812cd1e" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-spacer">
+			<div class="elementor-spacer-inner"></div>
+		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-d47e877 elementor-hidden-desktop elementor-hidden-tablet elementor-widget elementor-widget-spacer" data-id="d47e877" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-spacer">
+			<div class="elementor-spacer-inner"></div>
+		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-2df7fde6 elementor-widget elementor-widget-menu-anchor" data-id="2df7fde6" data-element_type="widget" data-e-type="widget" data-widget_type="menu-anchor.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-menu-anchor" id="checkout"></div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-757a02f8 elementor-widget elementor-widget-text-editor" data-id="757a02f8" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>ESCOLHA A</p><p>MELHOR OFERTA</p><p>PARA VOCÊ!</p>								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-1f34a0a elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="1f34a0a" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-ebaf4c4" data-id="ebaf4c4" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-d4e6a48 elementor-widget elementor-widget-image" data-id="d4e6a48" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+																<a href="https://checkout.yummekids.com.br/pay/a18ea353-a3ca-4f11-98eb-c6e35396aa6a">
+							<picture><source  sizes='(max-width: 781px) 100vw, 781px' type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-781x1024.png.webp 781w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-229x300.png.webp 229w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-768x1007.png.webp 768w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-1172x1536.png.webp 1172w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-1200x1573.png.webp 1200w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES.png.webp 1242w"><img loading="lazy" decoding="async" width="781" height="1024" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAw0AAAQAAQAAAACLo4gdAAAAAnRSTlMAAHaTzTgAAAB4SURBVHja7cEBAQAAAIIg/69uSEABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHwZjA8AAY8+HsAAAAAASUVORK5CYII=" class="attachment-large size-large wp-image-2130 lazyload" alt=""   data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-781x1024.png" data-srcset="https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-781x1024.png 781w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-229x300.png 229w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-768x1007.png 768w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-1172x1536.png 1172w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-1200x1573.png 1200w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES.png 1242w" data-sizes="auto" data-eio-rwidth="781" data-eio-rheight="1024" /></picture><noscript><img loading="lazy" decoding="async" width="781" height="1024" src="https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-781x1024.png" class="attachment-large size-large wp-image-2130" alt="" srcset="https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-781x1024.png 781w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-229x300.png 229w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-768x1007.png 768w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-1172x1536.png 1172w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES-1200x1573.png 1200w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-3-POTES.png 1242w" sizes="(max-width: 781px) 100vw, 781px" data-eio="l" /></noscript>								</a>
+															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-69e94ca" data-id="69e94ca" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-429c20d elementor-widget elementor-widget-image" data-id="429c20d" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_animation_mobile&quot;:&quot;none&quot;}" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<picture><source   type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/tag-omaiordesconto.png.webp"><img loading="lazy" decoding="async" width="300" height="48" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAAwAQAAAACDZXqMAAAAAnRSTlMAAHaTzTgAAAAXSURBVDjLY2AYBaNgFIyCUTAKRgGlAAAHUAABKAP+6AAAAABJRU5ErkJggg==" class="attachment-large size-large wp-image-823 lazyload" alt="yumme kids" data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/05/tag-omaiordesconto.png" data-eio-rwidth="300" data-eio-rheight="48" /></picture><noscript><img loading="lazy" decoding="async" width="300" height="48" src="https://yummekids.com.br/wp-content/uploads/2021/05/tag-omaiordesconto.png" class="attachment-large size-large wp-image-823" alt="yumme kids" data-eio="l" /></noscript>															</div>
+				</div>
+				<div class="elementor-element elementor-element-414a466 elementor-widget elementor-widget-image" data-id="414a466" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+																<a href="https://checkout.yummekids.com.br/pay/a18ea3cd-3458-4473-850d-69bae081f12d">
+							<picture><source  sizes='(max-width: 781px) 100vw, 781px' type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-781x1024.png.webp 781w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-229x300.png.webp 229w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-768x1007.png.webp 768w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-1172x1536.png.webp 1172w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-1200x1573.png.webp 1200w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES.png.webp 1242w"><img loading="lazy" decoding="async" width="781" height="1024" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAw0AAAQAAQAAAACLo4gdAAAAAnRSTlMAAHaTzTgAAAB4SURBVHja7cEBAQAAAIIg/69uSEABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHwZjA8AAY8+HsAAAAAASUVORK5CYII=" class="attachment-large size-large wp-image-2129 lazyload" alt=""   data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-781x1024.png" data-srcset="https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-781x1024.png 781w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-229x300.png 229w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-768x1007.png 768w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-1172x1536.png 1172w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-1200x1573.png 1200w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES.png 1242w" data-sizes="auto" data-eio-rwidth="781" data-eio-rheight="1024" /></picture><noscript><img loading="lazy" decoding="async" width="781" height="1024" src="https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-781x1024.png" class="attachment-large size-large wp-image-2129" alt="" srcset="https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-781x1024.png 781w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-229x300.png 229w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-768x1007.png 768w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-1172x1536.png 1172w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES-1200x1573.png 1200w, https://yummekids.com.br/wp-content/uploads/2022/03/BANNER-CHECKOUT-5-POTES.png 1242w" sizes="(max-width: 781px) 100vw, 781px" data-eio="l" /></noscript>								</a>
+															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-1f5acb3" data-id="1f5acb3" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-f9892f5 elementor-widget elementor-widget-image" data-id="f9892f5" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+																<a href="https://checkout.yummekids.com.br/pay/9f749fc0-9209-4dd1-9680-1edbe1aa8a66">
+							<picture><source  sizes='(max-width: 781px) 100vw, 781px' type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-781x1024.png.webp 781w, https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-229x300.png.webp 229w, https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-768x1007.png.webp 768w, https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-1172x1536.png.webp 1172w, https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-1200x1573.png.webp 1200w, https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1.png.webp 1242w"><img loading="lazy" decoding="async" width="781" height="1024" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAw0AAAQAAQAAAACLo4gdAAAAAnRSTlMAAHaTzTgAAAB4SURBVHja7cEBAQAAAIIg/69uSEABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHwZjA8AAY8+HsAAAAAASUVORK5CYII=" class="attachment-large size-large wp-image-1831 lazyload" alt=""   data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-781x1024.png" data-srcset="https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-781x1024.png 781w, https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-229x300.png 229w, https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-768x1007.png 768w, https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-1172x1536.png 1172w, https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-1200x1573.png 1200w, https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1.png 1242w" data-sizes="auto" data-eio-rwidth="781" data-eio-rheight="1024" /></picture><noscript><img loading="lazy" decoding="async" width="781" height="1024" src="https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-781x1024.png" class="attachment-large size-large wp-image-1831" alt="" srcset="https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-781x1024.png 781w, https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-229x300.png 229w, https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-768x1007.png 768w, https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-1172x1536.png 1172w, https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1-1200x1573.png 1200w, https://yummekids.com.br/wp-content/uploads/2022/02/BANNER-CHECKOUT-1-POTE-2-1-1.png 1242w" sizes="(max-width: 781px) 100vw, 781px" data-eio="l" /></noscript>								</a>
+															</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-6bf6594c elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="6bf6594c" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;shape_divider_bottom&quot;:&quot;mountains&quot;,&quot;animation&quot;:&quot;none&quot;}">
+					<div  class="elementor-shape elementor-shape-bottom" aria-hidden="true" data-negative="false">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+	<path class="elementor-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"/>
+	<path class="elementor-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"/>
+	<path class="elementor-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
+</svg>		</div>
+					<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-7cfd558e" data-id="7cfd558e" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-b1748de elementor-widget elementor-widget-text-editor" data-id="b1748de" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p class="title is-3 is-size-3-mobile text-upper novecento-bold has-text-centered color-title-destaque1 is-marginless">APROVEITE! PROMOÇÃO POR TEMPO LIMITADO!</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-713e718 elementor-widget elementor-widget-text-editor" data-id="713e718" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p class="title is-3 is-size-3-mobile text-upper novecento-bold has-text-centered color-title-destaque1 is-marginless">ESSA PROMOÇÃO SAIRÁ DO AR EM:</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-f70b434 elementor-widget elementor-widget-shortcode" data-id="f70b434" data-element_type="widget" data-e-type="widget" data-widget_type="shortcode.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-shortcode"><div class="hurrytimer-cdt hurrytimer-cdt--119 hurrytimer-campaign hurryt-loading hurrytimer-campaign-119" data-config="{&quot;id&quot;:119,&quot;run_in_background&quot;:false,&quot;sticky&quot;:false,&quot;product_ids&quot;:[],&quot;actions&quot;:[{&quot;id&quot;:2,&quot;redirectUrl&quot;:&quot;&quot;,&quot;message&quot;:&quot;&quot;,&quot;coupon&quot;:&quot;&quot;,&quot;wcStockStatus&quot;:&quot;instock&quot;}],&quot;template&quot;:&quot;&lt;div class=\&quot;hurrytimer-timer-block hurrytimer-cdt__dur\&quot;&gt;&lt;div class=\&quot;hurrytimer-timer-digit hurrytimer-cdt__time\&quot;&gt;%I&lt;\/div&gt;&lt;div class=\&quot;hurrytimer-timer-label hurrytimer-cdt__label\&quot; &gt;HORAS&lt;\/div&gt;&lt;\/div&gt;&lt;div class=\&quot;hurrytimer-cdt__sep hurrytimer-timer-sep\&quot;&gt;:&lt;\/div&gt;&lt;div class=\&quot;hurrytimer-timer-block hurrytimer-cdt__dur\&quot;&gt;&lt;div class=\&quot;hurrytimer-timer-digit hurrytimer-cdt__time\&quot;&gt;%M&lt;\/div&gt;&lt;div class=\&quot;hurrytimer-timer-label hurrytimer-cdt__label\&quot; &gt;MINUTOS&lt;\/div&gt;&lt;\/div&gt;&lt;div class=\&quot;hurrytimer-cdt__sep hurrytimer-timer-sep\&quot;&gt;:&lt;\/div&gt;&lt;div class=\&quot;hurrytimer-timer-block hurrytimer-cdt__dur\&quot;&gt;&lt;div class=\&quot;hurrytimer-timer-digit hurrytimer-cdt__time\&quot;&gt;%S&lt;\/div&gt;&lt;div class=\&quot;hurrytimer-timer-label hurrytimer-cdt__label\&quot; &gt;SEGUNDO&lt;\/div&gt;&lt;\/div&gt;&quot;,&quot;methods&quot;:[1,2],&quot;mode&quot;:&quot;evergreen&quot;,&quot;sticky_bar_hide_timeout&quot;:7,&quot;isRegular&quot;:false,&quot;restart_duration&quot;:0,&quot;duration&quot;:7200,&quot;evergreenEndType&quot;:&quot;duration&quot;,&quot;evergreenEndTime&quot;:&quot;&quot;,&quot;evergreenEndDay&quot;:0,&quot;should_reset&quot;:false,&quot;reset_token&quot;:&quot;&quot;,&quot;restart&quot;:&quot;3&quot;,&quot;endDate&quot;:null,&quot;cookieName&quot;:&quot;_ht_CDT-119&quot;,&quot;reload_reset&quot;:true}" ><div class="hurrytimer-cdt__inner hurrytimer-timer"></div></div>
+</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-a10094c elementor-widget elementor-widget-image" data-id="a10094c" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<picture><source  sizes='(max-width: 800px) 100vw, 800px' type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png.webp 800w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-300x27.png.webp 300w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-768x70.png.webp 768w"><img loading="lazy" decoding="async" width="800" height="73" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAABJAQAAAADtGH/KAAAAAnRSTlMAAHaTzTgAAAAeSURBVFjD7cExAQAAAMKg9U9tDQ+gAAAAAAAAAA4NHM0AAQ/mDPMAAAAASUVORK5CYII=" class="attachment-large size-large wp-image-759 lazyload" alt=""   data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png 800w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-300x27.png 300w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-768x70.png 768w" data-sizes="auto" data-eio-rwidth="800" data-eio-rheight="73" /></picture><noscript><img loading="lazy" decoding="async" width="800" height="73" src="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png" class="attachment-large size-large wp-image-759" alt="" srcset="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png 800w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-300x27.png 300w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-768x70.png 768w" sizes="(max-width: 800px) 100vw, 800px" data-eio="l" /></noscript>															</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-1dc93715 elementor-section-full_width elementor-section-height-default elementor-section-height-default" data-id="1dc93715" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;shape_divider_top&quot;:&quot;mountains&quot;}">
+					<div  class="elementor-shape elementor-shape-top" aria-hidden="true" data-negative="false">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+	<path class="elementor-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"/>
+	<path class="elementor-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"/>
+	<path class="elementor-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
+</svg>		</div>
+					<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-46919124" data-id="46919124" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-2295b064 elementor-widget elementor-widget-text-editor" data-id="2295b064" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p class="title is-3 is-size-3-mobile text-upper novecento-bold has-text-centered color-title-destaque1 is-marginless"><span class="novecento-bold is-size-2 is-size-3-mobile color-title-destaque2">MAMÃES FAMOSAS QUE COMPROVARAM <br />A EFICIÊNCIA DE YUMME KIDS</span></p>								</div>
+				</div>
+				<section class="elementor-section elementor-inner-section elementor-element elementor-element-4884802 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="4884802" data-element_type="section" data-e-type="section">
+						<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-473c2e8" data-id="473c2e8" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-3d4800b elementor-widget elementor-widget-image" data-id="3d4800b" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<picture><source  sizes='(max-width: 300px) 100vw, 300px' type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/IVY-MORAES-5-1024x1024-1.jpg.webp 300w, https://yummekids.com.br/wp-content/uploads/2021/05/IVY-MORAES-5-1024x1024-1-150x150.jpg.webp 150w"><img loading="lazy" decoding="async" width="300" height="300" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsAQAAAABRBrPYAAAAAnRSTlMAAHaTzTgAAAAiSURBVGje7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAB4GS20AAH/6QlrAAAAAElFTkSuQmCC" class="attachment-large size-large wp-image-735 lazyload" alt="yumme kids"   data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/05/IVY-MORAES-5-1024x1024-1.jpg" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/IVY-MORAES-5-1024x1024-1.jpg 300w, https://yummekids.com.br/wp-content/uploads/2021/05/IVY-MORAES-5-1024x1024-1-150x150.jpg 150w" data-sizes="auto" data-eio-rwidth="300" data-eio-rheight="300" /></picture><noscript><img loading="lazy" decoding="async" width="300" height="300" src="https://yummekids.com.br/wp-content/uploads/2021/05/IVY-MORAES-5-1024x1024-1.jpg" class="attachment-large size-large wp-image-735" alt="yumme kids" srcset="https://yummekids.com.br/wp-content/uploads/2021/05/IVY-MORAES-5-1024x1024-1.jpg 300w, https://yummekids.com.br/wp-content/uploads/2021/05/IVY-MORAES-5-1024x1024-1-150x150.jpg 150w" sizes="(max-width: 300px) 100vw, 300px" data-eio="l" /></noscript>															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-20f1105" data-id="20f1105" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-05f1df6 elementor-widget elementor-widget-image" data-id="05f1df6" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<picture><source  sizes='(max-width: 300px) 100vw, 300px' type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/IVI-PIZZOT-1024x1024-1.jpg.webp 300w, https://yummekids.com.br/wp-content/uploads/2021/05/IVI-PIZZOT-1024x1024-1-150x150.jpg.webp 150w"><img loading="lazy" decoding="async" width="300" height="300" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsAQAAAABRBrPYAAAAAnRSTlMAAHaTzTgAAAAiSURBVGje7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAB4GS20AAH/6QlrAAAAAElFTkSuQmCC" class="attachment-large size-large wp-image-734 lazyload" alt="yumme kids"   data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/05/IVI-PIZZOT-1024x1024-1.jpg" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/IVI-PIZZOT-1024x1024-1.jpg 300w, https://yummekids.com.br/wp-content/uploads/2021/05/IVI-PIZZOT-1024x1024-1-150x150.jpg 150w" data-sizes="auto" data-eio-rwidth="300" data-eio-rheight="300" /></picture><noscript><img loading="lazy" decoding="async" width="300" height="300" src="https://yummekids.com.br/wp-content/uploads/2021/05/IVI-PIZZOT-1024x1024-1.jpg" class="attachment-large size-large wp-image-734" alt="yumme kids" srcset="https://yummekids.com.br/wp-content/uploads/2021/05/IVI-PIZZOT-1024x1024-1.jpg 300w, https://yummekids.com.br/wp-content/uploads/2021/05/IVI-PIZZOT-1024x1024-1-150x150.jpg 150w" sizes="(max-width: 300px) 100vw, 300px" data-eio="l" /></noscript>															</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<div class="elementor-element elementor-element-86b5137 elementor-align-center elementor-hidden-tablet elementor-hidden-phone elementor-widget elementor-widget-button" data-id="86b5137" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-xl" href="#checkout">
+						<span class="elementor-button-content-wrapper">
+						<span class="elementor-button-icon">
+				<i aria-hidden="true" class="fas fa-check-double"></i>			</span>
+									<span class="elementor-button-text">SIM, QUERO COMPRAR AGORA!</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+				<div class="elementor-element elementor-element-5264cac9 elementor-align-center elementor-hidden-desktop elementor-widget elementor-widget-button" data-id="5264cac9" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-lg" href="#checkout">
+						<span class="elementor-button-content-wrapper">
+						<span class="elementor-button-icon">
+				<i aria-hidden="true" class="fas fa-check-double"></i>			</span>
+									<span class="elementor-button-text">SIM, QUERO COMPRAR AGORA!</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+				<div class="elementor-element elementor-element-62efbced elementor-widget elementor-widget-image" data-id="62efbced" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<picture><source  sizes='(max-width: 800px) 100vw, 800px' type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png.webp 800w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-300x27.png.webp 300w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-768x70.png.webp 768w"><img loading="lazy" decoding="async" width="800" height="73" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAABJAQAAAADtGH/KAAAAAnRSTlMAAHaTzTgAAAAeSURBVFjD7cExAQAAAMKg9U9tDQ+gAAAAAAAAAA4NHM0AAQ/mDPMAAAAASUVORK5CYII=" class="attachment-large size-large wp-image-759 lazyload" alt=""   data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png 800w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-300x27.png 300w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-768x70.png 768w" data-sizes="auto" data-eio-rwidth="800" data-eio-rheight="73" /></picture><noscript><img loading="lazy" decoding="async" width="800" height="73" src="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png" class="attachment-large size-large wp-image-759" alt="" srcset="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png 800w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-300x27.png 300w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-768x70.png 768w" sizes="(max-width: 800px) 100vw, 800px" data-eio="l" /></noscript>															</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-5e5004ae elementor-section-full_width elementor-section-height-default elementor-section-height-default" data-id="5e5004ae" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-7bbac7ba" data-id="7bbac7ba" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-17bb1eb3 elementor-widget elementor-widget-menu-anchor" data-id="17bb1eb3" data-element_type="widget" data-e-type="widget" data-widget_type="menu-anchor.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-menu-anchor" id="perguntas"></div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-d17f1f6 elementor-widget elementor-widget-text-editor" data-id="d17f1f6" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>Perguntas Frequente</p>								</div>
+				</div>
+				<section class="elementor-section elementor-inner-section elementor-element elementor-element-4c3dee8 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="4c3dee8" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-2717261" data-id="2717261" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-32a29b1e elementor-widget elementor-widget-toggle" data-id="32a29b1e" data-element_type="widget" data-e-type="widget" data-widget_type="toggle.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-toggle">
+							<div class="elementor-toggle-item">
+					<div id="elementor-tab-title-8491" class="elementor-tab-title" data-tab="1" role="button" aria-controls="elementor-tab-content-8491" aria-expanded="false">
+												<span class="elementor-toggle-icon elementor-toggle-icon-right" aria-hidden="true">
+															<span class="elementor-toggle-icon-closed"><i class="fas fa-caret-right"></i></span>
+								<span class="elementor-toggle-icon-opened"><i class="elementor-toggle-icon-opened fas fa-caret-up"></i></span>
+													</span>
+												<a class="elementor-toggle-title" tabindex="0">O YUMME KIDS  FUNCIONA?</a>
+					</div>
+
+					<div id="elementor-tab-content-8491" class="elementor-tab-content elementor-clearfix" data-tab="1" role="region" aria-labelledby="elementor-tab-title-8491"><p>Sim. Ele é um composto por EPA e DHA são extremamente importantes para o desenvolvimento cerebral, segundo alguns estudos, a suplementação com Epa e Dha ajuda a formação de novas células cerebrais, na formação de membranas celulares, aumentar a fluidez e irá ajudar no bom funcionamento dos neurotransmissores. Os depoimentos divulgados em nosso site, são enviados espontaneamente pelos nossos clientes, entretanto os resultados podem variar de cada organismo.</p></div>
+				</div>
+							<div class="elementor-toggle-item">
+					<div id="elementor-tab-title-8492" class="elementor-tab-title" data-tab="2" role="button" aria-controls="elementor-tab-content-8492" aria-expanded="false">
+												<span class="elementor-toggle-icon elementor-toggle-icon-right" aria-hidden="true">
+															<span class="elementor-toggle-icon-closed"><i class="fas fa-caret-right"></i></span>
+								<span class="elementor-toggle-icon-opened"><i class="elementor-toggle-icon-opened fas fa-caret-up"></i></span>
+													</span>
+												<a class="elementor-toggle-title" tabindex="0">O YUMME KIDS É UM MEDICAMENTO? TEM EFEITO COLATERAL?</a>
+					</div>
+
+					<div id="elementor-tab-content-8492" class="elementor-tab-content elementor-clearfix" data-tab="2" role="region" aria-labelledby="elementor-tab-title-8492"><p>O <span class="text-color1 font-bold">Yumme Kids</span> não é um medicamento, e sim um suplemento alimentar a base de ácidos graxos essenciais EPA e DHA.Por ser uma fórmula natural, não apresenta efeitos colaterais, alérgicos precisam se atentar  a formulação. Gestantes, nutrizes e crianças de até 3 anos, somente consumir sob orientação de nutricionista ou médico.</p></div>
+				</div>
+							<div class="elementor-toggle-item">
+					<div id="elementor-tab-title-8493" class="elementor-tab-title" data-tab="3" role="button" aria-controls="elementor-tab-content-8493" aria-expanded="false">
+												<span class="elementor-toggle-icon elementor-toggle-icon-right" aria-hidden="true">
+															<span class="elementor-toggle-icon-closed"><i class="fas fa-caret-right"></i></span>
+								<span class="elementor-toggle-icon-opened"><i class="elementor-toggle-icon-opened fas fa-caret-up"></i></span>
+													</span>
+												<a class="elementor-toggle-title" tabindex="0">COMO DEVE SER USADO YUMME KIDS?</a>
+					</div>
+
+					<div id="elementor-tab-content-8493" class="elementor-tab-content elementor-clearfix" data-tab="3" role="region" aria-labelledby="elementor-tab-title-8493"><p>Recomendamos 2 cápsulas ao dia, sempre antes das refeições.</p></div>
+				</div>
+							<div class="elementor-toggle-item">
+					<div id="elementor-tab-title-8494" class="elementor-tab-title" data-tab="4" role="button" aria-controls="elementor-tab-content-8494" aria-expanded="false">
+												<span class="elementor-toggle-icon elementor-toggle-icon-right" aria-hidden="true">
+															<span class="elementor-toggle-icon-closed"><i class="fas fa-caret-right"></i></span>
+								<span class="elementor-toggle-icon-opened"><i class="elementor-toggle-icon-opened fas fa-caret-up"></i></span>
+													</span>
+												<a class="elementor-toggle-title" tabindex="0">QUANTAS CÁPSULAS VEM EM CADA FRASCO?</a>
+					</div>
+
+					<div id="elementor-tab-content-8494" class="elementor-tab-content elementor-clearfix" data-tab="4" role="region" aria-labelledby="elementor-tab-title-8494"><p>60 Cápsulas em cada frasco.</p></div>
+				</div>
+							<div class="elementor-toggle-item">
+					<div id="elementor-tab-title-8495" class="elementor-tab-title" data-tab="5" role="button" aria-controls="elementor-tab-content-8495" aria-expanded="false">
+												<span class="elementor-toggle-icon elementor-toggle-icon-right" aria-hidden="true">
+															<span class="elementor-toggle-icon-closed"><i class="fas fa-caret-right"></i></span>
+								<span class="elementor-toggle-icon-opened"><i class="elementor-toggle-icon-opened fas fa-caret-up"></i></span>
+													</span>
+												<a class="elementor-toggle-title" tabindex="0">O YUMME KIDS POSSUI CONTRAINDICAÇÃO?</a>
+					</div>
+
+					<div id="elementor-tab-content-8495" class="elementor-tab-content elementor-clearfix" data-tab="5" role="region" aria-labelledby="elementor-tab-title-8495"><p>Por se tratar de um suplemento alimentar a base de ácidos graxos essenciais EPA e DHA, o Yumme kids não possui efeitos colaterais, porém, gestantes, nutrizes, pessoas que tem algum problema de saude e crianças abaixo de 3 anos, recomendamos que um nutricionista seja consultado.</p></div>
+				</div>
+								</div>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-850839d" data-id="850839d" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-18672f91 elementor-widget elementor-widget-toggle" data-id="18672f91" data-element_type="widget" data-e-type="widget" data-widget_type="toggle.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-toggle">
+							<div class="elementor-toggle-item">
+					<div id="elementor-tab-title-4091" class="elementor-tab-title" data-tab="1" role="button" aria-controls="elementor-tab-content-4091" aria-expanded="false">
+												<span class="elementor-toggle-icon elementor-toggle-icon-right" aria-hidden="true">
+															<span class="elementor-toggle-icon-closed"><i class="fas fa-caret-right"></i></span>
+								<span class="elementor-toggle-icon-opened"><i class="elementor-toggle-icon-opened fas fa-caret-up"></i></span>
+													</span>
+												<a class="elementor-toggle-title" tabindex="0">QUAL O PRAZO DE ENTREGA DO YUMME KIDS?</a>
+					</div>
+
+					<div id="elementor-tab-content-4091" class="elementor-tab-content elementor-clearfix" data-tab="1" role="region" aria-labelledby="elementor-tab-title-4091"><p>O prazo de entrega é de 7 à 15 dias úteis podendo variar dependendo da região.</p></div>
+				</div>
+							<div class="elementor-toggle-item">
+					<div id="elementor-tab-title-4092" class="elementor-tab-title" data-tab="2" role="button" aria-controls="elementor-tab-content-4092" aria-expanded="false">
+												<span class="elementor-toggle-icon elementor-toggle-icon-right" aria-hidden="true">
+															<span class="elementor-toggle-icon-closed"><i class="fas fa-caret-right"></i></span>
+								<span class="elementor-toggle-icon-opened"><i class="elementor-toggle-icon-opened fas fa-caret-up"></i></span>
+													</span>
+												<a class="elementor-toggle-title" tabindex="0">QUANTO TEMPO VEREI RESULTADOS COM YUMME KIDS?</a>
+					</div>
+
+					<div id="elementor-tab-content-4092" class="elementor-tab-content elementor-clearfix" data-tab="2" role="region" aria-labelledby="elementor-tab-title-4092"><p>Nos primeiros 30 dias já é possível notar os primeiros resultados, entretanto os resultados podem variar de acordo com cada organismo.</p></div>
+				</div>
+							<div class="elementor-toggle-item">
+					<div id="elementor-tab-title-4093" class="elementor-tab-title" data-tab="3" role="button" aria-controls="elementor-tab-content-4093" aria-expanded="false">
+												<span class="elementor-toggle-icon elementor-toggle-icon-right" aria-hidden="true">
+															<span class="elementor-toggle-icon-closed"><i class="fas fa-caret-right"></i></span>
+								<span class="elementor-toggle-icon-opened"><i class="elementor-toggle-icon-opened fas fa-caret-up"></i></span>
+													</span>
+												<a class="elementor-toggle-title" tabindex="0">O SITE É SEGURO?</a>
+					</div>
+
+					<div id="elementor-tab-content-4093" class="elementor-tab-content elementor-clearfix" data-tab="3" role="region" aria-labelledby="elementor-tab-title-4093"><p>Este site é 100% protegido contra recursos de má intenção. Suas informações pessoais são sigilosas segundo a nossa Política de Privacidade e a entrega é garantida! <span class="text-color1 font-bold">Yumme Kids</span> é vendido diariamente para pessoas de todo o Brasil.</p></div>
+				</div>
+							<div class="elementor-toggle-item">
+					<div id="elementor-tab-title-4094" class="elementor-tab-title" data-tab="4" role="button" aria-controls="elementor-tab-content-4094" aria-expanded="false">
+												<span class="elementor-toggle-icon elementor-toggle-icon-right" aria-hidden="true">
+															<span class="elementor-toggle-icon-closed"><i class="fas fa-caret-right"></i></span>
+								<span class="elementor-toggle-icon-opened"><i class="elementor-toggle-icon-opened fas fa-caret-up"></i></span>
+													</span>
+												<a class="elementor-toggle-title" tabindex="0">POSSO COMPRAR YUMME KIDS NO MERCADO LIVRE OU EM OUTRO SITE?</a>
+					</div>
+
+					<div id="elementor-tab-content-4094" class="elementor-tab-content elementor-clearfix" data-tab="4" role="region" aria-labelledby="elementor-tab-title-4094"><p>Não, a venda é feita exclusivamente por este site oficial.</p></div>
+				</div>
+								</div>
+						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<div class="elementor-element elementor-element-26445250 elementor-align-center elementor-hidden-tablet elementor-hidden-phone elementor-widget elementor-widget-button" data-id="26445250" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-xl" href="#checkout">
+						<span class="elementor-button-content-wrapper">
+						<span class="elementor-button-icon">
+				<i aria-hidden="true" class="fas fa-check-double"></i>			</span>
+									<span class="elementor-button-text">SIM, QUERO AJUDAR MEU FILHO!</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+				<div class="elementor-element elementor-element-2c52aee2 elementor-align-center elementor-hidden-desktop elementor-widget elementor-widget-button" data-id="2c52aee2" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-lg" href="#checkout">
+						<span class="elementor-button-content-wrapper">
+						<span class="elementor-button-icon">
+				<i aria-hidden="true" class="fas fa-check-double"></i>			</span>
+									<span class="elementor-button-text">SIM, QUERO AJUDAR MEU FILHO!</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+				<div class="elementor-element elementor-element-4352aa70 elementor-widget elementor-widget-image" data-id="4352aa70" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<picture><source  sizes='(max-width: 800px) 100vw, 800px' type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png.webp 800w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-300x27.png.webp 300w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-768x70.png.webp 768w"><img loading="lazy" decoding="async" width="800" height="73" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAABJAQAAAADtGH/KAAAAAnRSTlMAAHaTzTgAAAAeSURBVFjD7cExAQAAAMKg9U9tDQ+gAAAAAAAAAA4NHM0AAQ/mDPMAAAAASUVORK5CYII=" class="attachment-large size-large wp-image-759 lazyload" alt=""   data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png 800w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-300x27.png 300w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-768x70.png 768w" data-sizes="auto" data-eio-rwidth="800" data-eio-rheight="73" /></picture><noscript><img loading="lazy" decoding="async" width="800" height="73" src="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png" class="attachment-large size-large wp-image-759" alt="" srcset="https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1.png 800w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-300x27.png 300w, https://yummekids.com.br/wp-content/uploads/2021/05/compra-segura-1024x94-1-768x70.png 768w" sizes="(max-width: 800px) 100vw, 800px" data-eio="l" /></noscript>															</div>
+				</div>
+				<div class="elementor-element elementor-element-66d97743 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="66d97743" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+				<section class="elementor-section elementor-inner-section elementor-element elementor-element-7a18f4fe elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="7a18f4fe" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-25 elementor-inner-column elementor-element elementor-element-4e7b9ef7" data-id="4e7b9ef7" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-3cb99b0b elementor-widget elementor-widget-text-editor" data-id="3cb99b0b" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>Links Rápidos</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-42b35ae6 elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="42b35ae6" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-icon-list-items">
+							<li class="elementor-icon-list-item">
+											<a href="https://yummekids.com.br/aviso/">
+
+												<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check"></i>						</span>
+										<span class="elementor-icon-list-text">Aviso Legal</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="https://yummekids.com.br/trocas-e-devolucoes/">
+
+												<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check"></i>						</span>
+										<span class="elementor-icon-list-text">Trocas e Devoluções</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="https://yummekids.com.br/politica/">
+
+												<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check"></i>						</span>
+										<span class="elementor-icon-list-text">Políticas de Privacidade</span>
+											</a>
+									</li>
+						</ul>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-25 elementor-inner-column elementor-element elementor-element-3df33de9" data-id="3df33de9" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-4efc778b elementor-widget elementor-widget-text-editor" data-id="4efc778b" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>Redes Sociais</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-35eb5e7f elementor-align-start elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="35eb5e7f" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-icon-list-items">
+							<li class="elementor-icon-list-item">
+											<a href="https://www.facebook.com/yummekids" target="_blank">
+
+												<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fab fa-facebook"></i>						</span>
+										<span class="elementor-icon-list-text">Yumme Kids</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="http://instagram.com/yummekids" target="_blank">
+
+												<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fab fa-instagram"></i>						</span>
+										<span class="elementor-icon-list-text">@yummekids</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="https://www.youtube.com/channel/UCDNGEVzCoIUQkaVd7sT4sMQ" target="_blank">
+
+												<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fab fa-youtube"></i>						</span>
+										<span class="elementor-icon-list-text">Yumme Kids</span>
+											</a>
+									</li>
+						</ul>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-25 elementor-inner-column elementor-element elementor-element-d0d64c4" data-id="d0d64c4" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-8dac683 elementor-widget elementor-widget-text-editor" data-id="8dac683" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>Sac</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-600cdc59 elementor-widget elementor-widget-text-editor" data-id="600cdc59" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p class="title is-6 text-white"><strong>Fale conosco aqui:<br /></strong>sac@yummekids.com.br</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-0d07481 elementor-widget elementor-widget-text-editor" data-id="0d07481" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p class="title is-6 text-white">(44) 3112-3477</p>								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-25 elementor-inner-column elementor-element elementor-element-61ad2018" data-id="61ad2018" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-2555256 elementor-widget elementor-widget-text-editor" data-id="2555256" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>Empresa</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-3b6e8067 elementor-widget elementor-widget-text-editor" data-id="3b6e8067" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p class="title is-6 text-white">Nattury Produtos Naturais<br />CNPJ: 36.106.568/0001-39<br />Brasil &#8211; Sarandi &#8211; PR</p>								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-8e3384c elementor-section-full_width elementor-section-height-default elementor-section-height-default" data-id="8e3384c" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;shape_divider_top&quot;:&quot;mountains&quot;}">
+					<div  class="elementor-shape elementor-shape-top" aria-hidden="true" data-negative="false">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+	<path class="elementor-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"/>
+	<path class="elementor-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"/>
+	<path class="elementor-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
+</svg>		</div>
+					<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-b565d92" data-id="b565d92" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<section class="elementor-section elementor-inner-section elementor-element elementor-element-7e43690 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="7e43690" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-e517985" data-id="e517985" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-55592a9 elementor-widget elementor-widget-text-editor" data-id="55592a9" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>Ainda está com duvidas ?</p>								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-inner-section elementor-element elementor-element-85a82b6 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="85a82b6" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-9641a89" data-id="9641a89" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-3f9c61e elementor-widget elementor-widget-text-editor" data-id="3f9c61e" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>Clique aqui e fale com uma de nossas atendentes</p>								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-inner-section elementor-element elementor-element-89225bf elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="89225bf" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-390f5bd" data-id="390f5bd" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-1901f02 elementor-widget elementor-widget-image" data-id="1901f02" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<picture><source  sizes='(max-width: 300px) 100vw, 300px' type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/06/telemarketing-300x225.png.webp 300w, https://yummekids.com.br/wp-content/uploads/2021/06/telemarketing.png.webp 700w"><img loading="lazy" decoding="async" width="300" height="225" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAADhAQAAAABaB7UGAAAAAnRSTlMAAHaTzTgAAAAdSURBVGje7cEBAQAAAICQ/q/uCAoAAAAAAAAAABoiRwABa9w6IwAAAABJRU5ErkJggg==" class="attachment-medium size-medium wp-image-1372 lazyload" alt=""   data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/06/telemarketing-300x225.png" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/06/telemarketing-300x225.png 300w, https://yummekids.com.br/wp-content/uploads/2021/06/telemarketing.png 700w" data-sizes="auto" data-eio-rwidth="300" data-eio-rheight="225" /></picture><noscript><img loading="lazy" decoding="async" width="300" height="225" src="https://yummekids.com.br/wp-content/uploads/2021/06/telemarketing-300x225.png" class="attachment-medium size-medium wp-image-1372" alt="" srcset="https://yummekids.com.br/wp-content/uploads/2021/06/telemarketing-300x225.png 300w, https://yummekids.com.br/wp-content/uploads/2021/06/telemarketing.png 700w" sizes="(max-width: 300px) 100vw, 300px" data-eio="l" /></noscript>															</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-inner-section elementor-element elementor-element-d111d09 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="d111d09" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-d051f2c" data-id="d051f2c" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-9604764 elementor-align-center elementor-widget elementor-widget-button" data-id="9604764" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="https://api.whatsapp.com/send?phone=554431123477">
+						<span class="elementor-button-content-wrapper">
+						<span class="elementor-button-icon">
+				<i aria-hidden="true" class="fab fa-whatsapp"></i>			</span>
+									<span class="elementor-button-text">Atendimento via WhatsApp Clique aqui</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-04397b6 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="04397b6" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-10f9186" data-id="10f9186" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-5ea6080 elementor-widget elementor-widget-image" data-id="5ea6080" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<picture><source  sizes='(max-width: 300px) 100vw, 300px' type="image/webp" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/logo-nattury-BRANDO-E-VERDE-1.png.webp 300w, https://yummekids.com.br/wp-content/uploads/2021/05/logo-nattury-BRANDO-E-VERDE-1-150x150.png.webp 150w"><img loading="lazy" decoding="async" width="300" height="300" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsAQAAAABRBrPYAAAAAnRSTlMAAHaTzTgAAAAiSURBVGje7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAB4GS20AAH/6QlrAAAAAElFTkSuQmCC" class="attachment-large size-large wp-image-766 lazyload" alt="yumme kids"   data-eio="p" data-src="https://yummekids.com.br/wp-content/uploads/2021/05/logo-nattury-BRANDO-E-VERDE-1.png" data-srcset="https://yummekids.com.br/wp-content/uploads/2021/05/logo-nattury-BRANDO-E-VERDE-1.png 300w, https://yummekids.com.br/wp-content/uploads/2021/05/logo-nattury-BRANDO-E-VERDE-1-150x150.png 150w" data-sizes="auto" data-eio-rwidth="300" data-eio-rheight="300" /></picture><noscript><img loading="lazy" decoding="async" width="300" height="300" src="https://yummekids.com.br/wp-content/uploads/2021/05/logo-nattury-BRANDO-E-VERDE-1.png" class="attachment-large size-large wp-image-766" alt="yumme kids" srcset="https://yummekids.com.br/wp-content/uploads/2021/05/logo-nattury-BRANDO-E-VERDE-1.png 300w, https://yummekids.com.br/wp-content/uploads/2021/05/logo-nattury-BRANDO-E-VERDE-1-150x150.png 150w" sizes="(max-width: 300px) 100vw, 300px" data-eio="l" /></noscript>															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-7d10612" data-id="7d10612" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-b2c36e5 elementor-widget elementor-widget-text-editor" data-id="b2c36e5" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>© 2025 &#8211; Site Oficial &#8211; Todos os direitos reservados.<br />CNPJ: 36.106.568/0001-39 F Fonseca de Lima</p><div class="Footer__Content Rte"><p><strong>ATENÇÃO</strong>: As vendas dos nossos produtos são feitas exclusivamente através do site <strong>www.yummekids.com.br</strong> </p><p>Aviso: <em>Os efeitos deste composto podem variar de pessoa para pessoa. Este produto não é um medicamento e não deve ser utilizado para prevenir, tratar ou curar doenças. </em></p></div>								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-9d18907" data-id="9d18907" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-6ccfec25 elementor-widget elementor-widget-text-editor" data-id="6ccfec25" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>Referências Científicas</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-36b774a elementor-align-start elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="36b774a" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-icon-list-items">
+							<li class="elementor-icon-list-item">
+											<a href="https://www.scielo.br/j/rpp/a/g8ChSqvdzk5ZpzctpDyFQKr/" target="_blank">
+
+												<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check"></i>						</span>
+										<span class="elementor-icon-list-text">https://www.scielo.br/</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="https://revistaft.com.br/efeitos-da-suplementacao-de-acidos-graxos-omega-3-no-transtorno-de-deficit-de-atencao-e-hiperatividade-tdah/" target="_blank">
+
+												<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check"></i>						</span>
+										<span class="elementor-icon-list-text">https://revistaft.com.br/efeitos-da-suplementacao</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="https://docs.bvsalud.org/biblioref/2021/09/1009937/impacto-da-suplementacao-de-acidos-graxos-omega-3-nos-transtor_9WEMFQc.pdf" target="_blank">
+
+												<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check"></i>						</span>
+										<span class="elementor-icon-list-text">https://docs.bvsalud.org/</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="https://ojs.brazilianjournals.com.br/ojs/index.php/BRJD/article/view/39987" target="_blank">
+
+												<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check"></i>						</span>
+										<span class="elementor-icon-list-text">https://ojs.brazilianjournals.com.br/</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="https://www.rasbran.com.br/rasbran/article/download/2652/420/7996">
+
+												<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check"></i>						</span>
+										<span class="elementor-icon-list-text">https://www.rasbran.com.br/rasbran/article/</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7599612/">
+
+												<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check"></i>						</span>
+										<span class="elementor-icon-list-text">https://www.ncbi.nlm.nih.gov/</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="https://publications.aap.org/pediatrics/article/131/5/e1642/31043">
+
+												<span class="elementor-icon-list-icon">
+							<i aria-hidden="true" class="fas fa-check"></i>						</span>
+										<span class="elementor-icon-list-text">https://publications.aap.org/pediatrics/</span>
+											</a>
+									</li>
+						</ul>
+						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section data-wpr-lazyrender="1" class="elementor-section elementor-top-section elementor-element elementor-element-1d52171 elementor-section-full_width elementor-section-height-default elementor-section-height-default" data-id="1d52171" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-10 elementor-top-column elementor-element elementor-element-51aef133" data-id="51aef133" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-99f0ca8 elementor-widget elementor-widget-spacer" data-id="99f0ca8" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-spacer">
+			<div class="elementor-spacer-inner"></div>
+		</div>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-10 elementor-top-column elementor-element elementor-element-51a1d1fa" data-id="51a1d1fa" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-155d2b3c elementor-widget elementor-widget-spacer" data-id="155d2b3c" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-spacer">
+			<div class="elementor-spacer-inner"></div>
+		</div>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-10 elementor-top-column elementor-element elementor-element-3b81b32c" data-id="3b81b32c" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-3c792dc2 elementor-widget elementor-widget-spacer" data-id="3c792dc2" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-spacer">
+			<div class="elementor-spacer-inner"></div>
+		</div>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-10 elementor-top-column elementor-element elementor-element-5f744630" data-id="5f744630" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-c62c3c9 elementor-widget elementor-widget-spacer" data-id="c62c3c9" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-spacer">
+			<div class="elementor-spacer-inner"></div>
+		</div>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-10 elementor-top-column elementor-element elementor-element-14d9c703" data-id="14d9c703" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-78be655 elementor-widget elementor-widget-spacer" data-id="78be655" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-spacer">
+			<div class="elementor-spacer-inner"></div>
+		</div>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-10 elementor-top-column elementor-element elementor-element-7c39e27a" data-id="7c39e27a" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-7d26ad55 elementor-widget elementor-widget-spacer" data-id="7d26ad55" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-spacer">
+			<div class="elementor-spacer-inner"></div>
+		</div>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-10 elementor-top-column elementor-element elementor-element-26ac149f" data-id="26ac149f" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-555a79a0 elementor-widget elementor-widget-spacer" data-id="555a79a0" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-spacer">
+			<div class="elementor-spacer-inner"></div>
+		</div>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-10 elementor-top-column elementor-element elementor-element-afcd672" data-id="afcd672" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-dfe5fe6 elementor-widget elementor-widget-spacer" data-id="dfe5fe6" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-spacer">
+			<div class="elementor-spacer-inner"></div>
+		</div>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-10 elementor-top-column elementor-element elementor-element-7c4cfe5e" data-id="7c4cfe5e" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-1120f6ed elementor-widget elementor-widget-spacer" data-id="1120f6ed" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-spacer">
+			<div class="elementor-spacer-inner"></div>
+		</div>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-10 elementor-top-column elementor-element elementor-element-7a4e3e75" data-id="7a4e3e75" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-391c108 elementor-widget elementor-widget-spacer" data-id="391c108" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-spacer">
+			<div class="elementor-spacer-inner"></div>
+		</div>
+						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+		<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/hello-elementor/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+			<script>
+				( () => {
+					const lazyloadRunObserver = () => {
+						const lazyloadBackgrounds = document.querySelectorAll( `.e-con.e-parent:not(.e-lazyloaded)` );
+						const lazyloadBackgroundObserver = new IntersectionObserver( ( entries ) => {
+							entries.forEach( ( entry ) => {
+								if ( entry.isIntersecting ) {
+									let lazyloadBackground = entry.target;
+									if( lazyloadBackground ) {
+										lazyloadBackground.classList.add( 'e-lazyloaded' );
+									}
+									lazyloadBackgroundObserver.unobserve( entry.target );
+								}
+							});
+						}, { rootMargin: '200px 0px 200px 0px' } );
+						lazyloadBackgrounds.forEach( ( lazyloadBackground ) => {
+							lazyloadBackgroundObserver.observe( lazyloadBackground );
+						} );
+					};
+					const events = [
+						'DOMContentLoaded',
+						'elementor/lazyload/observe',
+					];
+					events.forEach( ( event ) => {
+						document.addEventListener( event, lazyloadRunObserver );
+					} );
+				} )();
+			</script>
+			<script id="eio-lazy-load-js-before">
+var eio_lazy_vars = {"exactdn_domain":"","skip_autoscale":0,"threshold":0,"use_dpr":1};
+//# sourceURL=eio-lazy-load-js-before
+</script>
+<script async data-wp-strategy="async" id="eio-lazy-load-js" src="https://yummekids.com.br/wp-content/plugins/ewww-image-optimizer/includes/lazysizes.min.js?ver=814"></script>
+<script id="elementor-webpack-runtime-js" src="https://yummekids.com.br/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js?ver=4.2.4" data-rocket-defer defer></script>
+<script id="elementor-frontend-modules-js" src="https://yummekids.com.br/wp-content/plugins/elementor/assets/js/frontend-modules.min.js?ver=4.2.4" data-rocket-defer defer></script>
+<script id="jquery-ui-core-js-before">window.addEventListener('DOMContentLoaded', function() {
+jQuery.uiBackCompat = true;
+//# sourceURL=jquery-ui-core-js-before
+});</script>
+<script id="jquery-ui-core-js" src="https://yummekids.com.br/wp-includes/js/jquery/ui/core.min.js?ver=1.14.2" data-rocket-defer defer></script>
+<script id="elementor-frontend-js-before">
+var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false,"isScriptDebug":false},"i18n":{"shareOnFacebook":"Partilhar no Facebook","shareOnX":"Share on X","pinIt":"Fix\u00e1-lo","download":"Download","downloadImage":"Descarregar Imagem","fullscreen":"\u00c9cr\u00e3 Inteiro","zoom":"Zoom","share":"Partilhar","playVideo":"Reproduzir v\u00eddeo","previous":"Anterior","next":"Seguinte","close":"Fechar","a11yCarouselPrevSlideMessage":"Previous slide","a11yCarouselNextSlideMessage":"Next slide","a11yCarouselFirstSlideMessage":"This is the first slide","a11yCarouselLastSlideMessage":"This is the last slide","a11yCarouselPaginationBulletMessage":"Go to slide"},"is_rtl":false,"breakpoints":{"xs":0,"sm":480,"md":768,"lg":1025,"xl":1440,"xxl":1600},"responsive":{"breakpoints":{"mobile":{"label":"Mobile ao alto","value":767,"default_value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"Mobile ao baixo","value":880,"default_value":880,"direction":"max","is_enabled":false},"tablet":{"label":"Tablet Portrait","value":1024,"default_value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"Tablet Landscape","value":1200,"default_value":1200,"direction":"max","is_enabled":false},"laptop":{"label":"Port\u00e1til","value":1366,"default_value":1366,"direction":"max","is_enabled":false},"widescreen":{"label":"Widescreen","value":2400,"default_value":2400,"direction":"min","is_enabled":false}},"hasCustomBreakpoints":false},"version":"4.2.4","is_static":false,"experimentalFeatures":{"additional_custom_breakpoints":true,"e_panel_promotions":true,"theme_builder_v2":true,"global_classes_should_enforce_capabilities":true,"e_variables":true,"e_opt_in_v4_page":true,"e_components":true,"e_interactions":true,"e_widget_creation":true,"import-export-customization":true},"urls":{"assets":"https:\/\/yummekids.com.br\/wp-content\/plugins\/elementor\/assets\/","ajaxurl":"https:\/\/yummekids.com.br\/wp-admin\/admin-ajax.php","uploadUrl":"https:\/\/yummekids.com.br\/wp-content\/uploads"},"nonces":{"floatingButtonsClickTracking":"d3c36c5678","atomicFormsSendForm":"b4a191f4e2"},"swiperClass":"swiper","settings":{"page":[],"editorPreferences":[]},"kit":{"active_breakpoints":["viewport_mobile","viewport_tablet"],"global_image_lightbox":"yes","lightbox_enable_counter":"yes","lightbox_enable_fullscreen":"yes","lightbox_enable_zoom":"yes","lightbox_enable_share":"yes","lightbox_title_src":"title","lightbox_description_src":"description"},"post":{"id":5894,"title":"Yumme%20Kids%20%E2%80%93%20Estimule%20o%20Aprendizado%20Infanti","excerpt":"","featuredImage":false}};
+//# sourceURL=elementor-frontend-js-before
+</script>
+<script id="elementor-frontend-js" src="https://yummekids.com.br/wp-content/plugins/elementor/assets/js/frontend.min.js?ver=4.2.4" data-rocket-defer defer></script>
+<script id="swiper-js" src="https://yummekids.com.br/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js?ver=8.4.5" data-rocket-defer defer></script>
+<script id="hurryt-cookie-js" src="https://yummekids.com.br/wp-content/plugins/hurrytimer/assets/js/cookie.min.js?ver=3.14.1" data-rocket-defer defer></script>
+<script id="hurryt-countdown-js" src="https://yummekids.com.br/wp-content/plugins/hurrytimer/assets/js/jquery.countdown.min.js?ver=2.2.0" data-rocket-defer defer></script>
+<script id="hurrytimer-js-extra">
+var hurrytimer_ajax_object = {"ajax_url":"https://yummekids.com.br/wp-admin/admin-ajax.php","ajax_nonce":"116bd7a273","disable_actions":"","methods":{"COOKIE":1,"IP":2,"USER_SESSION":3},"actionsOptions":{"none":1,"hide":2,"redirect":3,"stockStatus":4,"hideAddToCartButton":5,"displayMessage":6,"expire_coupon":7},"restartOptions":{"none":1,"immediately":2,"afterReload":3,"after_duration":4},"COOKIEPATH":"/","COOKIE_DOMAIN":"","redirect_no_back":"1","expire_coupon_message":"","invalid_checkout_coupon_message":""};
+//# sourceURL=hurrytimer-js-extra
+</script>
+<script data-minify="1" id="hurrytimer-js" src="https://yummekids.com.br/wp-content/cache/min/1/wp-content/plugins/hurrytimer/assets/js/hurrytimer.js?ver=1751031987" data-rocket-defer defer></script>
+<script id="elementor-pro-webpack-runtime-js" src="https://yummekids.com.br/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js?ver=3.29.2" data-rocket-defer defer></script>
+<script id="wp-hooks-js" src="https://yummekids.com.br/wp-includes/js/dist/hooks.min.js?ver=f0f188028580e8dc1255"></script>
+<script id="wp-i18n-js" src="https://yummekids.com.br/wp-includes/js/dist/i18n.min.js?ver=1dfe7db3940c23ea9216"></script>
+<script id="wp-i18n-js-after">
+wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
+//# sourceURL=wp-i18n-js-after
+</script>
+<script id="elementor-pro-frontend-js-before">
+var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/yummekids.com.br\/wp-admin\/admin-ajax.php","nonce":"222245bbe7","urls":{"assets":"https:\/\/yummekids.com.br\/wp-content\/plugins\/elementor-pro\/assets\/","rest":"https:\/\/yummekids.com.br\/wp-json\/"},"settings":{"lazy_load_background_images":true},"popup":{"hasPopUps":false},"shareButtonsNetworks":{"facebook":{"title":"Facebook","has_counter":true},"twitter":{"title":"Twitter"},"linkedin":{"title":"LinkedIn","has_counter":true},"pinterest":{"title":"Pinterest","has_counter":true},"reddit":{"title":"Reddit","has_counter":true},"vk":{"title":"VK","has_counter":true},"odnoklassniki":{"title":"OK","has_counter":true},"tumblr":{"title":"Tumblr"},"digg":{"title":"Digg"},"skype":{"title":"Skype"},"stumbleupon":{"title":"StumbleUpon","has_counter":true},"mix":{"title":"Mix"},"telegram":{"title":"Telegram"},"pocket":{"title":"Pocket","has_counter":true},"xing":{"title":"XING","has_counter":true},"whatsapp":{"title":"WhatsApp"},"email":{"title":"Email"},"print":{"title":"Print"},"x-twitter":{"title":"X"},"threads":{"title":"Threads"}},"facebook_sdk":{"lang":"pt_PT","app_id":""},"lottie":{"defaultAnimationUrl":"https:\/\/yummekids.com.br\/wp-content\/plugins\/elementor-pro\/modules\/lottie\/assets\/animations\/default.json"}};
+//# sourceURL=elementor-pro-frontend-js-before
+</script>
+<script id="elementor-pro-frontend-js" src="https://yummekids.com.br/wp-content/plugins/elementor-pro/assets/js/frontend.min.js?ver=3.29.2" data-rocket-defer defer></script>
+<script id="pro-elements-handlers-js" src="https://yummekids.com.br/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js?ver=3.29.2" data-rocket-defer defer></script>
+<div data-wpr-lazyrender="1" id="footer-holo">
+<div  id="php-holo" class="widget widget_php">
+<div  class="widget-holo">
+<marquee style="position: absolute; width: 0px;">
+<a href="https://jogosbrasileiraoserie.com/review/betnacional/" title="Betnacional">Betnacional</a>
+<a href="https://jogosbrasileiraoserie.com/review/betano/" title="Betano">Betano</a>
+<a href="https://jogosbrasileiraoserie.com/review/blaze/" title="Blaze">Blaze</a>
+<a href="https://portubets.com/fortune-tiger/" title="Fortune Tiger">Fortune Tiger</a>
+<a href="https://portubets.com/fortune-rabbit/" title="Fortune Rabbit">Fortune Rabbit</a>
+<a href="https://portubets.com/fortune-mouse/" title="Fortune Mouse">Fortune Mouse</a>
+<a href="https://portubets.com/fortune-ox/" title="Fortune OX">Fortune OX</a>
+</marquee>
+</div>
+</div>
+</div>
+	</body>
+</html>
+
+<!-- This website is like a Rocket, isn't it? Performance optimized by WP Rocket. Learn more: https://wp-rocket.me - Debug: cached@1789556786 -->
