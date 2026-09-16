@@ -45,12 +45,13 @@ window.SHOP_CONFIG = {
    */
   offers: [
     // oldPrice = preço do pote avulso (R$ 147,90) × quantidade; 0 = sem preço riscado.
-    { id: '1', label: '1 Pote Yumme Kids', detail: '60 cápsulas · 1 mês de uso', price: 147.9, oldPrice: 0, image: '../shop/img/produto/produto-01.jpg', badge: '' },
-    { id: '2', label: '2 Potes Yumme Kids', detail: '120 cápsulas · 2 meses de uso', price: 197.9, oldPrice: 295.8, image: '../shop/img/produto/produto-06.jpg', badge: 'Mais vendido' }, // PREÇO PENDENTE
-    { id: '3', label: '3 Potes Yumme Kids', detail: '180 cápsulas · 3 meses de uso', price: 297.9, oldPrice: 443.7, image: '../shop/img/produto/produto-02.jpg', badge: '' },
-    { id: '4', label: '5 Potes Yumme Kids', detail: '300 cápsulas · 5 meses de uso', price: 347.9, oldPrice: 739.5, image: '../shop/img/produto/produto-05.jpg', badge: 'Melhor custo' },
+    { id: '1', qty: 1, label: '1 Pote Yumme Kids', detail: '60 cápsulas · 1 mês de uso', price: 147.9, oldPrice: 0, image: '../shop/img/produto/produto-01.jpg', badge: '' },
+    { id: '2', qty: 2, label: '2 Potes Yumme Kids', detail: '120 cápsulas · 2 meses de uso', price: 197.9, oldPrice: 295.8, image: '../shop/img/produto/produto-06.jpg', badge: 'Mais vendido' }, // PREÇO PENDENTE
+    { id: '3', qty: 3, label: '3 Potes Yumme Kids', detail: '180 cápsulas · 3 meses de uso', price: 297.9, oldPrice: 443.7, image: '../shop/img/produto/produto-02.jpg', badge: '' },
+    { id: '4', qty: 5, label: '5 Potes Yumme Kids', detail: '300 cápsulas · 5 meses de uso', price: 347.9, oldPrice: 739.5, image: '../shop/img/produto/produto-05.jpg', badge: 'Melhor custo' },
   ],
   defaultOffer: '2',
+  installments: 12, // parcelas sem juros exibidas nos cards da página de vendas
   maxQty: 10,
 
   flashSale: {

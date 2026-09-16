@@ -1,6 +1,6 @@
 /* =========================================================
    Ajustes da página de vendas (index.html)
-   0. Logo   1. Banner principal   2. Seção "Indicado para"
+   0. Logo   1. Banner principal   2. Seção "Indicado para"   3. Cards de oferta
    ========================================================= */
 
 /* ---------- 0. Logo (fundo branco arredondado sobre o cabeçalho) ----------
@@ -79,4 +79,62 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .yk-ind__media { transition: none; }
+}
+
+/* ---------- 3. Cards de oferta (valores preenchidos por shop/js/sales-offers.js) ----------
+   Medidas em cqi (% da largura do card) para manter as proporções do banner original. */
+a.yk-offer {
+  --yk-teal: #2ebdb7;
+  --yk-orange: #ec9707;
+  --yk-green: #78bd31;
+  --yk-green-dark: #1d9b0c;
+  container-type: inline-size;
+  display: block; width: 100%; max-width: 420px; margin: 0 auto; overflow: hidden;
+  background: #fff; border: 1px solid #2a2a2a; border-radius: 34px;
+  color: #111; text-align: center; text-decoration: none;
+  font-family: "Montserrat", "Rubik", system-ui, sans-serif;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, .04);
+  transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s;
+}
+a.yk-offer:hover { transform: translateY(-6px); box-shadow: 0 22px 44px rgba(0, 80, 76, .18); }
+a.yk-offer:focus-visible { outline: 3px solid var(--yk-orange); outline-offset: 4px; }
+.yk-offer__tabs { display: grid; grid-template-columns: 50.5% 49.5%; }
+.yk-offer__tabs > span {
+  display: grid; place-items: center; min-height: 12.5cqi; padding: 0 2cqi;
+  color: #fff; font-size: 4.3cqi; font-weight: 700; letter-spacing: -.01em; line-height: 1.1; text-transform: uppercase;
+}
+.yk-offer__tabs > span:first-child { background: var(--yk-teal); }
+.yk-offer__tabs > span:last-child { background: var(--yk-orange); }
+.yk-offer__body { display: flex; flex-direction: column; align-items: center; padding: 6.5cqi 6cqi 8cqi; }
+.yk-offer__title {
+  display: block; color: #0b0b0b; font-size: 10cqi; font-weight: 900; line-height: 1;
+  letter-spacing: -.01em; text-transform: uppercase; white-space: nowrap;
+}
+.yk-offer__unit {
+  display: inline-block; margin-top: 2cqi; padding: .6cqi 2.6cqi; border-radius: 1.2cqi;
+  background: var(--yk-teal); color: #fff; font-size: 3.3cqi; font-weight: 800; text-transform: uppercase; white-space: nowrap;
+}
+.yk-offer__img { display: block; width: 104%; max-width: none; height: 52cqi; margin: 3cqi -2% 0; object-fit: contain; border-radius: 0 !important; }
+/* Kits com brinde: a imagem inclui o espaço ao lado do brinde; o preço sobe e ocupa esse espaço, como no banner original */
+.yk-offer--bonus .yk-offer__img { height: 73cqi; }
+.yk-offer--bonus .yk-offer__img + .yk-offer__from { margin-top: -21cqi; }
+.yk-offer--bonus .yk-offer__from, .yk-offer--bonus .yk-offer__installments, .yk-offer--bonus .yk-offer__price { transform: translateX(-10cqi); }
+.yk-offer--bonus .yk-offer__price { font-size: 13.5cqi; }
+.yk-offer__from, .yk-offer__installments, .yk-offer__price, .yk-offer__cash { position: relative; }
+.yk-offer__from { display: block; margin-top: 1.5cqi; color: #111; font-size: 4.2cqi; font-weight: 800; }
+.yk-offer__from s { color: #f20c0c; text-decoration-thickness: .5cqi; }
+.yk-offer__nodiscount { color: #f20c0c; text-transform: uppercase; }
+.yk-offer__installments { display: block; margin-top: .6cqi; color: #0b0b0b; font-size: 4.2cqi; font-weight: 800; }
+.yk-offer__price { display: block; color: var(--yk-teal); font-size: 14.5cqi; font-weight: 700; line-height: 1; letter-spacing: -.02em; white-space: nowrap; }
+.yk-offer__cash { display: block; margin-top: 1.4cqi; color: #0b0b0b; font-size: 4.2cqi; font-weight: 600; text-transform: uppercase; }
+.yk-offer__cta {
+  display: grid; place-items: center; width: 78%; min-height: 12cqi; margin-top: 2.5cqi;
+  border-radius: 2cqi; background: var(--yk-green); box-shadow: 0 1.2cqi 0 var(--yk-green-dark);
+  color: #fff; font-size: 5.8cqi; font-weight: 900; letter-spacing: .01em; text-transform: uppercase;
+  transition: filter .2s, transform .15s, box-shadow .15s;
+}
+a.yk-offer:hover .yk-offer__cta { filter: brightness(1.06); }
+a.yk-offer:active .yk-offer__cta { transform: translateY(1cqi); box-shadow: 0 .2cqi 0 var(--yk-green-dark); }
+@media (prefers-reduced-motion: reduce) {
+  a.yk-offer, .yk-offer__cta { transition: none; }
 }
