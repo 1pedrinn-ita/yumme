@@ -15,14 +15,14 @@ window.SHOP_CONFIG = {
   },
 
   store: {
-    name: 'Yumme Kids Brasil',
+    name: 'Yumme Kids',
     logo: '../shop/img/logo-yumme-kids-brasil.jpg',
     rating: 4.9,
     followers: 12000,
     sold: 50000,
     responseRate: '98%',
     seller: { name: 'Francisco Victor Lima de Sousa', document: 'CPF 070.082.471-50' },
-    support: { email: 'operacao.rp195@gmail.com', phone: '(44) 3112-3477' },
+    support: { email: 'yumme.kids@gmail.com', phone: '(44) 3112-3477' },
   },
 
   product: {
