@@ -76,4 +76,34 @@
       io.observe(vs);
     }
   }
+  /* ---------- Rolagem suave até as ofertas ----------
+     Os CTAs (#checkout) descem a página com animação, em vez de saltar. */
+  const SCROLL_MS = 1100;
+  const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+  function scrollToTarget(el) {
+    const start = window.pageYOffset;
+    const t0 = performance.now();
+    // O alvo é recalculado a cada quadro: blocos abaixo carregam durante a rolagem e mudam a altura da página.
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / SCROLL_MS);
+      const end = el.getBoundingClientRect().top + window.pageYOffset - 12;
+      window.scrollTo(0, start + (end - start) * easeInOut(t));
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+    const id = link.getAttribute('href').slice(1);
+    const target = id && document.getElementById(id);
+    if (!target) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    e.preventDefault();
+    history.replaceState(null, '', '#' + id);
+    scrollToTarget(target);
+  });
+
 })();
