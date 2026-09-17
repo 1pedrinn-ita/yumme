@@ -1,5 +1,5 @@
 /**
- * Shop UI — helpers e componentes compartilhados entre /produto e /solicitar.
+ * Shop UI — helpers e componentes compartilhados entre /produto e /avaliar.
  * Expostos em window.Shop. Scripts clássicos (sem ES modules) para funcionar
  * também via file:// e em qualquer hospedagem estática.
  */

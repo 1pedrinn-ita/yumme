@@ -1,6 +1,6 @@
 /**
  * SHOP CONFIG
- * Fonte única de dados das páginas /produto e /solicitar.
+ * Fonte única de dados das páginas /produto e /avaliar.
  * Todos os valores abaixo são PLACEHOLDERS — substitua pelos dados reais.
  * Imagens: preencha `src` com o caminho do arquivo; vazio = placeholder visual.
  */
@@ -12,7 +12,6 @@ window.SHOP_CONFIG = {
     home: '../',
     avaliar: '../avaliar/',
     produto: '../produto/',
-    solicitar: '../solicitar/',
   },
 
   store: {
