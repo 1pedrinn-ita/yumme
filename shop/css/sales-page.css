@@ -1,6 +1,6 @@
 /* =========================================================
    Ajustes da página de vendas (index.html)
-   0. Logo   1. Banner principal   2. Seção "Indicado para"   3. Cards de oferta   4. Título das ofertas
+   0. Logo   1. Banner principal   2. Seção "Indicado para"   3. Cards de oferta   4. Título das ofertas   5. Comparativo
    ========================================================= */
 
 /* ---------- 0. Logo (fundo branco arredondado sobre o cabeçalho) ----------
@@ -143,3 +143,77 @@ a.yk-offer:active .yk-offer__cta { transform: translateY(1cqi); box-shadow: 0 .2
    O CSS original do Elementor define line-height de 0.1em nesse texto, e as 3 linhas ficavam sobrepostas. */
 .elementor-5894 .elementor-element.elementor-element-757a02f8 .elementor-widget-container { line-height: 1.08; margin-bottom: 8px; }
 .elementor-5894 .elementor-element.elementor-element-757a02f8 p { margin: 0; line-height: 1.08; }
+
+/* ---------- 5. Comparativo "Por que o Yumme Kids é diferente?" ---------- */
+.yk-vs {
+  --yk-teal: #2ebdb7;
+  --yk-ink: #123a45;
+  position: relative;
+  padding: 28px 16px 40px;
+  background: linear-gradient(180deg, #ffffff 0%, #edf9f8 100%);
+  font-family: "Montserrat", "Rubik", system-ui, sans-serif;
+}
+.yk-vs__grid {
+  position: relative;
+  display: grid; gap: 16px;
+  max-width: 980px; margin: 0 auto;
+}
+.yk-vs__card {
+  position: relative;
+  padding: 26px 20px 22px;
+  border-radius: 24px; background: #fff;
+  box-shadow: 0 10px 30px rgba(18, 58, 69, .08);
+  transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s;
+}
+.yk-vs__card--win { box-shadow: 0 0 0 2px var(--yk-teal), 0 18px 40px rgba(46, 189, 183, .22); }
+.yk-vs__card--lose { background: #f7f8f9; box-shadow: inset 0 0 0 1px #e3e7e9; }
+.yk-vs__card:hover { transform: translateY(-4px); }
+.yk-vs__tag {
+  position: absolute; top: -13px; left: 20px;
+  padding: 5px 16px; border-radius: 999px;
+  font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .02em;
+}
+.yk-vs__card--win .yk-vs__tag { background: linear-gradient(135deg, #2ebdb7, #1f9f9a); color: #fff; box-shadow: 0 6px 16px rgba(46, 189, 183, .35); }
+.yk-vs__card--lose .yk-vs__tag { background: #dfe4e7; color: #6b767c; }
+.yk-vs__media { display: grid; place-items: center; height: 120px; margin-bottom: 14px; }
+.yk-vs__media img { max-width: 100%; max-height: 120px; width: auto; height: auto; object-fit: contain; }
+.yk-vs__card--lose .yk-vs__media img { filter: grayscale(1) opacity(.65); }
+.yk-vs__list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.yk-vs__list li {
+  display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: center;
+  font-size: 15px; font-weight: 700; line-height: 1.25;
+  opacity: 0; transform: translateY(8px);
+}
+.yk-vs.is-visible .yk-vs__list li { animation: yk-vs-in .5s cubic-bezier(.2, .8, .2, 1) forwards; animation-delay: calc(var(--i) * 70ms); }
+.yk-vs__list svg { width: 26px; height: 26px; padding: 5px; border-radius: 50%; stroke-width: 3.2; fill: none; }
+.yk-vs__card--win .yk-vs__list li { color: var(--yk-ink); }
+.yk-vs__card--win .yk-vs__list svg { background: var(--yk-teal); stroke: #fff; }
+.yk-vs__card--lose .yk-vs__list li { color: #8b969c; }
+.yk-vs__card--lose .yk-vs__list svg { background: #eceff1; stroke: #b6c0c5; }
+.yk-vs__versus {
+  justify-self: center; align-self: center;
+  display: grid; place-items: center;
+  width: 62px; height: 62px; margin: -8px 0; border-radius: 50%;
+  background: linear-gradient(135deg, #ff6a3d, #ff2d55); color: #fff;
+  font-size: 20px; font-weight: 900; letter-spacing: .02em;
+  box-shadow: 0 10px 24px rgba(255, 45, 85, .3);
+  animation: yk-vs-pulse 2.6s ease-in-out infinite;
+}
+.yk-vs__note { max-width: 980px; margin: 18px auto 0; color: #7c898f; font-size: 12px; text-align: center; }
+
+@keyframes yk-vs-in { to { opacity: 1; transform: none; } }
+@keyframes yk-vs-pulse { 50% { transform: scale(1.07); } }
+
+@media (min-width: 900px) {
+  .yk-vs { padding: 44px 24px 56px; }
+  .yk-vs__grid { grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: stretch; }
+  .yk-vs__card { padding: 32px 26px 28px; }
+  .yk-vs__media { height: 150px; }
+  .yk-vs__media img { max-height: 150px; }
+  .yk-vs__list li { font-size: 17px; }
+  .yk-vs__versus { width: 74px; height: 74px; font-size: 24px; margin: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .yk-vs__card, .yk-vs__versus { transition: none; animation: none; }
+  .yk-vs__list li { opacity: 1; transform: none; animation: none !important; }
+}

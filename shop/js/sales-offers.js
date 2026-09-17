@@ -63,4 +63,17 @@
     set('installment', money(Math.round((offer.price / installments) * 100) / 100));
     set('cash', `ou ${money(offer.price)} à vista`);
   });
+  // Comparativo: anima os itens quando a seção entra na tela
+  const vs = document.querySelector('.yk-vs');
+  if (vs) {
+    if (!('IntersectionObserver' in window)) vs.classList.add('is-visible');
+    else {
+      const io = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting) return;
+        vs.classList.add('is-visible');
+        io.disconnect();
+      }, { rootMargin: '0px 0px -15% 0px' });
+      io.observe(vs);
+    }
+  }
 })();
