@@ -77,23 +77,60 @@
     }
   }
   /* ---------- Rolagem suave até as ofertas ----------
-     Os CTAs (#checkout) descem a página com animação, em vez de saltar. */
+     Os CTAs (#checkout) descem a página com animação, em vez de saltar.
+     Antes de animar, as imagens pendentes acima do destino são carregadas:
+     sem isso a página ainda é curta e o navegador trava a rolagem no fim do documento. */
   const SCROLL_MS = 1100;
   const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
+  function loadImagesAbove(limitY) {
+    document.querySelectorAll('img[data-src], img[data-srcset], img[loading="lazy"]').forEach((img) => {
+      if (img.getBoundingClientRect().top + window.pageYOffset > limitY + 600) return;
+      if (img.dataset.srcset) { img.srcset = img.dataset.srcset; delete img.dataset.srcset; }
+      if (img.dataset.src) { img.src = img.dataset.src; delete img.dataset.src; }
+      img.loading = 'eager';
+    });
+  }
+
+  // O tema define html { scroll-behavior: smooth }, o que transformaria cada passo
+  // da animação em outra rolagem animada. Durante o efeito, voltamos para 'auto'.
   function scrollToTarget(el) {
-    const start = window.pageYOffset;
+    const root = document.documentElement;
+    const previousBehavior = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    const restore = () => { root.style.scrollBehavior = previousBehavior; };
+    const from = window.pageYOffset;
+    const targetY = () => el.getBoundingClientRect().top + window.pageYOffset - 12;
+    loadImagesAbove(targetY());
+
     const t0 = performance.now();
-    // O alvo é recalculado a cada quadro: blocos abaixo carregam durante a rolagem e mudam a altura da página.
     const step = (now) => {
       const t = Math.min(1, (now - t0) / SCROLL_MS);
-      const end = el.getBoundingClientRect().top + window.pageYOffset - 12;
-      window.scrollTo(0, start + (end - start) * easeInOut(t));
-      if (t < 1) requestAnimationFrame(step);
+      const to = targetY();
+      window.scrollTo(0, from + (to - from) * easeInOut(t));
+      if (t < 1) { requestAnimationFrame(step); return; }
+      // A altura da página pode ter crescido durante a animação: completa o trecho que faltou.
+      if (Math.abs(window.pageYOffset - targetY()) > 4) catchUp(); else restore();
     };
+
+    function catchUp() {
+      const t1 = performance.now();
+      const loop = (now) => {
+        const to = targetY();
+        const diff = to - window.pageYOffset;
+        if (Math.abs(diff) < 2 || now - t1 > 900) { window.scrollTo(0, to); restore(); return; }
+        window.scrollTo(0, window.pageYOffset + diff * 0.18);
+        requestAnimationFrame(loop);
+      };
+      requestAnimationFrame(loop);
+    }
+
+    if (window.jQuery) window.jQuery('html, body').stop(true);
     requestAnimationFrame(step);
   }
 
+  // Captura antes do Elementor: ele tem a própria animação de âncora, e as duas
+  // ao mesmo tempo faziam a rolagem travar no começo.
   document.addEventListener('click', (e) => {
     const link = e.target.closest('a[href^="#"]');
     if (!link) return;
@@ -102,8 +139,10 @@
     if (!target) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     e.preventDefault();
+    e.stopImmediatePropagation();
+    if (window.jQuery) window.jQuery('html, body').stop(true);
     history.replaceState(null, '', '#' + id);
     scrollToTarget(target);
-  });
+  }, true);
 
 })();
