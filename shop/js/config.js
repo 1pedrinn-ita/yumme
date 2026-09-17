@@ -23,7 +23,7 @@ window.SHOP_CONFIG = {
     sold: 50000,
     responseRate: '98%',
     seller: { name: 'Francisco Victor Lima de Sousa', document: 'CPF 070.082.471-50' },
-    support: { email: 'operacao.rp195@gmail.com', phone: '(43) 9844-9853' },
+    support: { email: 'operacao.rp195@gmail.com', phone: '(44) 3112-3477' },
   },
 
   product: {
