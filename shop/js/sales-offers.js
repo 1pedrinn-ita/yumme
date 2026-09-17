@@ -13,6 +13,27 @@
   const money = (n) => fmt.format(n).replace(/ /g, ' ');
   const installments = CONFIG.installments || 12;
 
+  /**
+   * Destino dos cards: "produto" (padrão) abre a página de produto;
+   * "checkout" vai direto ao checkout da Pingupag.
+   * Para simular sem alterar o site, abra com ?destino=checkout (ou ?destino=produto).
+   */
+  const search = new URLSearchParams(window.location.search);
+  const target = search.get("destino") || CONFIG.salesCardsTarget || "produto";
+  const TRACKING = /^(utm_[a-z]+|fbclid|gclid|ttclid|src|sck)$/i;
+
+  function withTracking(link) {
+    const url = new URL(link, window.location.href);
+    search.forEach((value, key) => { if (TRACKING.test(key)) url.searchParams.set(key, value); });
+    return url.toString();
+  }
+
+  function destination(offer) {
+    if (target === "checkout" && offer.checkoutUrl) return withTracking(offer.checkoutUrl);
+    const produto = CONFIG.routes.produto.replace(/^[.][.][/]/, "");
+    return withTracking(produto + "?oferta=" + encodeURIComponent(offer.id));
+  }
+
   document.querySelectorAll('[data-offer-card]').forEach((card) => {
     const offer = CONFIG.offers.find((o) => o.id === card.dataset.offerCard);
     if (!offer) return;
@@ -24,7 +45,7 @@
       if (el) el.textContent = value;
     };
 
-    card.setAttribute('href', `${CONFIG.routes.produto.replace(/^\.\.\//, '')}?oferta=${encodeURIComponent(offer.id)}`);
+    card.setAttribute('href', destination(offer));
     card.setAttribute('aria-label', `Comprar ${qty} ${qty > 1 ? 'potes' : 'pote'} de Yumme Kids por ${money(offer.price)}`);
     card.classList.toggle('yk-offer--no-discount', !off);
 

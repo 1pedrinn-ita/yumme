@@ -53,6 +53,7 @@ window.SHOP_CONFIG = {
     { id: '4', checkoutUrl: 'https://ambieenteseguro.org.ua/c/095c02f779', qty: 5, label: '5 Potes Yumme Kids', detail: '300 cápsulas · 5 meses de uso', price: 347.9, oldPrice: 739.5, image: '../shop/img/produto/produto-05.jpg', badge: 'Melhor custo' },
   ],
   defaultOffer: '3',
+  salesCardsTarget: 'produto', // cards da página de vendas: 'produto' (padrão) ou 'checkout'
   installments: 12, // parcelas sem juros exibidas nos cards da página de vendas
   maxQty: 10,
 
