@@ -21,6 +21,7 @@ window.SHOP_CONFIG = {
     followers: 12000,
     sold: 50000,
     responseRate: '98%',
+    seller: { name: 'Francisco Victor Lima de Sousa', document: 'CPF 070.082.471-50' },
     support: { email: 'yumme.kids@gmail.com', phone: '(44) 3112-3477' },
   },
 
@@ -43,12 +44,12 @@ window.SHOP_CONFIG = {
    * Opções de compra. O `id` corresponde ao parâmetro ?oferta= usado
    * pelos botões da página inicial (1, 2 e 3, na ordem em que aparecem).
    */
-  // checkoutUrl: link do checkout de cada opção (vazio: pendente)
+  // checkoutUrl: link do checkout na Pingupag para cada opção
   offers: [
     // oldPrice = preço do pote avulso (R$ 147,90) × quantidade; 0 = sem preço riscado.
-    { id: '1', checkoutUrl: '', qty: 1, label: '1 Pote Yumme Kids', detail: '60 cápsulas · 1 mês de uso', price: 147.9, oldPrice: 0, image: '../shop/img/produto/produto-01.jpg', badge: '' },
-    { id: '3', checkoutUrl: '', qty: 3, label: '3 Potes Yumme Kids', detail: '180 cápsulas · 3 meses de uso', price: 297.9, oldPrice: 443.7, image: '../shop/img/produto/produto-02.jpg', badge: '' },
-    { id: '4', checkoutUrl: '', qty: 5, label: '5 Potes Yumme Kids', detail: '300 cápsulas · 5 meses de uso', price: 347.9, oldPrice: 739.5, image: '../shop/img/produto/produto-05.jpg', badge: 'Melhor custo' },
+    { id: '1', checkoutUrl: 'https://ambieenteseguro.org.ua/c/1aad7330a2', qty: 1, label: '1 Pote Yumme Kids', detail: '60 cápsulas · 1 mês de uso', price: 147.9, oldPrice: 0, image: '../shop/img/produto/produto-01.jpg', badge: '' },
+    { id: '3', checkoutUrl: 'https://ambieenteseguro.org.ua/c/af34541a04', qty: 3, label: '3 Potes Yumme Kids', detail: '180 cápsulas · 3 meses de uso', price: 297.9, oldPrice: 443.7, image: '../shop/img/produto/produto-02.jpg', badge: '' },
+    { id: '4', checkoutUrl: 'https://ambieenteseguro.org.ua/c/095c02f779', qty: 5, label: '5 Potes Yumme Kids', detail: '300 cápsulas · 5 meses de uso', price: 347.9, oldPrice: 739.5, image: '../shop/img/produto/produto-05.jpg', badge: 'Melhor custo' },
   ],
   defaultOffer: '3',
   salesCardsTarget: 'produto', // cards da página de vendas: 'produto' (padrão) ou 'checkout'
