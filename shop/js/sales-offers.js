@@ -34,6 +34,11 @@
     return withTracking(produto + "?oferta=" + encodeURIComponent(offer.id));
   }
 
+  // Demais links internos para a página de produto (CTAs da página) também levam os parâmetros de campanha
+  document.querySelectorAll('a[href^="produto/"]:not([data-offer-card])').forEach((link) => {
+    link.setAttribute('href', withTracking(link.getAttribute('href')));
+  });
+
   document.querySelectorAll('[data-offer-card]').forEach((card) => {
     const offer = CONFIG.offers.find((o) => o.id === card.dataset.offerCard);
     if (!offer) return;
