@@ -5,14 +5,13 @@
 (function () {
   'use strict';
 
-  const { CONFIG, $, $$, esc, money, compact, discount, deliveryWindow, params, getOffer, clampQty,
+  const { CONFIG, $, $$, esc, money, compact, discount, deliveryWindow, params, getOffer, checkoutUrl,
     store, icon, stars, media, hydrateMedia, footer, toast, sheet, reveal, navigate, goBack, setLoading } = window.Shop;
 
   const { product, shipping } = CONFIG;
 
   const state = {
     offer: getOffer(params().get('oferta')),
-    qty: clampQty(params().get('qtd')),
     reviewFilter: 'all',
     reviewPage: 1,
   };
@@ -40,7 +39,7 @@
     `<button class="btn btn--primary btn--shine ${extraClass}" type="button" data-action="buy">
       <span class="btn__stack">
         <span class="btn__label">Comprar agora</span>
-        <span class="btn__sub" data-bind="total">${esc(money(state.offer.price * state.qty))}</span>
+        <span class="btn__sub" data-bind="total">${esc(money(state.offer.price))}</span>
       </span>
     </button>`;
 
@@ -188,14 +187,6 @@
               ${o.badge ? `<span class="offer__badge">${esc(o.badge)}</span>` : ''}
             </button>`).join('')}
         </div>
-        <div class="qty-row">
-          <span>Quantidade</span>
-          <div class="qty" data-qty>
-            <button type="button" data-step="-1" aria-label="Diminuir quantidade">${icon('minus', 'i--sm')}</button>
-            <output aria-live="polite">${state.qty}</output>
-            <button type="button" data-step="1" aria-label="Aumentar quantidade">${icon('plus', 'i--sm')}</button>
-          </div>
-        </div>
       </div>`);
 
     el.addEventListener('click', (e) => {
@@ -203,12 +194,6 @@
       if (offerBtn) {
         state.offer = getOffer(offerBtn.dataset.offer);
         $$('[data-offer]', el).forEach((b) => b.setAttribute('aria-checked', String(b === offerBtn)));
-        updatePrice();
-        return;
-      }
-      const stepBtn = e.target.closest('[data-step]');
-      if (stepBtn) {
-        state.qty = clampQty(state.qty + Number(stepBtn.dataset.step));
         updatePrice();
       }
     });
@@ -236,16 +221,13 @@
     const block = $('[data-bind="price-block"]');
     if (block) { block.innerHTML = priceBlock(state.offer); bump($('.price', block)); }
 
-    const total = money(state.offer.price * state.qty);
+    const total = money(state.offer.price);
     $$('[data-bind="total"]').forEach((n) => { n.textContent = total; bump(n); });
 
-    const qty = $('[data-qty]');
-    if (qty) {
-      $('output', qty).textContent = state.qty;
-      $('[data-step="-1"]', qty).disabled = state.qty <= 1;
-      $('[data-step="1"]', qty).disabled = state.qty >= CONFIG.maxQty;
-    }
-    history.replaceState(null, '', `?oferta=${encodeURIComponent(state.offer.id)}&qtd=${state.qty}`);
+    const url = new URL(window.location.href);
+    url.searchParams.set('oferta', state.offer.id);
+    url.searchParams.delete('qtd');
+    history.replaceState(null, '', url.pathname + url.search);
   }
 
   /* ---------- Frete e garantia ---------- */
@@ -571,7 +553,12 @@
       switch (btn.dataset.action) {
         case 'buy':
           setLoading(btn, true);
-          navigate(`${CONFIG.routes.solicitar}?oferta=${encodeURIComponent(state.offer.id)}&qtd=${state.qty}`);
+          if (!state.offer.checkoutUrl) {
+            setLoading(btn, false);
+            toast('Checkout indisponível para esta opção', 'error');
+            break;
+          }
+          navigate(checkoutUrl(state.offer));
           break;
         case 'back':
           goBack(CONFIG.routes.home);

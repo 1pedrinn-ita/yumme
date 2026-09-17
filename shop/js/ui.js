@@ -195,6 +195,15 @@
     setTimeout(() => el.classList.remove('is-shaking'), 400);
   }
 
+  /* ---------- Checkout ---------- */
+  const TRACKING_PARAMS = /^(utm_[a-z]+|fbclid|gclid|ttclid|src|sck)$/i;
+  function checkoutUrl(offer) {
+    if (!offer || !offer.checkoutUrl) return '';
+    const url = new URL(offer.checkoutUrl);
+    params().forEach((value, key) => { if (TRACKING_PARAMS.test(key)) url.searchParams.set(key, value); });
+    return url.toString();
+  }
+
   /* ---------- Rodapé ---------- */
   const footer = () => `<div class="container">
       ${CONFIG.store.logo ? `<img class="site-foot__logo" src="${esc(CONFIG.store.logo)}" alt="${esc(CONFIG.store.name)}" width="96" height="96" loading="lazy" decoding="async">` : ''}
@@ -204,6 +213,8 @@
         <span>${icon('support')}Suporte dedicado</span>
       </div>
       <p>© ${new Date().getFullYear()} ${esc(CONFIG.store.name)}</p>
+      ${CONFIG.store.seller ? `<p class="site-foot__seller">Vendido por ${esc(CONFIG.store.seller.name)} – ${esc(CONFIG.store.seller.document)}</p>` : ''}
+      ${CONFIG.store.support ? `<p class="site-foot__seller">Atendimento: ${esc(CONFIG.store.support.email)} · ${esc(CONFIG.store.support.phone)}</p>` : ''}
     </div>`;
 
   /* ---------- Toast ---------- */
@@ -309,7 +320,7 @@
 
   window.Shop = {
     CONFIG, $, $$, esc, money, compact, discount, longDate, deliveryWindow,
-    params, getOffer, clampQty, store, icon, stars, media, hydrateMedia, footer, field, fieldState, shake,
+    params, getOffer, clampQty, store, icon, stars, media, hydrateMedia, footer, field, fieldState, shake, checkoutUrl,
     toast, sheet, reveal, navigate, goBack, setLoading, prefersReducedMotion,
   };
 })();

@@ -407,6 +407,7 @@ a { color: inherit; }
 .site-foot__trust { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 10px; }
 .site-foot__trust span { display: inline-flex; align-items: center; gap: 6px; }
 .site-foot__trust .i { width: 16px; height: 16px; color: var(--success); }
+.site-foot__seller { margin-top: 4px; }
 
 /* Barra de progresso de navegação */
 .nav-progress {
