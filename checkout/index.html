@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fb">
+  <title>Finalizar compra | Yumme Kids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shop/css/shop.css">
+  <link rel="stylesheet" href="../shop/css/checkout.css">
+</head>
+<body class="checkout-page">
+  <header class="checkout-header">
+    <a href="../produto/" class="checkout-brand" aria-label="Voltar para o produto"><span>Y</span> Yumme Kids</a>
+    <div class="checkout-secure"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10V8a6 6 0 0 1 12 0v2M5 10h14v10H5z"/></svg> Compra segura</div>
+  </header>
+  <main class="checkout-layout">
+    <section class="checkout-form-card" aria-labelledby="checkout-title">
+      <div class="checkout-step"><span>1</span> Seus dados</div>
+      <h1 id="checkout-title">Finalize seu pedido</h1>
+      <p class="checkout-lead">Preencha seus dados para gerar o pagamento via PIX.</p>
+      <form id="checkout-form" novalidate>
+        <div class="checkout-fields">
+          <label>Nome completo<input name="name" autocomplete="name" placeholder="Seu nome completo" required></label>
+          <label>E-mail<input name="email" type="email" autocomplete="email" placeholder="voce@email.com" required></label>
+          <label>CPF<input name="document" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" required></label>
+          <label>Celular<input name="phone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required></label>
+        </div>
+        <div class="checkout-divider"></div>
+        <div class="checkout-step"><span>2</span> Endereço de entrega</div>
+        <div class="checkout-fields checkout-fields--address">
+          <label class="checkout-field-wide">CEP<input name="zipcode" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" required></label>
+          <label>Rua<input name="street" autocomplete="street-address" placeholder="Nome da rua" required></label>
+          <label>Número<input name="number" placeholder="123" required></label>
+          <label>Complemento <small>(opcional)</small><input name="complement" placeholder="Apto, bloco..."></label>
+          <label>Bairro<input name="neighborhood" required></label>
+          <label>Cidade<input name="city" autocomplete="address-level2" required></label>
+          <label>Estado<input name="state" maxlength="2" placeholder="UF" required></label>
+        </div>
+        <div class="checkout-divider"></div>
+        <div class="checkout-step"><span>3</span> Forma de pagamento</div>
+        <div class="payment-choice" aria-label="Pagamento via PIX">
+          <div class="pix-mark">◆</div><div><strong>PIX</strong><p>Pagamento instantâneo e seguro</p></div><span class="payment-check">✓</span>
+        </div>
+        <p class="checkout-note">Após continuar, o QR Code do PIX aparecerá nesta página.</p>
+        <button class="checkout-submit" type="submit"><span>Gerar pagamento PIX</span><b aria-hidden="true">→</b></button>
+        <p class="checkout-error" id="checkout-error" role="alert" hidden></p>
+      </form>
+    </section>
+    <aside class="order-card" aria-label="Resumo do pedido">
+      <p class="order-kicker">Resumo do pedido</p><div id="order-summary"></div>
+      <div class="order-line"><span>Subtotal</span><strong id="order-subtotal">R$ 0,00</strong></div>
+      <div class="order-line"><span>Frete</span><strong class="order-free">Grátis</strong></div>
+      <div class="order-total"><span>Total</span><strong id="order-total">R$ 0,00</strong></div>
+      <div class="order-security"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 2.9 8.5 7 10 4.1-1.5 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg><span>Seus dados são protegidos e usados apenas para processar o pedido.</span></div>
+    </aside>
+  </main>
+  <script src="../shop/js/config.js" defer></script>
+  <script src="checkout.js" defer></script>
+</body>
+</html>

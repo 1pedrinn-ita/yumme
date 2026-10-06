@@ -12,6 +12,7 @@ window.SHOP_CONFIG = {
     home: '../',
     avaliar: '../avaliar/',
     produto: '../produto/',
+    checkout: '../checkout/',
   },
 
   store: {
