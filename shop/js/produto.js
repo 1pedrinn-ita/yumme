@@ -558,8 +558,36 @@
             toast('Checkout indisponível para esta opção', 'error');
             break;
           }
-          navigate(checkoutUrl(state.offer));
-          break;
+  if (CONFIG.form && CONFIG.form.endpoint) {
+    try {
+      const response = await fetch(CONFIG.form.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          offer: { id: state.offer.id, label: state.offer.label, price: state.offer.price, qty: state.offer.qty },
+          customer: {
+            name: window.prompt('Nome completo do comprador:') || '',
+            email: window.prompt('E-mail do comprador:') || '',
+            phone: window.prompt('Telefone com DDD:') || '',
+            document: window.prompt('CPF ou CNPJ (somente números):') || '',
+          },
+          tracking: Object.fromEntries(params()),
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Não foi possível iniciar o pagamento.');
+      if (result.qr_code_base64 || result.qr_code) {
+        sessionStorage.setItem('yumme:pix', JSON.stringify(result));
+        navigate(`${CONFIG.routes.produto}?oferta=${encodeURIComponent(state.offer.id)}&pagamento=gerado`);
+      } else if (result.checkout_url) navigate(result.checkout_url);
+      else throw new Error('A PinguPag não retornou os dados do PIX.');
+    } catch (error) {
+      toast(error.message || 'Não foi possível iniciar o pagamento.', 'error');
+    } finally { setLoading(btn, false); }
+  } else {
+    navigate(checkoutUrl(state.offer));
+  }
+  break;
         case 'back':
           goBack(CONFIG.routes.home);
           break;
