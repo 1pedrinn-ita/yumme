@@ -534,6 +534,77 @@
     });
   }
 
+  /* ---------- Checkout transparente ---------- */
+  function openCheckout() {
+    if (document.querySelector('.transparent-checkout')) return;
+    const overlay = document.createElement('div');
+    overlay.className = 'transparent-checkout';
+    overlay.innerHTML = `
+      <div class="transparent-checkout__backdrop" data-checkout-close></div>
+      <section class="transparent-checkout__panel" role="dialog" aria-modal="true" aria-labelledby="transparent-checkout-title">
+        <button class="transparent-checkout__close" type="button" data-checkout-close aria-label="Fechar checkout">×</button>
+        <div class="transparent-checkout__grid">
+          <div class="transparent-checkout__form">
+            <div class="checkout-step"><span>1</span> Seus dados</div>
+            <h2 id="transparent-checkout-title">Finalize seu pedido</h2>
+            <p class="checkout-lead">Complete a compra sem sair desta página.</p>
+            <form id="transparent-checkout-form" novalidate>
+              <div class="checkout-fields">
+                <label>Nome completo<input name="name" autocomplete="name" placeholder="Seu nome completo" required></label>
+                <label>E-mail<input name="email" type="email" autocomplete="email" placeholder="voce@email.com" required></label>
+                <label>CPF<input name="document" inputmode="numeric" placeholder="000.000.000-00" required></label>
+                <label>Celular<input name="phone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required></label>
+              </div>
+              <div class="checkout-divider"></div>
+              <div class="checkout-step"><span>2</span> Entrega</div>
+              <div class="checkout-fields checkout-fields--address">
+                <label class="checkout-field-wide">CEP<input name="zipcode" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" required></label>
+                <label>Rua<input name="street" autocomplete="street-address" placeholder="Nome da rua" required></label>
+                <label>Número<input name="number" placeholder="123" required></label>
+                <label>Complemento <small>(opcional)</small><input name="complement" placeholder="Apto, bloco..."></label>
+                <label>Bairro<input name="neighborhood" required></label>
+                <label>Cidade<input name="city" autocomplete="address-level2" required></label>
+                <label>Estado<input name="state" maxlength="2" placeholder="UF" required></label>
+              </div>
+              <div class="checkout-divider"></div>
+              <div class="checkout-step"><span>3</span> Pagamento</div>
+              <div class="payment-choice" aria-label="Pagamento via PIX"><div class="pix-mark">◆</div><div><strong>PIX</strong><p>Pagamento instantâneo e seguro</p></div><span class="payment-check">✓</span></div>
+              <button class="checkout-submit" type="submit"><span>Gerar pagamento PIX</span><b aria-hidden="true">→</b></button>
+              <p class="checkout-error" id="transparent-checkout-error" role="alert" hidden></p>
+            </form>
+            <div id="transparent-checkout-result" class="transparent-checkout__result" hidden></div>
+          </div>
+          <aside class="order-card" aria-label="Resumo do pedido"><p class="order-kicker">Resumo do pedido</p><div class="order-product"><img src="${esc(state.offer.image)}" alt="${esc(state.offer.label)}"><div><strong>${esc(state.offer.label)}</strong><span>${esc(state.offer.detail)}</span></div><b>${money(state.offer.price)}</b></div><div class="order-line"><span>Subtotal</span><strong>${money(state.offer.price)}</strong></div><div class="order-line"><span>Frete</span><strong class="order-free">Grátis</strong></div><div class="order-total"><span>Total</span><strong>${money(state.offer.price)}</strong></div></aside>
+        </div>
+      </section>`;
+    document.body.appendChild(overlay);
+    document.body.classList.add('checkout-open');
+    const form = overlay.querySelector('form');
+    const error = overlay.querySelector('#transparent-checkout-error');
+    const resultBox = overlay.querySelector('#transparent-checkout-result');
+    const digits = (value) => value.replace(/\\D/g, '');
+    overlay.querySelector('[name="zipcode"]').addEventListener('blur', async (event) => {
+      const cep = digits(event.target.value);
+      if (cep.length !== 8) return;
+      try { const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`); const data = await response.json(); if (!data.erro) { form.street.value = data.logradouro || ''; form.neighborhood.value = data.bairro || ''; form.city.value = data.localidade || ''; form.state.value = data.uf || ''; form.number.focus(); } } catch (_) {}
+    });
+    overlay.addEventListener('click', (event) => { if (event.target.closest('[data-checkout-close]')) { overlay.remove(); document.body.classList.remove('checkout-open'); } });
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault(); error.hidden = true;
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      const button = form.querySelector('.checkout-submit'); button.disabled = true; button.classList.add('is-loading');
+      const data = Object.fromEntries(new FormData(form));
+      try {
+        const response = await fetch(CONFIG.form.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ offer: { id: state.offer.id, label: state.offer.label, price: state.offer.price, qty: state.offer.qty, image: state.offer.image }, customer: { name: data.name, email: data.email, phone: data.phone, document: data.document }, address: { zipcode: data.zipcode, street: data.street, number: data.number, complement: data.complement, neighborhood: data.neighborhood, city: data.city, state: data.state }, tracking: Object.fromEntries(params()), payment_method: 'pix' }) });
+        const payload = await response.json(); if (!response.ok) throw new Error(payload.error || 'Não foi possível gerar o pagamento PIX.');
+        const pixCode = payload.pix_code || payload.qr_code || payload.qrcode || payload.copy_and_paste || payload.brCode || '';
+        resultBox.hidden = false; resultBox.innerHTML = `<strong>PIX gerado com sucesso</strong><p>Escaneie o QR Code ou copie o código abaixo para concluir.</p>${payload.qr_code_image || payload.qrcode_image ? `<img src="${esc(payload.qr_code_image || payload.qrcode_image)}" alt="QR Code PIX">` : ''}${pixCode ? `<textarea readonly aria-label="Código PIX">${esc(pixCode)}</textarea><button type="button" class="checkout-copy" data-copy-pix>Copiar código PIX</button>` : '<p>O pagamento foi criado. Verifique seu e-mail para continuar.</p>'}`;
+        form.hidden = true; overlay.querySelector('.checkout-step').hidden = true;
+        resultBox.querySelector('[data-copy-pix]')?.addEventListener('click', async (copyEvent) => { await navigator.clipboard.writeText(pixCode); copyEvent.currentTarget.textContent = 'Código copiado'; });
+      } catch (requestError) { error.textContent = requestError.message || 'Não foi possível gerar o pagamento.'; error.hidden = false; button.disabled = false; button.classList.remove('is-loading'); }
+    });
+  }
+
   /* ---------- Barra de compra ---------- */
   function renderBuybar() {
     mount('buybar', `
@@ -553,8 +624,8 @@
       switch (btn.dataset.action) {
         case 'buy':
           setLoading(btn, true);
+          openCheckout();
           setLoading(btn, false);
-          navigate(`${CONFIG.routes.checkout}?oferta=${encodeURIComponent(state.offer.id)}`);
           break;
         case 'back':
           goBack(CONFIG.routes.home);
