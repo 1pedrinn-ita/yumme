@@ -32,6 +32,45 @@
   .checkout-copy { width: 100%; background: #fe2c55; color: #fff; border: 0; border-radius: 12px; padding: 14px; font-weight: 800; cursor: pointer; }
 }
 
+/* Mobile: o checkout real usa checkout-layout, sem colunas estreitas ou quebra de uma letra por linha. */
+.checkout-page,
+.checkout-page * { font-family: Inter, system-ui, sans-serif; }
+.checkout-page { overflow-x: hidden; }
+.checkout-layout { min-width: 0; }
+.checkout-form-card,
+.order-card { min-width: 0; }
+.checkout-fields,
+.checkout-fields--address { min-width: 0; }
+.checkout-fields label,
+.checkout-fields input { min-width: 0; }
+.payment-choice { min-width: 0; }
+.payment-choice > div:nth-child(2) { min-width: 0; }
+.pix-logo { width: 28px; height: 28px; flex: 0 0 28px; border-radius: 8px; object-fit: cover; }
+
+@media (max-width: 760px) {
+  .checkout-page { padding: 0; }
+  .checkout-header { padding-inline: 18px; }
+  .checkout-layout { display: flex; flex-direction: column; gap: 18px; width: 100%; padding: 16px; box-sizing: border-box; }
+  .checkout-form-card { order: 1; width: 100%; box-sizing: border-box; padding: 22px 18px; }
+  .order-card { order: 2; position: static; width: 100%; box-sizing: border-box; padding: 20px 18px; }
+  .checkout-form-card h1 { font-size: clamp(28px, 8vw, 36px); line-height: 1.08; overflow-wrap: normal; word-break: normal; }
+  .checkout-lead { line-height: 1.45; }
+  .checkout-fields,
+  .checkout-fields--address { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .checkout-fields label { display: flex; flex-direction: column; gap: 7px; width: 100%; line-height: 1.25; white-space: normal; word-break: normal; }
+  .checkout-fields input { width: 100%; box-sizing: border-box; }
+  .payment-choice { display: flex; align-items: center; gap: 12px; width: 100%; box-sizing: border-box; }
+  .payment-choice p { white-space: normal; word-break: normal; }
+  .order-product { grid-template-columns: 64px minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+  .order-product strong,
+  .order-product span { white-space: normal; word-break: normal; overflow-wrap: anywhere; }
+  .order-product b { white-space: nowrap; }
+}
+
+@media (min-width: 761px) {
+  .checkout-layout { align-items: start; }
+}
+
 @media (min-width:761px) {
   .transparent-checkout .order-card { order: 2; }
   .transparent-checkout__form { order: 1; }

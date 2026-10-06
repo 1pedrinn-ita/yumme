@@ -393,11 +393,11 @@
 
   const videoThumb = (v) => `
     <div class="video-card">
-      <button type="button" data-video="${esc(v.id)}" aria-label="Assistir ${esc(v.title)}">
-        <img src="https://i.ytimg.com/vi/${encodeURIComponent(v.id)}/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+      <a class="video-card__link" href="https://www.youtube.com/watch?v=${encodeURIComponent(v.id)}" target="_blank" rel="noopener noreferrer" aria-label="Assistir ${esc(v.title)} no YouTube">
+        <img src="https://i.ytimg.com/vi/${encodeURIComponent(v.id)}/maxresdefault.jpg" alt="Thumbnail de ${esc(v.title)}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${encodeURIComponent(v.id)}/hqdefault.jpg'">
         <span class="video-card__play">${icon('play')}</span>
-        <span class="video-card__label">${esc(v.title)}</span>
-      </button>
+        <span class="video-card__label">${esc(v.title)} · Assistir no YouTube</span>
+      </a>
     </div>`;
 
   function renderReviews() {
@@ -465,15 +465,6 @@
     };
 
     el.addEventListener('click', (e) => {
-      const video = e.target.closest('[data-video]');
-      if (video) {
-        // Carrega o player do YouTube só ao clicar (página mais leve).
-        const id = encodeURIComponent(video.dataset.video);
-        video.parentElement.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1"
-          title="Depoimento em vídeo" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
-        return;
-      }
-
       const filter = e.target.closest('[data-filter]');
       if (filter) {
         state.reviewFilter = filter.dataset.filter;
