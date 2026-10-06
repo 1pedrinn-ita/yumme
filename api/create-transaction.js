@@ -62,8 +62,8 @@ module.exports = async function handler(req, res) {
       tracking_code TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )`;
     const tracking = { ...payload.tracking, code: trackingCode, estimate: '5 a 12 dias úteis', house_number: clean(address.number, 20) };
-    await sql`INSERT INTO orders (reference, transaction_id, status, amount, offer_id, customer, address, tracking, pix_code)
-      VALUES (${reference}, ${String(result.transaction_id || result.id || '')}, 'pending', ${amount}, ${clean(offer.id, 40)}, ${JSON.stringify(payload.customer)}, ${JSON.stringify(payload.address)}, ${JSON.stringify(tracking)}, ${result.qr_code || result.pix_code || null})`;
+    await sql`INSERT INTO orders (reference, gateway_transaction_id, status, amount, offer, customer, address, tracking, pix_code, tracking_code)
+      VALUES (${reference}, ${String(result.transaction_id || result.id || '')}, 'pending', ${amount}, ${JSON.stringify(offer)}, ${JSON.stringify(payload.customer)}, ${JSON.stringify(payload.address)}, ${JSON.stringify(tracking)}, ${result.qr_code || result.pix_code || result.copy_and_paste || null}, ${trackingCode})`;
 
     return res.status(200).json({ reference, tracking_code: trackingCode, ...result });
   } catch (error) {

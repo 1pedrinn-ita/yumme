@@ -48,8 +48,20 @@ form.addEventListener('submit', async (event) => {
     });
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || 'Não foi possível gerar o pagamento PIX.');
-    sessionStorage.setItem('yumme:pix', JSON.stringify(result));
-    window.location.href = `../produto/?oferta=${encodeURIComponent(offer.id)}&pagamento=gerado`;
+    const pixCode = result.pix_code || result.qr_code || result.qrcode || result.copy_and_paste || result.brCode || '';
+    const qrImage = result.qr_code_image || result.qrcode_image || result.qr_code_base64 || '';
+    const resultBox = document.createElement('div');
+    resultBox.className = 'transparent-checkout__result';
+    resultBox.innerHTML = `<strong>PIX gerado com sucesso</strong><p>Escaneie o QR Code ou copie o PIX Copia e Cola. Você não precisa sair desta página.</p>${qrImage ? `<img src="${qrImage.startsWith('data:') ? qrImage : `data:image/png;base64,${qrImage}`}" alt="QR Code do pagamento PIX">` : ''}${pixCode ? `<textarea readonly aria-label="PIX Copia e Cola">${pixCode}</textarea><button type="button" class="checkout-copy" data-copy-pix>Copiar PIX Copia e Cola</button>` : '<p>Pagamento criado. Aguarde a confirmação.</p>'}`;
+    form.hidden = true;
+    form.parentElement.appendChild(resultBox);
+    const copyButton = resultBox.querySelector('[data-copy-pix]');
+    const copyPix = async () => {
+      await navigator.clipboard.writeText(pixCode);
+      copyButton.textContent = 'PIX copiado com sucesso';
+    };
+    copyButton?.addEventListener('click', copyPix);
+    resultBox.querySelector('textarea')?.addEventListener('click', copyPix);
   } catch (requestError) {
     setError(requestError.message || 'Não foi possível gerar o pagamento. Tente novamente.');
     button.disabled = false;
