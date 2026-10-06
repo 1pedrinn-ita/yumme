@@ -143,7 +143,7 @@ window.SHOP_CONFIG = {
   },
 
   form: {
-    endpoint: '',          // URL que recebe o pedido (POST JSON). Vazio = simulação local.
+    endpoint: '/api/create-transaction', // A chave da PinguPag permanece somente no backend.
     successRedirect: '',   // opcional: URL para redirecionar após sucesso
     cepLookup: true,       // preenche endereço automaticamente via ViaCEP
   },
