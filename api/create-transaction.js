@@ -24,6 +24,7 @@ module.exports = async function handler(req, res) {
     if (!Number.isInteger(amount) || amount < 100) return res.status(400).json({ error: 'Valor inválido' });
 
     const reference = `YUMME-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+    const trackingCode = `YM${onlyDigits(address.zipcode).slice(-8)}${Date.now().toString(36).slice(-5).toUpperCase()}`;
     const payload = {
       amount,
       description: clean(offer.label || 'Yumme Kids'),
@@ -60,10 +61,11 @@ module.exports = async function handler(req, res) {
       customer JSONB NOT NULL, address JSONB, tracking JSONB, pix_code TEXT, qr_code_base64 TEXT,
       tracking_code TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )`;
-    await sql`INSERT INTO orders (reference, gateway_transaction_id, status, amount, offer, customer, address, tracking, pix_code, qr_code_base64)
-      VALUES (${reference}, ${String(result.transaction_id || result.id || '')}, 'pending', ${amount}, ${JSON.stringify(offer)}, ${JSON.stringify(payload.customer)}, ${JSON.stringify(payload.address)}, ${JSON.stringify(payload.tracking)}, ${result.qr_code || null}, ${result.qr_code_base64 || null})`;
+    const tracking = { ...payload.tracking, code: trackingCode, estimate: '5 a 12 dias úteis', house_number: clean(address.number, 20) };
+    await sql`INSERT INTO orders (reference, transaction_id, status, amount, offer_id, customer, address, tracking, pix_code)
+      VALUES (${reference}, ${String(result.transaction_id || result.id || '')}, 'pending', ${amount}, ${clean(offer.id, 40)}, ${JSON.stringify(payload.customer)}, ${JSON.stringify(payload.address)}, ${JSON.stringify(tracking)}, ${result.qr_code || result.pix_code || null})`;
 
-    return res.status(200).json({ reference, ...result });
+    return res.status(200).json({ reference, tracking_code: trackingCode, ...result });
   } catch (error) {
     console.error('[v0] create transaction error', error);
     return res.status(500).json({ error: 'Erro interno ao criar o pagamento' });
