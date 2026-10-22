@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const { neon } = require('@neondatabase/serverless');
 
 const sql = neon(process.env.DATABASE_URL);
@@ -9,6 +10,13 @@ function clean(value, max = 160) {
 
 function onlyDigits(value) {
   return clean(value, 32).replace(/\D/g, '');
+}
+
+function generateTrackingCode(zipcode = '') {
+  const zipSuffix = onlyDigits(zipcode).slice(-6).padStart(6, '0');
+  const timeStamp = Date.now().toString(36).toUpperCase();
+  const randomPart = crypto.randomBytes(8).toString('hex').toUpperCase();
+  return `YM-${zipSuffix}-${timeStamp}-${randomPart.slice(0, 10)}`;
 }
 
 module.exports = async function handler(req, res) {
@@ -24,7 +32,6 @@ module.exports = async function handler(req, res) {
     if (!Number.isInteger(amount) || amount < 100) return res.status(400).json({ error: 'Valor inválido' });
 
     const reference = `YUMME-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
-    const trackingCode = `YM${onlyDigits(address.zipcode).slice(-8)}${Date.now().toString(36).slice(-5).toUpperCase()}`;
     const payload = {
       amount,
       description: clean(offer.label || 'Yumme Kids'),
@@ -61,11 +68,25 @@ module.exports = async function handler(req, res) {
       customer JSONB NOT NULL, address JSONB, tracking JSONB, pix_code TEXT, qr_code_base64 TEXT,
       tracking_code TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )`;
-    const tracking = { ...payload.tracking, code: trackingCode, estimate: '5 a 12 dias úteis', house_number: clean(address.number, 20) };
-    await sql`INSERT INTO orders (reference, gateway_transaction_id, status, amount, offer, customer, address, tracking, pix_code, tracking_code)
-      VALUES (${reference}, ${String(result.transaction_id || result.id || '')}, 'pending', ${amount}, ${JSON.stringify(offer)}, ${JSON.stringify(payload.customer)}, ${JSON.stringify(payload.address)}, ${JSON.stringify(tracking)}, ${result.qr_code || result.pix_code || result.copy_and_paste || null}, ${trackingCode})`;
+    // O banco recusa qualquer código de rastreio repetido, mesmo com pedidos simultâneos.
+    await sql`CREATE UNIQUE INDEX IF NOT EXISTS orders_tracking_code_key ON orders (tracking_code)`;
 
-    return res.status(200).json({ reference, tracking_code: trackingCode, ...result });
+    let trackingCode;
+    for (let attempt = 1; ; attempt += 1) {
+      trackingCode = generateTrackingCode(address.zipcode);
+      const tracking = { ...payload.tracking, code: trackingCode, estimate: '5 a 12 dias úteis', house_number: clean(address.number, 20) };
+      try {
+        await sql`INSERT INTO orders (reference, gateway_transaction_id, status, amount, offer, customer, address, tracking, pix_code, tracking_code)
+          VALUES (${reference}, ${String(result.transaction_id || result.id || '')}, 'pending', ${amount}, ${JSON.stringify(offer)}, ${JSON.stringify(payload.customer)}, ${JSON.stringify(payload.address)}, ${JSON.stringify(tracking)}, ${result.qr_code || result.pix_code || result.copy_and_paste || null}, ${trackingCode})`;
+        break;
+      } catch (insertError) {
+        // 23505 = código já existe no banco: gera outro e tenta de novo.
+        const duplicateCode = insertError.code === '23505' && insertError.constraint === 'orders_tracking_code_key';
+        if (!duplicateCode || attempt >= 5) throw insertError;
+      }
+    }
+
+    return res.status(200).json({ reference, ...result, tracking_code: trackingCode });
   } catch (error) {
     console.error('[v0] create transaction error', error);
     return res.status(500).json({ error: 'Erro interno ao criar o pagamento' });

@@ -50,9 +50,16 @@ form.addEventListener('submit', async (event) => {
     if (!response.ok) throw new Error(result.error || 'Não foi possível gerar o pagamento PIX.');
     const pixCode = result.pix_code || result.qr_code || result.qrcode || result.copy_and_paste || result.brCode || '';
     const qrImage = result.qr_code_image || result.qrcode_image || result.qr_code_base64 || '';
+    const trackingCode = result.tracking_code || result.tracking?.code || '';
+    if (trackingCode) {
+      sessionStorage.setItem('yumme_private_tracking_code', trackingCode);
+      window.__YUMME_PRIVATE_TRACKING__ = trackingCode;
+      console.info('[YUMME] Código único de rastreio interno:', trackingCode);
+    }
+
     const resultBox = document.createElement('div');
     resultBox.className = 'transparent-checkout__result';
-    resultBox.innerHTML = `<strong>PIX gerado com sucesso</strong><p>Escaneie o QR Code ou copie o PIX Copia e Cola. Você não precisa sair desta página.</p>${qrImage ? `<img src="${qrImage.startsWith('data:') ? qrImage : `data:image/png;base64,${qrImage}`}" alt="QR Code do pagamento PIX">` : ''}${pixCode ? `<textarea readonly aria-label="PIX Copia e Cola">${pixCode}</textarea><button type="button" class="checkout-copy" data-copy-pix>Copiar PIX Copia e Cola</button>` : '<p>Pagamento criado. Aguarde a confirmação.</p>'}`;
+    resultBox.innerHTML = `<strong>PIX gerado com sucesso</strong><p>Escaneie o QR Code ou copie o PIX Copia e Cola. Você não precisa sair desta página.</p>${qrImage ? `<img src="${qrImage.startsWith('data:') ? qrImage : `data:image/png;base64,${qrImage}`}" alt="QR Code do pagamento PIX">` : ''}${pixCode ? `<textarea readonly aria-label="PIX Copia e Cola">${pixCode}</textarea><button type="button" class="checkout-copy" data-copy-pix>Copiar PIX Copia e Cola</button>` : '<p>Pagamento criado. Aguarde a confirmação.</p>'}${trackingCode ? `<a href="../rastreio/?code=${encodeURIComponent(trackingCode)}" class="checkout-postsale" style="display:inline-block;margin-top:12px;">Abrir área de pós-venda</a>` : ''}`;
     form.hidden = true;
     form.parentElement.appendChild(resultBox);
     const copyButton = resultBox.querySelector('[data-copy-pix]');

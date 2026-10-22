@@ -8,7 +8,7 @@ module.exports = async function handler(req, res) {
   const code = cleanCode(req.query?.code);
   if (!code) return res.status(400).json({ error: 'Informe o código de rastreio' });
   try {
-    const rows = await sql`SELECT reference, status, offer_id, amount, address, tracking, created_at, updated_at FROM orders WHERE tracking->>'code' = ${code} LIMIT 1`;
+    const rows = await sql`SELECT reference, status, offer->>'id' AS offer_id, amount, address, tracking, created_at, updated_at FROM orders WHERE tracking_code = ${code} LIMIT 1`;
     if (!rows[0]) return res.status(404).json({ error: 'Código de rastreio não encontrado' });
     const order = rows[0];
     const status = String(order.status || 'pending').toLowerCase();

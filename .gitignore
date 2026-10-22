@@ -1,2 +1,4 @@
 README-CLONAGEM.txt
 .claude/
+node_modules/
+.netlify/

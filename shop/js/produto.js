@@ -15,6 +15,8 @@
     reviewFilter: 'all',
     reviewPage: 1,
   };
+  const localDemo = params().get('demo') === '1'
+    && (location.hostname === 'localhost' || location.hostname === '127.0.0.1');
 
   const mount = (name, html) => {
     const el = $(`[data-mount="${name}"]`);
@@ -586,10 +588,21 @@
       const button = form.querySelector('.checkout-submit'); button.disabled = true; button.classList.add('is-loading');
       const data = Object.fromEntries(new FormData(form));
       try {
-        const response = await fetch(CONFIG.form.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ offer: { id: state.offer.id, label: state.offer.label, price: state.offer.price, qty: state.offer.qty, image: state.offer.image }, customer: { name: data.name, email: data.email, phone: data.phone, document: data.document }, address: { zipcode: data.zipcode, street: data.street, number: data.number, complement: data.complement, neighborhood: data.neighborhood, city: data.city, state: data.state }, tracking: Object.fromEntries(params()), payment_method: 'pix' }) });
-        const payload = await response.json(); if (!response.ok) throw new Error(payload.error || 'Não foi possível gerar o pagamento PIX.');
+        let payload;
+        if (localDemo) {
+          const trackingCode = sessionStorage.getItem('yumme_private_tracking_code')
+            || `YM-LOCAL-${crypto.randomUUID().slice(0, 8).toUpperCase()}-${Date.now().toString(36).toUpperCase()}`;
+          sessionStorage.setItem('yumme_private_tracking_code', trackingCode);
+          payload = { tracking_code: trackingCode, pix_code: `DEMO-PIX-NAO-PAGAVEL-${trackingCode}` };
+        } else {
+          const response = await fetch(CONFIG.form.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ offer: { id: state.offer.id, label: state.offer.label, price: state.offer.price, qty: state.offer.qty, image: state.offer.image }, customer: { name: data.name, email: data.email, phone: data.phone, document: data.document }, address: { zipcode: data.zipcode, street: data.street, number: data.number, complement: data.complement, neighborhood: data.neighborhood, city: data.city, state: data.state }, tracking: Object.fromEntries(params()), payment_method: 'pix' }) });
+          payload = await response.json(); if (!response.ok) throw new Error(payload.error || 'Não foi possível gerar o pagamento PIX.');
+        }
         const pixCode = payload.pix_code || payload.qr_code || payload.qrcode || payload.copy_and_paste || payload.brCode || '';
-        resultBox.hidden = false; resultBox.innerHTML = `<strong>PIX gerado com sucesso</strong><p>Escaneie o QR Code ou copie o código abaixo para concluir.</p>${payload.qr_code_image || payload.qrcode_image ? `<img src="${esc(payload.qr_code_image || payload.qrcode_image)}" alt="QR Code PIX">` : ''}${pixCode ? `<textarea readonly aria-label="Código PIX">${esc(pixCode)}</textarea><button type="button" class="checkout-copy" data-copy-pix>Copiar código PIX</button>` : '<p>O pagamento foi criado. Verifique seu e-mail para continuar.</p>'}`;
+        const trackingCode = payload.tracking_code || payload.tracking?.code || '';
+        const demoNotice = localDemo ? '<p role="note"><strong>SIMULAÇÃO LOCAL — PIX fictício, não pagável. Nenhuma cobrança foi criada.</strong></p>' : '';
+        const trackingLink = trackingCode ? `<p><strong>Código ${localDemo ? 'fictício ' : ''}de rastreio:</strong> ${esc(trackingCode)}</p><a href="../rastreio/?code=${encodeURIComponent(trackingCode)}">Abrir ${localDemo ? 'pós-venda simulado' : 'pós-venda'}</a>` : '';
+        resultBox.hidden = false; resultBox.innerHTML = `${demoNotice}<strong>PIX ${localDemo ? 'simulado' : 'gerado com sucesso'}</strong><p>${localDemo ? 'Este código serve apenas para visualizar a etapa de pagamento.' : 'Escaneie o QR Code ou copie o código abaixo para concluir.'}</p>${payload.qr_code_image || payload.qrcode_image ? `<img src="${esc(payload.qr_code_image || payload.qrcode_image)}" alt="QR Code PIX">` : ''}${pixCode ? `<textarea readonly aria-label="Código PIX">${esc(pixCode)}</textarea><button type="button" class="checkout-copy" data-copy-pix>Copiar código PIX</button>` : '<p>O pagamento foi criado. Verifique seu e-mail para continuar.</p>'}${trackingLink}`;
         form.hidden = true; overlay.querySelector('.checkout-step').hidden = true;
         resultBox.querySelector('[data-copy-pix]')?.addEventListener('click', async (copyEvent) => { await navigator.clipboard.writeText(pixCode); copyEvent.currentTarget.textContent = 'Código copiado'; });
       } catch (requestError) { error.textContent = requestError.message || 'Não foi possível gerar o pagamento.'; error.hidden = false; button.disabled = false; button.classList.remove('is-loading'); }
@@ -681,4 +694,26 @@
   bindScrollChrome();
   hydrateMedia();
   reveal();
+  if (localDemo) {
+    setTimeout(() => {
+      openCheckout();
+      const form = $('#transparent-checkout-form');
+      if (!form) return;
+      const demoValues = {
+        name: 'Cliente de Demonstração',
+        email: 'demo@local.test',
+        document: '00000000000',
+        phone: '11900000000',
+        zipcode: '01000000',
+        street: 'Rua de Demonstração',
+        number: '123',
+        complement: '',
+        neighborhood: 'Centro',
+        city: 'São Paulo',
+        state: 'SP',
+      };
+      Object.entries(demoValues).forEach(([name, value]) => { form.elements[name].value = value; });
+      form.requestSubmit();
+    }, 300);
+  }
 })();
