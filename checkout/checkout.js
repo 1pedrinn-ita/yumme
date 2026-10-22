@@ -11,6 +11,22 @@ document.querySelector('#order-total').textContent = money(offer.price);
 summary.innerHTML = `<div class="order-product"><img src="${offer.image}" alt="${offer.label}"><div><strong>${offer.label}</strong><span>${offer.detail}</span></div><b>${money(offer.price)}</b></div>`;
 
 const setError = (message = '') => { error.textContent = message; error.hidden = !message; };
+
+// Consulta o pedido a cada 5 s (até 30 min) para mostrar o PIX assim que ficar pronto e a aprovação do pagamento.
+async function watchPayment(initial, onChange) {
+  let last = `${initial.status}|${initial.pix_code}`;
+  for (let attempt = 0; attempt < 360; attempt += 1) {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+    try {
+      const response = await fetch(`/api/pix-status?reference=${encodeURIComponent(initial.reference)}`);
+      if (!response.ok) continue;
+      const current = await response.json();
+      const key = `${current.status}|${current.pix_code}`;
+      if (key !== last) { last = key; onChange(current); }
+      if (current.status !== 'pending') return;
+    } catch (_) { /* Rede instável: tenta de novo na próxima volta. */ }
+  }
+}
 const digits = (value) => value.replace(/\D/g, '');
 
 form.zipcode.addEventListener('blur', async () => {
@@ -48,8 +64,6 @@ form.addEventListener('submit', async (event) => {
     });
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || 'Não foi possível gerar o pagamento PIX.');
-    const pixCode = result.pix_code || result.qr_code || result.qrcode || result.copy_and_paste || result.brCode || '';
-    const qrImage = result.qr_code_image || result.qrcode_image || result.qr_code_base64 || '';
     const trackingCode = result.tracking_code || result.tracking?.code || '';
     if (trackingCode) {
       sessionStorage.setItem('yumme_private_tracking_code', trackingCode);
@@ -59,16 +73,28 @@ form.addEventListener('submit', async (event) => {
 
     const resultBox = document.createElement('div');
     resultBox.className = 'transparent-checkout__result';
-    resultBox.innerHTML = `<strong>PIX gerado com sucesso</strong><p>Escaneie o QR Code ou copie o PIX Copia e Cola. Você não precisa sair desta página.</p>${qrImage ? `<img src="${qrImage.startsWith('data:') ? qrImage : `data:image/png;base64,${qrImage}`}" alt="QR Code do pagamento PIX">` : ''}${pixCode ? `<textarea readonly aria-label="PIX Copia e Cola">${pixCode}</textarea><button type="button" class="checkout-copy" data-copy-pix>Copiar PIX Copia e Cola</button>` : '<p>Pagamento criado. Aguarde a confirmação.</p>'}${trackingCode ? `<a href="../rastreio/?code=${encodeURIComponent(trackingCode)}" class="checkout-postsale" style="display:inline-block;margin-top:12px;">Abrir área de pós-venda</a>` : ''}`;
+    const postSale = trackingCode ? `<a href="../rastreio/?code=${encodeURIComponent(trackingCode)}" class="checkout-postsale" style="display:inline-block;margin-top:12px;">Abrir área de pós-venda</a>` : '';
+    const showPayment = (current) => {
+      const pixCode = current.pix_code || '';
+      const status = current.status || 'pending';
+      const waiting = status === 'pending';
+      const title = status === 'paid' ? 'Pagamento aprovado!' : waiting ? 'PIX gerado com sucesso' : 'Este PIX não está mais disponível';
+      const lead = status === 'paid' ? 'Recebemos seu pagamento. Seu pedido já está sendo preparado.'
+        : !waiting ? 'Recarregue a página e gere um novo pagamento.'
+        : pixCode ? 'Escaneie o QR Code ou copie o PIX Copia e Cola. Você não precisa sair desta página.' : 'Estamos gerando seu código PIX. Aguarde alguns segundos nesta tela.';
+      resultBox.innerHTML = `<strong>${title}</strong><p>${lead}</p>${waiting && current.qr_code_image ? `<img src="${current.qr_code_image}" alt="QR Code do pagamento PIX">` : ''}${waiting && pixCode ? `<textarea readonly aria-label="PIX Copia e Cola">${pixCode}</textarea><button type="button" class="checkout-copy" data-copy-pix>Copiar PIX Copia e Cola</button>` : ''}${postSale}`;
+      const copyButton = resultBox.querySelector('[data-copy-pix]');
+      const copyPix = async () => {
+        await navigator.clipboard.writeText(pixCode);
+        copyButton.textContent = 'PIX copiado com sucesso';
+      };
+      copyButton?.addEventListener('click', copyPix);
+      resultBox.querySelector('textarea')?.addEventListener('click', copyPix);
+    };
+    showPayment(result);
     form.hidden = true;
     form.parentElement.appendChild(resultBox);
-    const copyButton = resultBox.querySelector('[data-copy-pix]');
-    const copyPix = async () => {
-      await navigator.clipboard.writeText(pixCode);
-      copyButton.textContent = 'PIX copiado com sucesso';
-    };
-    copyButton?.addEventListener('click', copyPix);
-    resultBox.querySelector('textarea')?.addEventListener('click', copyPix);
+    if (result.reference) watchPayment(result, showPayment);
   } catch (requestError) {
     setError(requestError.message || 'Não foi possível gerar o pagamento. Tente novamente.');
     button.disabled = false;

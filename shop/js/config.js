@@ -144,7 +144,7 @@ window.SHOP_CONFIG = {
   },
 
   form: {
-    endpoint: '/api/create-transaction', // A chave da PinguPag permanece somente no backend.
+    endpoint: '/api/create-transaction', // A chave da PagPix permanece somente no backend.
     successRedirect: '',   // opcional: URL para redirecionar após sucesso
     cepLookup: true,       // preenche endereço automaticamente via ViaCEP
   },

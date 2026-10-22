@@ -1,8 +1,11 @@
 const crypto = require('crypto');
 const { neon } = require('@neondatabase/serverless');
+const { pagpix, qrImage } = require('./_pagpix');
 
 const sql = neon(process.env.DATABASE_URL);
-const PINGUPAG_API = 'https://app.pingupag.com/gateway/v1/transaction';
+const UTM_KEYS = ['source', 'medium', 'campaign', 'content', 'term'];
+const CLICK_IDS = ['fbclid', 'gclid', 'ttclid'];
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function clean(value, max = 160) {
   return typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -19,9 +22,16 @@ function generateTrackingCode(zipcode = '') {
   return `YM-${zipSuffix}-${timeStamp}-${randomPart.slice(0, 10)}`;
 }
 
+function campaignParams(tracking = {}) {
+  const utm = {};
+  UTM_KEYS.forEach((key) => { const value = clean(tracking[`utm_${key}`]); if (value) utm[key] = value; });
+  CLICK_IDS.forEach((key) => { const value = clean(tracking[key], 500); if (value) utm[key] = value; });
+  return utm;
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido' });
-  if (!process.env.PINGUPAG_SECRET_KEY) return res.status(500).json({ error: 'Gateway não configurado' });
+  if (!process.env.PAGPIX_API_KEY) return res.status(500).json({ error: 'Gateway não configurado' });
 
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body || {};
@@ -29,38 +39,53 @@ module.exports = async function handler(req, res) {
     const customer = body.customer || {};
     const address = body.address || {};
     const amount = Math.round(Number(offer.price) * 100);
-    if (!Number.isInteger(amount) || amount < 100) return res.status(400).json({ error: 'Valor inválido' });
+    // A PagPix só aceita cobranças a partir de R$ 5,00.
+    if (!Number.isInteger(amount) || amount < 500) return res.status(400).json({ error: 'Valor inválido' });
 
     const reference = `YUMME-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
-    const payload = {
-      amount,
-      description: clean(offer.label || 'Yumme Kids'),
-      reference,
-      source: 'api_externa',
-      postback_url: `${req.headers['x-forwarded-proto'] || 'https'}://${req.headers.host}/api/pingupag-webhook`,
-      customer: {
-        name: clean(customer.name), email: clean(customer.email, 254),
-        phone: onlyDigits(customer.phone), document: onlyDigits(customer.document),
-      },
-      address: {
-        street: clean(address.street), number: clean(address.number, 20), complement: clean(address.complement),
-        neighborhood: clean(address.neighborhood), city: clean(address.city), state: clean(address.state, 2).toUpperCase(),
-        zipcode: onlyDigits(address.zipcode),
-      },
-      tracking: body.tracking || {},
+    const buyer = {
+      name: clean(customer.name), email: clean(customer.email, 254),
+      phone: onlyDigits(customer.phone), document: onlyDigits(customer.document),
     };
+    const shippingAddress = {
+      street: clean(address.street), number: clean(address.number, 20), complement: clean(address.complement),
+      neighborhood: clean(address.neighborhood), city: clean(address.city), state: clean(address.state, 2).toUpperCase(),
+      zipcode: onlyDigits(address.zipcode),
+    };
+    const tracking = body.tracking || {};
 
-    if (!payload.customer.name || !payload.customer.email || !payload.customer.phone || !payload.customer.document) {
+    if (!buyer.name || !buyer.email || !buyer.phone || !buyer.document) {
       return res.status(400).json({ error: 'Preencha os dados obrigatórios do cliente' });
     }
 
-    const gateway = await fetch(PINGUPAG_API, {
+    const created = await pagpix('/transactions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-API-Key': process.env.PINGUPAG_SECRET_KEY },
-      body: JSON.stringify(payload),
+      idempotencyKey: reference,
+      body: {
+        amount_cents: amount,
+        method: 'pix',
+        description: clean(offer.label || 'Yumme Kids', 300),
+        external_reference: reference,
+        customer: { name: buyer.name, email: buyer.email, cpf: buyer.document, phone: buyer.phone },
+        metadata: { offer_id: clean(String(offer.id || ''), 20), qty: String(Number(offer.qty) || 1) },
+        utm: campaignParams(tracking),
+      },
     });
-    const result = await gateway.json().catch(() => ({}));
-    if (!gateway.ok) return res.status(gateway.status).json({ error: result.message || 'Não foi possível criar o PIX' });
+    if (!created.ok) {
+      console.error('[pagpix] create transaction failed', created.status, created.data);
+      return res.status(502).json({ error: created.data.error?.message || 'Não foi possível criar o PIX' });
+    }
+
+    // HTTP 202: a cobrança existe, mas o código PIX ainda está sendo gerado. Espera um pouco aqui;
+    // se não ficar pronto, o navegador continua consultando /api/pix-status.
+    let transaction = created.data;
+    for (let attempt = 0; attempt < 2 && transaction.pix_status === 'generating'; attempt += 1) {
+      await sleep(1500);
+      const check = await pagpix(`/transactions/${encodeURIComponent(transaction.id)}`);
+      if (check.ok) transaction = check.data;
+    }
+    if (transaction.pix_status === 'failed') return res.status(502).json({ error: 'Não foi possível gerar o PIX. Tente novamente.' });
+    const pixCode = transaction.pix?.copy_paste || null;
 
     await sql`CREATE TABLE IF NOT EXISTS orders (
       id BIGSERIAL PRIMARY KEY, reference TEXT UNIQUE NOT NULL, gateway_transaction_id TEXT,
@@ -74,10 +99,10 @@ module.exports = async function handler(req, res) {
     let trackingCode;
     for (let attempt = 1; ; attempt += 1) {
       trackingCode = generateTrackingCode(address.zipcode);
-      const tracking = { ...payload.tracking, code: trackingCode, estimate: '5 a 12 dias úteis', house_number: clean(address.number, 20) };
+      const trackingData = { ...tracking, code: trackingCode, estimate: '5 a 12 dias úteis', house_number: shippingAddress.number };
       try {
         await sql`INSERT INTO orders (reference, gateway_transaction_id, status, amount, offer, customer, address, tracking, pix_code, tracking_code)
-          VALUES (${reference}, ${String(result.transaction_id || result.id || '')}, 'pending', ${amount}, ${JSON.stringify(offer)}, ${JSON.stringify(payload.customer)}, ${JSON.stringify(payload.address)}, ${JSON.stringify(tracking)}, ${result.qr_code || result.pix_code || result.copy_and_paste || null}, ${trackingCode})`;
+          VALUES (${reference}, ${String(transaction.id || '')}, 'pending', ${amount}, ${JSON.stringify(offer)}, ${JSON.stringify(buyer)}, ${JSON.stringify(shippingAddress)}, ${JSON.stringify(trackingData)}, ${pixCode}, ${trackingCode})`;
         break;
       } catch (insertError) {
         // 23505 = código já existe no banco: gera outro e tenta de novo.
@@ -86,7 +111,15 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    return res.status(200).json({ reference, ...result, tracking_code: trackingCode });
+    return res.status(200).json({
+      reference,
+      tracking_code: trackingCode,
+      status: 'pending',
+      pix_status: pixCode ? 'ready' : 'generating',
+      pix_code: pixCode,
+      qr_code_image: await qrImage(pixCode),
+      expires_at: transaction.pix?.expires_at || null,
+    });
   } catch (error) {
     console.error('[v0] create transaction error', error);
     return res.status(500).json({ error: 'Erro interno ao criar o pagamento' });

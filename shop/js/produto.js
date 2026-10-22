@@ -528,6 +528,22 @@
   }
 
   /* ---------- Checkout transparente ---------- */
+  // Consulta o pedido a cada 5 s (até 30 min) para mostrar o PIX assim que ficar pronto e a aprovação do pagamento.
+  async function watchPayment(initial, onChange, stopped) {
+    let last = `${initial.status}|${initial.pix_code}`;
+    for (let attempt = 0; attempt < 360 && !stopped(); attempt += 1) {
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      try {
+        const response = await fetch(`/api/pix-status?reference=${encodeURIComponent(initial.reference)}`);
+        if (!response.ok) continue;
+        const current = await response.json();
+        const key = `${current.status}|${current.pix_code}`;
+        if (key !== last && !stopped()) { last = key; onChange(current); }
+        if (current.status !== 'pending') return;
+      } catch (_) { /* Rede instável: tenta de novo na próxima volta. */ }
+    }
+  }
+
   function openCheckout() {
     if (document.querySelector('.transparent-checkout')) return;
     const overlay = document.createElement('div');
@@ -598,13 +614,24 @@
           const response = await fetch(CONFIG.form.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ offer: { id: state.offer.id, label: state.offer.label, price: state.offer.price, qty: state.offer.qty, image: state.offer.image }, customer: { name: data.name, email: data.email, phone: data.phone, document: data.document }, address: { zipcode: data.zipcode, street: data.street, number: data.number, complement: data.complement, neighborhood: data.neighborhood, city: data.city, state: data.state }, tracking: Object.fromEntries(params()), payment_method: 'pix' }) });
           payload = await response.json(); if (!response.ok) throw new Error(payload.error || 'Não foi possível gerar o pagamento PIX.');
         }
-        const pixCode = payload.pix_code || payload.qr_code || payload.qrcode || payload.copy_and_paste || payload.brCode || '';
         const trackingCode = payload.tracking_code || payload.tracking?.code || '';
         const demoNotice = localDemo ? '<p role="note"><strong>SIMULAÇÃO LOCAL — PIX fictício, não pagável. Nenhuma cobrança foi criada.</strong></p>' : '';
         const trackingLink = trackingCode ? `<p><strong>Código ${localDemo ? 'fictício ' : ''}de rastreio:</strong> ${esc(trackingCode)}</p><a href="../rastreio/?code=${encodeURIComponent(trackingCode)}">Abrir ${localDemo ? 'pós-venda simulado' : 'pós-venda'}</a>` : '';
-        resultBox.hidden = false; resultBox.innerHTML = `${demoNotice}<strong>PIX ${localDemo ? 'simulado' : 'gerado com sucesso'}</strong><p>${localDemo ? 'Este código serve apenas para visualizar a etapa de pagamento.' : 'Escaneie o QR Code ou copie o código abaixo para concluir.'}</p>${payload.qr_code_image || payload.qrcode_image ? `<img src="${esc(payload.qr_code_image || payload.qrcode_image)}" alt="QR Code PIX">` : ''}${pixCode ? `<textarea readonly aria-label="Código PIX">${esc(pixCode)}</textarea><button type="button" class="checkout-copy" data-copy-pix>Copiar código PIX</button>` : '<p>O pagamento foi criado. Verifique seu e-mail para continuar.</p>'}${trackingLink}`;
+        const showPayment = (current) => {
+          const pixCode = current.pix_code || '';
+          const status = current.status || 'pending';
+          const waiting = status === 'pending';
+          const title = status === 'paid' ? 'Pagamento aprovado!' : waiting ? `PIX ${localDemo ? 'simulado' : 'gerado com sucesso'}` : 'Este PIX não está mais disponível';
+          const lead = status === 'paid' ? 'Recebemos seu pagamento. Seu pedido já está sendo preparado.'
+            : !waiting ? 'Feche esta janela e gere um novo pagamento.'
+            : localDemo ? 'Este código serve apenas para visualizar a etapa de pagamento.'
+            : pixCode ? 'Escaneie o QR Code ou copie o código abaixo para concluir.' : 'Estamos gerando seu código PIX. Aguarde alguns segundos nesta tela.';
+          resultBox.hidden = false; resultBox.innerHTML = `${demoNotice}<strong>${title}</strong><p>${lead}</p>${waiting && current.qr_code_image ? `<img src="${esc(current.qr_code_image)}" alt="QR Code PIX">` : ''}${waiting && pixCode ? `<textarea readonly aria-label="Código PIX">${esc(pixCode)}</textarea><button type="button" class="checkout-copy" data-copy-pix>Copiar código PIX</button>` : ''}${trackingLink}`;
+          resultBox.querySelector('[data-copy-pix]')?.addEventListener('click', async (copyEvent) => { await navigator.clipboard.writeText(pixCode); copyEvent.currentTarget.textContent = 'Código copiado'; });
+        };
+        showPayment(payload);
         form.hidden = true; overlay.querySelector('.checkout-step').hidden = true;
-        resultBox.querySelector('[data-copy-pix]')?.addEventListener('click', async (copyEvent) => { await navigator.clipboard.writeText(pixCode); copyEvent.currentTarget.textContent = 'Código copiado'; });
+        if (!localDemo && payload.reference) watchPayment(payload, showPayment, () => !overlay.isConnected);
       } catch (requestError) { error.textContent = requestError.message || 'Não foi possível gerar o pagamento.'; error.hidden = false; button.disabled = false; button.classList.remove('is-loading'); }
     });
   }

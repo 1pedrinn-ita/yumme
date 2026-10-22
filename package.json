@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/1pedrinn-ita/yumme#readme",
   "dependencies": {
-    "@neondatabase/serverless": "^1.2.0"
+    "@neondatabase/serverless": "^1.2.0",
+    "qrcode": "^1.5.4"
   }
 }
