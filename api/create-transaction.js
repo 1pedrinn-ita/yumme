@@ -88,8 +88,8 @@ module.exports = async function handler(req, res) {
     const pixCode = transaction.pix?.copy_paste || null;
 
     await sql`CREATE TABLE IF NOT EXISTS orders (
-      id BIGSERIAL PRIMARY KEY, reference TEXT UNIQUE NOT NULL, gateway_transaction_id TEXT,
-      status TEXT NOT NULL DEFAULT 'pending', amount INTEGER NOT NULL, offer JSONB NOT NULL,
+      id BIGSERIAL PRIMARY KEY, reference TEXT UNIQUE NOT NULL, gateway_transaction_id TEXT, transaction_id TEXT,
+      status TEXT NOT NULL DEFAULT 'pending', amount INTEGER NOT NULL, offer_id TEXT, offer JSONB NOT NULL,
       customer JSONB NOT NULL, address JSONB, tracking JSONB, pix_code TEXT, qr_code_base64 TEXT,
       tracking_code TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )`;
@@ -101,8 +101,9 @@ module.exports = async function handler(req, res) {
       trackingCode = generateTrackingCode(address.zipcode);
       const trackingData = { ...tracking, code: trackingCode, estimate: '5 a 12 dias úteis', house_number: shippingAddress.number };
       try {
-        await sql`INSERT INTO orders (reference, gateway_transaction_id, status, amount, offer, customer, address, tracking, pix_code, tracking_code)
-          VALUES (${reference}, ${String(transaction.id || '')}, 'pending', ${amount}, ${JSON.stringify(offer)}, ${JSON.stringify(buyer)}, ${JSON.stringify(shippingAddress)}, ${JSON.stringify(trackingData)}, ${pixCode}, ${trackingCode})`;
+        // offer_id e transaction_id vêm do formato original da tabela (criada pelo v0); offer_id é obrigatória.
+        await sql`INSERT INTO orders (reference, gateway_transaction_id, transaction_id, status, amount, offer_id, offer, customer, address, tracking, pix_code, tracking_code)
+          VALUES (${reference}, ${String(transaction.id || '')}, ${String(transaction.id || '')}, 'pending', ${amount}, ${String(offer.id || '')}, ${JSON.stringify(offer)}, ${JSON.stringify(buyer)}, ${JSON.stringify(shippingAddress)}, ${JSON.stringify(trackingData)}, ${pixCode}, ${trackingCode})`;
         break;
       } catch (insertError) {
         // 23505 = código já existe no banco: gera outro e tenta de novo.
