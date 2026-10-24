@@ -20,6 +20,10 @@
 /* Trava a página de fundo enquanto o checkout está aberto: no iPhone, o teclado rolava o fundo e o modal pulava.
    O produto.js guarda a posição em `top` e a restaura ao fechar. */
 body.checkout-open { position: fixed; left: 0; right: 0; width: 100%; }
+/* Código de rastreio antes do pagamento: só os 2 primeiros caracteres ficam legíveis. */
+.tracking-masked { font-weight: 700; letter-spacing: .02em; overflow-wrap: anywhere; }
+.tracking-masked__hidden { filter: blur(5px); user-select: none; pointer-events: none; }
+.tracking-masked__note { display: block; margin-top: 4px; font-size: 12px; color: #537162; }
 
 @media (max-width:760px){
   .transparent-checkout { padding: 0; align-items: stretch; }

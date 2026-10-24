@@ -2,6 +2,7 @@ const { neon } = require('@neondatabase/serverless');
 const { pagpix, qrImage } = require('./_pagpix');
 
 const sql = neon(process.env.DATABASE_URL);
+const UNPAID = ['pending', 'expired', 'failed'];
 
 // Consultado pelo checkout enquanto o cliente espera: entrega o código PIX quando ficar pronto
 // e confirma o pagamento direto na PagPix, mesmo que o webhook atrase.
@@ -11,7 +12,7 @@ module.exports = async function handler(req, res) {
   if (!reference) return res.status(400).json({ error: 'Informe o pedido' });
 
   try {
-    const rows = await sql`SELECT status, gateway_transaction_id, pix_code FROM orders WHERE reference = ${reference} LIMIT 1`;
+    const rows = await sql`SELECT status, gateway_transaction_id, pix_code, tracking_code FROM orders WHERE reference = ${reference} LIMIT 1`;
     if (!rows[0]) return res.status(404).json({ error: 'Pedido não encontrado' });
     let { status, pix_code: pixCode } = rows[0];
     const transactionId = rows[0].gateway_transaction_id;
@@ -29,7 +30,9 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    return res.status(200).json({ status, pix_code: pixCode, qr_code_image: await qrImage(pixCode) });
+    // O código de rastreio só é revelado depois que o pagamento é confirmado.
+    const paid = !UNPAID.includes(status);
+    return res.status(200).json({ status, pix_code: pixCode, qr_code_image: await qrImage(pixCode), tracking_code: paid ? rows[0].tracking_code : null });
   } catch (error) {
     // 42P01 = a tabela de pedidos ainda não existe (é criada na primeira compra).
     if (error.code === '42P01') return res.status(404).json({ error: 'Pedido não encontrado' });

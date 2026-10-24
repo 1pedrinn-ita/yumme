@@ -78,17 +78,23 @@ form.addEventListener('submit', async (event) => {
     });
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || 'Não foi possível gerar o pagamento PIX.');
-    const trackingCode = result.tracking_code || result.tracking?.code || '';
-    if (trackingCode) {
-      sessionStorage.setItem('yumme_private_tracking_code', trackingCode);
-      window.__YUMME_PRIVATE_TRACKING__ = trackingCode;
-      console.info('[YUMME] Código único de rastreio interno:', trackingCode);
-    }
-
     const resultBox = document.createElement('div');
     resultBox.className = 'transparent-checkout__result';
-    const postSale = trackingCode ? `<a href="../rastreio/?code=${encodeURIComponent(trackingCode)}" class="checkout-postsale" style="display:inline-block;margin-top:12px;">Abrir área de pós-venda</a>` : '';
+    // O código de rastreio só chega depois do pagamento; antes disso o pós-venda abre pelo número do pedido.
+    const postSaleLink = (current) => {
+      if (current.tracking_code && current.status === 'paid') {
+        sessionStorage.setItem('yumme_private_tracking_code', current.tracking_code);
+        return `../rastreio/?code=${encodeURIComponent(current.tracking_code)}`;
+      }
+      if (!result.reference) return '';
+      const link = new URLSearchParams(params);
+      link.set('oferta', offer.id);
+      link.set('pedido', result.reference);
+      return `../rastreio/?${link}`;
+    };
     const showPayment = (current) => {
+      const href = postSaleLink(current);
+      const postSale = href ? `<a href="${href}" class="checkout-postsale" style="display:inline-block;margin-top:12px;">Abrir área de pós-venda</a>` : '';
       const pixCode = current.pix_code || '';
       const status = current.status || 'pending';
       const waiting = status === 'pending';

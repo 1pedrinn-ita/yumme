@@ -544,6 +544,13 @@
     }
   }
 
+  // Código de rastreio mascarado: os 2 primeiros caracteres reais e o resto aleatório e desfocado.
+  function maskedCode(preview) {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
+    const filler = '-######-########-##########'.replace(/#/g, () => chars[Math.floor(Math.random() * chars.length)]);
+    return `<span class="tracking-masked">${esc(preview)}<span class="tracking-masked__hidden" aria-hidden="true">${filler}</span><span class="sr-only">(liberado após o pagamento)</span></span><small class="tracking-masked__note">Liberado após a confirmação do pagamento.</small>`;
+  }
+
   function openCheckout() {
     if (document.querySelector('.transparent-checkout')) return;
     const overlay = document.createElement('div');
@@ -651,9 +658,18 @@
           const response = await fetch(CONFIG.form.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ offer: { id: state.offer.id, label: state.offer.label, price: state.offer.price, qty: state.offer.qty, image: state.offer.image }, customer: { name: data.name, email: data.email, phone: data.phone, document: data.document }, address: { zipcode: data.zipcode, street: data.street, number: data.number, complement: data.complement, neighborhood: data.neighborhood, city: data.city, state: data.state }, tracking: Object.fromEntries(params()), payment_method: 'pix' }) });
           payload = await response.json(); if (!response.ok) throw new Error(payload.error || 'Não foi possível gerar o pagamento PIX.');
         }
-        const trackingCode = payload.tracking_code || payload.tracking?.code || '';
         const demoNotice = localDemo ? '<p role="note"><strong>SIMULAÇÃO LOCAL — PIX fictício, não pagável. Nenhuma cobrança foi criada.</strong></p>' : '';
-        const trackingLink = trackingCode ? `<p><strong>Código ${localDemo ? 'fictício ' : ''}de rastreio:</strong> ${esc(trackingCode)}</p><a href="../rastreio/?code=${encodeURIComponent(trackingCode)}">Abrir ${localDemo ? 'pós-venda simulado' : 'pós-venda'}</a>` : '';
+        // Antes do pagamento só os 2 primeiros caracteres do código aparecem; o código real chega com a aprovação.
+        const trackingBlock = (current) => {
+          const code = current.tracking_code || '';
+          if (code && current.status === 'paid') return `<p><strong>Código de rastreio:</strong> ${esc(code)}</p><a href="../rastreio/?code=${encodeURIComponent(code)}">Abrir pós-venda</a>`;
+          const preview = payload.tracking_preview || (payload.tracking_code || '').slice(0, 2);
+          if (!preview) return '';
+          const postSale = new URLSearchParams(params());
+          postSale.set('oferta', state.offer.id);
+          if (localDemo) postSale.set('code', payload.tracking_code); else postSale.set('pedido', payload.reference);
+          return `<p><strong>Código ${localDemo ? 'fictício ' : ''}de rastreio:</strong> ${maskedCode(preview)}</p><a href="../rastreio/?${postSale}">Abrir ${localDemo ? 'pós-venda simulado' : 'pós-venda'}</a>`;
+        };
         const showPayment = (current) => {
           const pixCode = current.pix_code || '';
           const status = current.status || 'pending';
@@ -663,7 +679,7 @@
             : !waiting ? 'Feche esta janela e gere um novo pagamento.'
             : localDemo ? 'Este código serve apenas para visualizar a etapa de pagamento.'
             : pixCode ? 'Escaneie o QR Code ou copie o código abaixo para concluir.' : 'Estamos gerando seu código PIX. Aguarde alguns segundos nesta tela.';
-          resultBox.hidden = false; resultBox.innerHTML = `${demoNotice}<strong>${title}</strong><p>${lead}</p>${waiting && current.qr_code_image ? `<img src="${esc(current.qr_code_image)}" alt="QR Code PIX">` : ''}${waiting && pixCode ? `<textarea readonly aria-label="Código PIX">${esc(pixCode)}</textarea><button type="button" class="checkout-copy" data-copy-pix>Copiar código PIX</button>` : ''}${trackingLink}`;
+          resultBox.hidden = false; resultBox.innerHTML = `${demoNotice}<strong>${title}</strong><p>${lead}</p>${waiting && current.qr_code_image ? `<img src="${esc(current.qr_code_image)}" alt="QR Code PIX">` : ''}${waiting && pixCode ? `<textarea readonly aria-label="Código PIX">${esc(pixCode)}</textarea><button type="button" class="checkout-copy" data-copy-pix>Copiar código PIX</button>` : ''}${trackingBlock(current)}`;
           resultBox.querySelector('[data-copy-pix]')?.addEventListener('click', async (copyEvent) => { await navigator.clipboard.writeText(pixCode); copyEvent.currentTarget.textContent = 'Código copiado'; });
         };
         showPayment(payload);

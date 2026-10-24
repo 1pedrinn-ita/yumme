@@ -114,7 +114,8 @@ module.exports = async function handler(req, res) {
 
     return res.status(200).json({
       reference,
-      tracking_code: trackingCode,
+      // O código completo só é entregue pelo /api/pix-status depois do pagamento.
+      tracking_preview: trackingCode.slice(0, 2),
       status: 'pending',
       pix_status: pixCode ? 'ready' : 'generating',
       pix_code: pixCode,
