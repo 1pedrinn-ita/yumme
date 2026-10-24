@@ -29,9 +29,12 @@ async function watchPayment(initial, onChange) {
 }
 const digits = (value) => value.replace(/\D/g, '');
 
-form.zipcode.addEventListener('blur', async () => {
+// Busca o endereço assim que o CEP tem 8 dígitos; só leva o cursor ao Número se o cliente ainda estiver no CEP.
+let lastCep = '';
+const lookupCep = async () => {
   const cep = digits(form.zipcode.value);
-  if (cep.length !== 8) return;
+  if (cep.length !== 8 || cep === lastCep) return;
+  lastCep = cep;
   try {
     const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
     const data = await response.json();
@@ -40,8 +43,19 @@ form.zipcode.addEventListener('blur', async () => {
     form.neighborhood.value = data.bairro || '';
     form.city.value = data.localidade || '';
     form.state.value = data.uf || '';
-    form.number.focus();
-  } catch (_) { /* O usuário ainda pode preencher o endereço manualmente. */ }
+    if (document.activeElement === form.zipcode) form.number.focus();
+  } catch (_) { lastCep = ''; /* O usuário ainda pode preencher o endereço manualmente. */ }
+};
+form.zipcode.addEventListener('input', lookupCep);
+form.zipcode.addEventListener('blur', lookupCep);
+
+// Enter/"Ir" do teclado passa para o próximo campo em vez de enviar o formulário incompleto.
+// Ignora os campos ocultos utm_* que o script da UTMify injeta no formulário.
+form.addEventListener('keydown', (event) => {
+  if (event.key !== 'Enter' || event.target.tagName !== 'INPUT') return;
+  const inputs = [...form.querySelectorAll('input:not([type="hidden"])')];
+  const next = inputs[inputs.indexOf(event.target) + 1];
+  if (next) { event.preventDefault(); next.focus(); }
 });
 
 form.addEventListener('submit', async (event) => {

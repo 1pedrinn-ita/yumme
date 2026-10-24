@@ -559,20 +559,20 @@
             <p class="checkout-lead">Complete a compra sem sair desta página.</p>
             <form id="transparent-checkout-form" novalidate>
               <div class="checkout-fields">
-                <label>Nome completo<input name="name" autocomplete="name" placeholder="Seu nome completo" required></label>
-                <label>E-mail<input name="email" type="email" autocomplete="email" placeholder="voce@email.com" required></label>
-                <label>CPF<input name="document" inputmode="numeric" placeholder="000.000.000-00" required></label>
-                <label>Celular<input name="phone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required></label>
+                <label>Nome completo<input name="name" enterkeyhint="next" autocomplete="name" placeholder="Seu nome completo" required></label>
+                <label>E-mail<input name="email" enterkeyhint="next" type="email" autocomplete="email" placeholder="voce@email.com" required></label>
+                <label>CPF<input name="document" enterkeyhint="next" inputmode="numeric" placeholder="000.000.000-00" required></label>
+                <label>Celular<input name="phone" enterkeyhint="next" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required></label>
               </div>
               <div class="checkout-divider"></div>
               <div class="checkout-step"><span>2</span> Entrega</div>
               <div class="checkout-fields checkout-fields--address">
-                <label class="checkout-field-wide">CEP<input name="zipcode" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" required></label>
-                <label>Rua<input name="street" autocomplete="street-address" placeholder="Nome da rua" required></label>
-                <label>Número<input name="number" placeholder="123" required></label>
-                <label>Complemento <small>(opcional)</small><input name="complement" placeholder="Apto, bloco..."></label>
-                <label>Bairro<input name="neighborhood" required></label>
-                <label>Cidade<input name="city" autocomplete="address-level2" required></label>
+                <label class="checkout-field-wide">CEP<input name="zipcode" enterkeyhint="next" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" required></label>
+                <label>Rua<input name="street" enterkeyhint="next" autocomplete="street-address" placeholder="Nome da rua" required></label>
+                <label>Número<input name="number" enterkeyhint="next" placeholder="123" required></label>
+                <label>Complemento <small>(opcional)</small><input name="complement" enterkeyhint="next" placeholder="Apto, bloco..."></label>
+                <label>Bairro<input name="neighborhood" enterkeyhint="next" required></label>
+                <label>Cidade<input name="city" enterkeyhint="next" autocomplete="address-level2" required></label>
                 <label>Estado<input name="state" maxlength="2" placeholder="UF" required></label>
               </div>
               <div class="checkout-divider"></div>
@@ -587,17 +587,54 @@
         </div>
       </section>`;
     document.body.appendChild(overlay);
+    // Trava o fundo na posição atual (ver body.checkout-open no checkout.css) e volta para ela ao fechar.
+    const pageScroll = window.scrollY;
+    document.body.style.top = `-${pageScroll}px`;
     document.body.classList.add('checkout-open');
     const form = overlay.querySelector('form');
     const error = overlay.querySelector('#transparent-checkout-error');
     const resultBox = overlay.querySelector('#transparent-checkout-result');
-    const digits = (value) => value.replace(/\\D/g, '');
-    overlay.querySelector('[name="zipcode"]').addEventListener('blur', async (event) => {
-      const cep = digits(event.target.value);
-      if (cep.length !== 8) return;
-      try { const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`); const data = await response.json(); if (!data.erro) { form.street.value = data.logradouro || ''; form.neighborhood.value = data.bairro || ''; form.city.value = data.localidade || ''; form.state.value = data.uf || ''; form.number.focus(); } } catch (_) {}
+    const digits = (value) => value.replace(/\D/g, '');
+    // Busca o endereço assim que o CEP tem 8 dígitos; só leva o cursor ao Número se o cliente ainda estiver no CEP.
+    let lastCep = '';
+    const lookupCep = async () => {
+      const cep = digits(form.zipcode.value);
+      if (cep.length !== 8 || cep === lastCep) return;
+      lastCep = cep;
+      try { const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`); const data = await response.json(); if (!data.erro) { form.street.value = data.logradouro || ''; form.neighborhood.value = data.bairro || ''; form.city.value = data.localidade || ''; form.state.value = data.uf || ''; if (document.activeElement === form.zipcode) form.number.focus(); } } catch (_) { lastCep = ''; }
+    };
+    form.zipcode.addEventListener('input', lookupCep);
+    form.zipcode.addEventListener('blur', lookupCep);
+    // Enter/"Ir" do teclado passa para o próximo campo em vez de enviar o formulário incompleto.
+    // Ignora os campos ocultos utm_* que o script da UTMify injeta no formulário.
+    form.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' || event.target.tagName !== 'INPUT') return;
+      const inputs = [...form.querySelectorAll('input:not([type="hidden"])')];
+      const next = inputs[inputs.indexOf(event.target) + 1];
+      if (next) { event.preventDefault(); next.focus(); }
     });
-    overlay.addEventListener('click', (event) => { if (event.target.closest('[data-checkout-close]')) { overlay.remove(); document.body.classList.remove('checkout-open'); } });
+    // O pixel da UTMify procura campos novos a cada 2 s e grava em nome/e-mail/telefone o último lead salvo
+    // (ou " " no nome), por cima do que o cliente já digitou. Nos primeiros segundos, escritas feitas por
+    // script nesses campos são ignoradas depois que o cliente digita; digitação e autopreenchimento não passam por aqui.
+    const typed = new WeakSet();
+    const nativeValue = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+    const leadFields = form.querySelectorAll('[name="name"], [name="email"], [name="phone"]');
+    leadFields.forEach((input) => {
+      input.addEventListener('input', (event) => { if (event.isTrusted) typed.add(input); });
+      Object.defineProperty(input, 'value', {
+        configurable: true,
+        get() { return nativeValue.get.call(this); },
+        set(value) { if (!typed.has(this)) nativeValue.set.call(this, String(value).trim() ? value : ''); },
+      });
+    });
+    setTimeout(() => leadFields.forEach((input) => { delete input.value; }), 8000);
+    overlay.addEventListener('click', (event) => {
+      if (!event.target.closest('[data-checkout-close]')) return;
+      overlay.remove();
+      document.body.classList.remove('checkout-open');
+      document.body.style.top = '';
+      window.scrollTo({ top: pageScroll, behavior: 'instant' });
+    });
     form.addEventListener('submit', async (event) => {
       event.preventDefault(); error.hidden = true;
       if (!form.checkValidity()) { form.reportValidity(); return; }

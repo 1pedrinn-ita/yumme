@@ -14,10 +14,19 @@
 .transparent-checkout .checkout-step { margin-bottom: 14px; }
 /* "(opcional)" deixa o rótulo do complemento mais alto: alinha os campos da linha pela base. */
 .transparent-checkout .checkout-fields--address { align-items: end; }
+/* Remove o zoom por toque duplo nos campos; o zoom com dois dedos continua liberado. */
+.transparent-checkout,
+.checkout-page { touch-action: manipulation; }
+/* Trava a página de fundo enquanto o checkout está aberto: no iPhone, o teclado rolava o fundo e o modal pulava.
+   O produto.js guarda a posição em `top` e a restaura ao fechar. */
+body.checkout-open { position: fixed; left: 0; right: 0; width: 100%; }
 
 @media (max-width:760px){
   .transparent-checkout { padding: 0; align-items: stretch; }
-  .transparent-checkout__panel { width: 100%; height: 100dvh; max-height: none; border-radius: 0; overflow-y: auto; }
+  .transparent-checkout__panel { width: 100%; height: 100vh; height: 100dvh; max-height: none; border-radius: 0; overflow-y: auto; overscroll-behavior: contain; scroll-padding: 24px 0 32px; }
+  /* O Safari do iPhone amplia a tela ao focar campos com fonte menor que 16px. */
+  .transparent-checkout input,
+  .transparent-checkout__result textarea { font-size: 16px; }
   .transparent-checkout__grid { display: flex; flex-direction: column; gap: 18px; width: 100%; box-sizing: border-box; padding: 72px 18px 32px; }
   .transparent-checkout__form { order: 2; width: 100%; min-width: 0; }
   .transparent-checkout .order-card { order: 1; position: static; width: 100%; min-width: 0; box-sizing: border-box; margin: 0; }
@@ -65,7 +74,7 @@
   .checkout-fields,
   .checkout-fields--address { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .checkout-fields label { display: flex; flex-direction: column; gap: 7px; width: 100%; line-height: 1.25; white-space: normal; word-break: normal; }
-  .checkout-fields input { width: 100%; box-sizing: border-box; }
+  .checkout-fields input { width: 100%; box-sizing: border-box; font-size: 16px; }
   .payment-choice { display: flex; align-items: center; gap: 12px; width: 100%; box-sizing: border-box; }
   .payment-choice p { white-space: normal; word-break: normal; }
   .order-product { grid-template-columns: 64px minmax(0, 1fr) auto; align-items: center; gap: 12px; }

@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
   <meta name="theme-color" content="#f7f8fb">
   <title>Finalizar compra | Yumme Kids</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,20 +27,20 @@
       <p class="checkout-lead">Preencha seus dados para gerar o pagamento via PIX.</p>
       <form id="checkout-form" novalidate>
         <div class="checkout-fields">
-          <label>Nome completo<input name="name" autocomplete="name" placeholder="Seu nome completo" required></label>
-          <label>E-mail<input name="email" type="email" autocomplete="email" placeholder="voce@email.com" required></label>
-          <label>CPF<input name="document" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" required></label>
-          <label>Celular<input name="phone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required></label>
+          <label>Nome completo<input name="name" enterkeyhint="next" autocomplete="name" placeholder="Seu nome completo" required></label>
+          <label>E-mail<input name="email" enterkeyhint="next" type="email" autocomplete="email" placeholder="voce@email.com" required></label>
+          <label>CPF<input name="document" enterkeyhint="next" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" required></label>
+          <label>Celular<input name="phone" enterkeyhint="next" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required></label>
         </div>
         <div class="checkout-divider"></div>
         <div class="checkout-step"><span>2</span> Endereço de entrega</div>
         <div class="checkout-fields checkout-fields--address">
-          <label class="checkout-field-wide">CEP<input name="zipcode" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" required></label>
-          <label>Rua<input name="street" autocomplete="street-address" placeholder="Nome da rua" required></label>
-          <label>Número<input name="number" placeholder="123" required></label>
-          <label>Complemento <small>(opcional)</small><input name="complement" placeholder="Apto, bloco..."></label>
-          <label>Bairro<input name="neighborhood" required></label>
-          <label>Cidade<input name="city" autocomplete="address-level2" required></label>
+          <label class="checkout-field-wide">CEP<input name="zipcode" enterkeyhint="next" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" required></label>
+          <label>Rua<input name="street" enterkeyhint="next" autocomplete="street-address" placeholder="Nome da rua" required></label>
+          <label>Número<input name="number" enterkeyhint="next" placeholder="123" required></label>
+          <label>Complemento <small>(opcional)</small><input name="complement" enterkeyhint="next" placeholder="Apto, bloco..."></label>
+          <label>Bairro<input name="neighborhood" enterkeyhint="next" required></label>
+          <label>Cidade<input name="city" enterkeyhint="next" autocomplete="address-level2" required></label>
           <label>Estado<input name="state" maxlength="2" placeholder="UF" required></label>
         </div>
         <div class="checkout-divider"></div>
