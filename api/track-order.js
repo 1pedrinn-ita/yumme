@@ -25,6 +25,8 @@ module.exports = async function handler(req, res) {
       updatedAt: order.updated_at,
     });
   } catch (error) {
+    // 42P01 = a tabela de pedidos ainda não existe (é criada na primeira compra).
+    if (error.code === '42P01') return res.status(404).json({ error: 'Código de rastreio não encontrado' });
     console.error('[v0] tracking lookup error', error);
     return res.status(500).json({ error: 'Não foi possível consultar o rastreio' });
   }

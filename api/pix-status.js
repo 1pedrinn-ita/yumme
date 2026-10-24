@@ -31,6 +31,8 @@ module.exports = async function handler(req, res) {
 
     return res.status(200).json({ status, pix_code: pixCode, qr_code_image: await qrImage(pixCode) });
   } catch (error) {
+    // 42P01 = a tabela de pedidos ainda não existe (é criada na primeira compra).
+    if (error.code === '42P01') return res.status(404).json({ error: 'Pedido não encontrado' });
     console.error('[pagpix] pix status error', error);
     return res.status(500).json({ error: 'Não foi possível consultar o pagamento' });
   }
