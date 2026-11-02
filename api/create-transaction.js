@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const { neon } = require('@neondatabase/serverless');
 const { pagpix, qrImage } = require('./_pagpix');
+const { toCents, findOffer, findShipping, etaText } = require('./_catalog');
 
 const sql = neon(process.env.DATABASE_URL);
 const UTM_KEYS = ['source', 'medium', 'campaign', 'content', 'term'];
@@ -35,12 +36,21 @@ module.exports = async function handler(req, res) {
 
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body || {};
-    const offer = body.offer || {};
     const customer = body.customer || {};
     const address = body.address || {};
-    const amount = Math.round(Number(offer.price) * 100);
+    // Kit e frete são buscados no catálogo pelo id; o preço enviado pelo navegador é ignorado.
+    const catalogOffer = findOffer(body.offer?.id);
+    const shippingOption = findShipping(body.shipping);
+    if (!catalogOffer || !shippingOption) return res.status(400).json({ error: 'Oferta ou entrega inválida' });
+    const shippingCents = toCents(shippingOption.price);
+    const amount = toCents(catalogOffer.price) + shippingCents;
     // A PagPix só aceita cobranças a partir de R$ 5,00.
     if (!Number.isInteger(amount) || amount < 500) return res.status(400).json({ error: 'Valor inválido' });
+    const orderBump = body.order_bump === true;
+    const offer = {
+      id: catalogOffer.id, label: catalogOffer.label, detail: catalogOffer.detail, qty: catalogOffer.qty, price: catalogOffer.price,
+      order_bump: orderBump, bump_from: orderBump ? clean(String(body.bump_from || ''), 20) : null,
+    };
 
     const reference = `YUMME-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
     const buyer = {
@@ -64,10 +74,10 @@ module.exports = async function handler(req, res) {
       body: {
         amount_cents: amount,
         method: 'pix',
-        description: clean(offer.label || 'Yumme Kids', 300),
+        description: clean(`${offer.label} + ${shippingOption.label}`, 300),
         external_reference: reference,
         customer: { name: buyer.name, email: buyer.email, cpf: buyer.document, phone: buyer.phone },
-        metadata: { offer_id: clean(String(offer.id || ''), 20), qty: String(Number(offer.qty) || 1) },
+        metadata: { offer_id: offer.id, qty: String(offer.qty), shipping: shippingOption.id, order_bump: orderBump ? 'sim' : 'nao' },
         utm: campaignParams(tracking),
       },
     });
@@ -99,7 +109,11 @@ module.exports = async function handler(req, res) {
     let trackingCode;
     for (let attempt = 1; ; attempt += 1) {
       trackingCode = generateTrackingCode(address.zipcode);
-      const trackingData = { ...tracking, code: trackingCode, estimate: '5 a 12 dias úteis', house_number: shippingAddress.number };
+      const trackingData = {
+        ...tracking, code: trackingCode, estimate: etaText(shippingOption), house_number: shippingAddress.number,
+        // Frete escolhido: define o prazo e o valor mostrados no pós-venda.
+        shipping: { id: shippingOption.id, label: shippingOption.label, price_cents: shippingCents, eta_min: shippingOption.etaMinDays, eta_max: shippingOption.etaMaxDays },
+      };
       try {
         // offer_id e transaction_id vêm do formato original da tabela (criada pelo v0); offer_id é obrigatória.
         await sql`INSERT INTO orders (reference, gateway_transaction_id, transaction_id, status, amount, offer_id, offer, customer, address, tracking, pix_code, tracking_code)
@@ -116,6 +130,8 @@ module.exports = async function handler(req, res) {
       reference,
       // O código completo só é entregue pelo /api/pix-status depois do pagamento.
       tracking_preview: trackingCode.slice(0, 2),
+      amount_cents: amount,
+      shipping: { id: shippingOption.id, label: shippingOption.label, eta: etaText(shippingOption) },
       status: 'pending',
       pix_status: pixCode ? 'ready' : 'generating',
       pix_code: pixCode,

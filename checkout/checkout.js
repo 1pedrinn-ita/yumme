@@ -1,14 +1,29 @@
+const CONFIG = window.SHOP_CONFIG;
 const params = new URLSearchParams(location.search);
 const offerId = params.get('oferta') || CONFIG.defaultOffer;
 const offer = CONFIG.offers.find((item) => item.id === offerId) || CONFIG.offers[0];
 const money = (value) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+const shipPrice = (option) => (option.price ? money(option.price) : 'Grátis');
 const form = document.querySelector('#checkout-form');
 const error = document.querySelector('#checkout-error');
 const summary = document.querySelector('#order-summary');
+const shippingOptions = CONFIG.shipping.options;
+let shippingChoice = shippingOptions.find((option) => option.id === CONFIG.shipping.defaultOption) || shippingOptions[0];
 
-document.querySelector('#order-subtotal').textContent = money(offer.price);
-document.querySelector('#order-total').textContent = money(offer.price);
 summary.innerHTML = `<div class="order-product"><img src="${offer.image}" alt="${offer.label}"><div><strong>${offer.label}</strong><span>${offer.detail}</span></div><b>${money(offer.price)}</b></div>`;
+document.querySelector('#shipping-options').innerHTML = shippingOptions.map((option) => `<label class="shipping-option"><input type="radio" name="shipping" value="${option.id}"${option.id === shippingChoice.id ? ' checked' : ''}><span class="shipping-option__text"><strong>${option.label}</strong><small>${option.etaMinDays} a ${option.etaMaxDays} dias úteis</small></span><b>${shipPrice(option)}</b></label>`).join('');
+const updateTotals = () => {
+  document.querySelector('#order-subtotal').textContent = money(offer.price);
+  document.querySelector('#order-shipping-label').textContent = shippingChoice.label;
+  document.querySelector('#order-shipping').textContent = shipPrice(shippingChoice);
+  document.querySelector('#order-total').textContent = money(offer.price + shippingChoice.price);
+};
+updateTotals();
+form.addEventListener('change', (event) => {
+  if (event.target.name !== 'shipping') return;
+  shippingChoice = shippingOptions.find((option) => option.id === event.target.value) || shippingChoice;
+  updateTotals();
+});
 
 const setError = (message = '') => { error.textContent = message; error.hidden = !message; };
 
@@ -50,11 +65,12 @@ form.zipcode.addEventListener('input', lookupCep);
 form.zipcode.addEventListener('blur', lookupCep);
 
 // Enter/"Ir" do teclado passa para o próximo campo em vez de enviar o formulário incompleto.
-// Ignora os campos ocultos utm_* que o script da UTMify injeta no formulário.
+// Só campos de texto: ignora os ocultos utm_* da UTMify e as opções de entrega.
 form.addEventListener('keydown', (event) => {
   if (event.key !== 'Enter' || event.target.tagName !== 'INPUT') return;
-  const inputs = [...form.querySelectorAll('input:not([type="hidden"])')];
-  const next = inputs[inputs.indexOf(event.target) + 1];
+  const inputs = [...form.querySelectorAll('input:not([type="hidden"]):not([type="radio"]):not([type="checkbox"])')];
+  const index = inputs.indexOf(event.target);
+  const next = index === -1 ? null : inputs[index + 1];
   if (next) { event.preventDefault(); next.focus(); }
 });
 
@@ -70,7 +86,8 @@ form.addEventListener('submit', async (event) => {
     const response = await fetch(CONFIG.form.endpoint, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        offer: { id: offer.id, label: offer.label, price: offer.price, qty: offer.qty },
+        offer: { id: offer.id, label: offer.label, qty: offer.qty },
+        shipping: shippingChoice.id,
         customer: { name: data.name, email: data.email, phone: data.phone, document: data.document },
         address: { zipcode: data.zipcode, street: data.street, number: data.number, complement: data.complement, neighborhood: data.neighborhood, city: data.city, state: data.state },
         tracking: Object.fromEntries(params), payment_method: 'pix'
@@ -99,7 +116,7 @@ form.addEventListener('submit', async (event) => {
       const status = current.status || 'pending';
       const waiting = status === 'pending';
       const title = status === 'paid' ? 'Pagamento aprovado!' : waiting ? 'PIX gerado com sucesso' : 'Este PIX não está mais disponível';
-      const lead = status === 'paid' ? 'Recebemos seu pagamento. Seu pedido já está sendo preparado.'
+      const lead = status === 'paid' ? `Recebemos seu pagamento. Seu pedido já está sendo preparado — ${shippingChoice.label.toLowerCase()}: ${shippingChoice.etaMinDays} a ${shippingChoice.etaMaxDays} dias úteis.`
         : !waiting ? 'Recarregue a página e gere um novo pagamento.'
         : pixCode ? 'Escaneie o QR Code ou copie o PIX Copia e Cola. Você não precisa sair desta página.' : 'Estamos gerando seu código PIX. Aguarde alguns segundos nesta tela.';
       resultBox.innerHTML = `<strong>${title}</strong><p>${lead}</p>${waiting && current.qr_code_image ? `<img src="${current.qr_code_image}" alt="QR Code do pagamento PIX">` : ''}${waiting && pixCode ? `<textarea readonly aria-label="PIX Copia e Cola">${pixCode}</textarea><button type="button" class="checkout-copy" data-copy-pix>Copiar PIX Copia e Cola</button>` : ''}${postSale}`;

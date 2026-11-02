@@ -3,8 +3,12 @@
  * Fonte única de dados das páginas /produto e /avaliar.
  * Todos os valores abaixo são PLACEHOLDERS — substitua pelos dados reais.
  * Imagens: preencha `src` com o caminho do arquivo; vazio = placeholder visual.
+ * O servidor (api/_catalog.js) lê este mesmo arquivo para calcular o valor cobrado: preços e fretes ficam só aqui.
  */
-window.SHOP_CONFIG = {
+(function (config) {
+  if (typeof window !== 'undefined') window.SHOP_CONFIG = config;
+  if (typeof module !== 'undefined' && module.exports) module.exports = config;
+})({
   locale: 'pt-BR',
   currency: 'BRL',
 
@@ -63,12 +67,17 @@ window.SHOP_CONFIG = {
     minutes: 15, // janela renovada por sessão
   },
 
+  /**
+   * Opções de entrega do checkout. O preço é somado ao total do pedido (0 = grátis) e o prazo aparece no pós-venda.
+   * `defaultOption` é a opção já marcada quando o checkout abre.
+   */
   shipping: {
-    free: true,
-    price: 0,
-    etaMinDays: 5,
-    etaMaxDays: 12,
     carrier: 'Transportadora',
+    defaultOption: 'padrao',
+    options: [
+      { id: 'padrao', label: 'Entrega padrão', price: 0, etaMinDays: 5, etaMaxDays: 12 },
+      { id: 'expressa', label: 'Entrega expressa', price: 9.9, etaMinDays: 3, etaMaxDays: 5 },
+    ],
   },
 
   guarantees: [
@@ -148,4 +157,4 @@ window.SHOP_CONFIG = {
     successRedirect: '',   // opcional: URL para redirecionar após sucesso
     cepLookup: true,       // preenche endereço automaticamente via ViaCEP
   },
-};
+});

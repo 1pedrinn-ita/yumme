@@ -5,10 +5,11 @@
 (function () {
   'use strict';
 
-  const { CONFIG, $, $$, esc, money, compact, discount, deliveryWindow, params, getOffer, checkoutUrl,
+  const { CONFIG, $, $$, esc, money, compact, discount, deliveryWindow, params, getOffer, getShipping, checkoutUrl,
     store, icon, stars, media, hydrateMedia, footer, toast, sheet, reveal, navigate, goBack, setLoading } = window.Shop;
 
   const { product, shipping } = CONFIG;
+  const shipPrice = (option) => (option.price ? money(option.price) : 'Grátis');
 
   const state = {
     offer: getOffer(params().get('oferta')),
@@ -234,8 +235,10 @@
 
   /* ---------- Frete e garantia ---------- */
   function renderShipping() {
-    const eta = deliveryWindow();
-    const shipLabel = shipping.free ? 'Frete grátis' : `Frete ${money(shipping.price)}`;
+    const cheapest = shipping.options.reduce((a, b) => (b.price < a.price ? b : a));
+    const fastest = shipping.options.reduce((a, b) => (b.etaMaxDays < a.etaMaxDays ? b : a));
+    const eta = deliveryWindow(fastest);
+    const shipLabel = cheapest.price ? `Entrega a partir de ${money(cheapest.price)}` : 'Frete grátis';
 
     const el = mount('shipping', `
       <ul class="info-rows">
@@ -243,8 +246,8 @@
           <button class="info-row info-row--ship" type="button" data-sheet="shipping">
             ${icon('truck')}
             <span>
-              <span class="info-row__title">${esc(shipLabel)} ${shipping.free ? '<span class="chip chip--ship">Grátis</span>' : ''}</span>
-              <span class="info-row__text">Receba entre <strong>${esc(eta.from)}</strong> e <strong>${esc(eta.to)}</strong></span>
+              <span class="info-row__title">${esc(shipLabel)}</span>
+              <span class="info-row__text">${esc(fastest.label)} (${esc(shipPrice(fastest))}): receba entre <strong>${esc(eta.from)}</strong> e <strong>${esc(eta.to)}</strong></span>
             </span>
             ${icon('right')}
           </button>
@@ -270,9 +273,11 @@
       shipping: () => sheet({
         title: 'Frete e entrega',
         body: featureList([
-          { icon: 'truck', title: shipLabel, text: `Enviado por ${shipping.carrier}.` },
-          { icon: 'clock', title: 'Prazo estimado', text: `Entre ${eta.from} e ${eta.to} (${shipping.etaMinDays} a ${shipping.etaMaxDays} dias úteis).` },
-          { icon: 'package', title: 'Rastreamento', text: 'Código de rastreio enviado após a postagem.' },
+          ...shipping.options.map((option) => {
+            const range = deliveryWindow(option);
+            return { icon: 'truck', title: `${option.label} · ${shipPrice(option)}`, text: `Entre ${range.from} e ${range.to} (${option.etaMinDays} a ${option.etaMaxDays} dias úteis). Enviado por ${shipping.carrier}.` };
+          }),
+          { icon: 'package', title: 'Rastreamento', text: 'Código de rastreio liberado assim que o pagamento é confirmado.' },
         ]),
       }),
       guarantees: () => sheet({ title: 'Garantia e proteção', body: featureList(CONFIG.guarantees) }),
@@ -553,6 +558,13 @@
 
   function openCheckout() {
     if (document.querySelector('.transparent-checkout')) return;
+    // Order bump: oferece o próximo kit maior pela diferença de preço (1 → 3 potes, 3 → 5 potes).
+    const baseOffer = state.offer;
+    const upgrade = CONFIG.offers.filter((o) => o.qty > baseOffer.qty).sort((a, b) => a.qty - b.qty)[0] || null;
+    const bumpExtraQty = upgrade ? upgrade.qty - baseOffer.qty : 0;
+    const bumpPrice = upgrade ? upgrade.price - baseOffer.price : 0;
+    let shippingChoice = getShipping(CONFIG.shipping.defaultOption);
+    const summaryHtml = (offer, ship) => `<p class="order-kicker">Resumo do pedido</p><div class="order-product"><img src="${esc(offer.image)}" alt="${esc(offer.label)}"><div><strong>${esc(offer.label)}</strong><span>${esc(offer.detail)}</span></div><b>${money(offer.price)}</b></div><div class="order-line"><span>Subtotal</span><strong>${money(offer.price)}</strong></div><div class="order-line"><span>${esc(ship.label)}</span><strong>${shipPrice(ship)}</strong></div><div class="order-total"><span>Total</span><strong>${money(offer.price + ship.price)}</strong></div>`;
     const overlay = document.createElement('div');
     overlay.className = 'transparent-checkout';
     overlay.innerHTML = `
@@ -582,15 +594,20 @@
                 <label>Cidade<input name="city" enterkeyhint="next" autocomplete="address-level2" required></label>
                 <label>Estado<input name="state" maxlength="2" placeholder="UF" required></label>
               </div>
+              <div class="shipping-options" role="radiogroup" aria-label="Opções de entrega">
+                ${CONFIG.shipping.options.map((option) => { const range = deliveryWindow(option); return `<label class="shipping-option"><input type="radio" name="shipping" value="${esc(option.id)}"${option.id === shippingChoice.id ? ' checked' : ''}><span class="shipping-option__text"><strong>${esc(option.label)}</strong><small>${option.etaMinDays} a ${option.etaMaxDays} dias úteis · chega entre ${esc(range.from)} e ${esc(range.to)}</small></span><b>${shipPrice(option)}</b></label>`; }).join('')}
+              </div>
               <div class="checkout-divider"></div>
               <div class="checkout-step"><span>3</span> Pagamento</div>
               <div class="payment-choice" aria-label="Pagamento via PIX"><div class="pix-mark">◆</div><div><strong>PIX</strong><p>Pagamento instantâneo e seguro</p></div><span class="payment-check">✓</span></div>
+              ${upgrade ? `<label class="order-bump"><input type="checkbox" name="bump"><span class="order-bump__text"><strong>Sim! Quero +${bumpExtraQty} potes por mais ${money(bumpPrice)}</strong><small>Seu pedido vira ${esc(upgrade.label)} (${esc(upgrade.detail)}). Cada pote extra sai ${money(bumpPrice / bumpExtraQty)}.</small></span></label>` : ''}
+              <div class="checkout-inline-total"><span>Total a pagar</span><strong data-inline-total>${money(baseOffer.price + shippingChoice.price)}</strong></div>
               <button class="checkout-submit" type="submit"><span>Gerar pagamento PIX</span><b aria-hidden="true">→</b></button>
               <p class="checkout-error" id="transparent-checkout-error" role="alert" hidden></p>
             </form>
             <div id="transparent-checkout-result" class="transparent-checkout__result" hidden></div>
           </div>
-          <aside class="order-card" aria-label="Resumo do pedido"><p class="order-kicker">Resumo do pedido</p><div class="order-product"><img src="${esc(state.offer.image)}" alt="${esc(state.offer.label)}"><div><strong>${esc(state.offer.label)}</strong><span>${esc(state.offer.detail)}</span></div><b>${money(state.offer.price)}</b></div><div class="order-line"><span>Subtotal</span><strong>${money(state.offer.price)}</strong></div><div class="order-line"><span>Frete</span><strong class="order-free">Grátis</strong></div><div class="order-total"><span>Total</span><strong>${money(state.offer.price)}</strong></div></aside>
+          <aside class="order-card" aria-label="Resumo do pedido" data-order-summary>${summaryHtml(baseOffer, shippingChoice)}</aside>
         </div>
       </section>`;
     document.body.appendChild(overlay);
@@ -613,12 +630,21 @@
     form.zipcode.addEventListener('input', lookupCep);
     form.zipcode.addEventListener('blur', lookupCep);
     // Enter/"Ir" do teclado passa para o próximo campo em vez de enviar o formulário incompleto.
-    // Ignora os campos ocultos utm_* que o script da UTMify injeta no formulário.
+    // Só campos de texto: ignora os ocultos utm_* da UTMify, o frete e o order bump.
     form.addEventListener('keydown', (event) => {
       if (event.key !== 'Enter' || event.target.tagName !== 'INPUT') return;
-      const inputs = [...form.querySelectorAll('input:not([type="hidden"])')];
-      const next = inputs[inputs.indexOf(event.target) + 1];
+      const inputs = [...form.querySelectorAll('input:not([type="hidden"]):not([type="radio"]):not([type="checkbox"])')];
+      const index = inputs.indexOf(event.target);
+      const next = index === -1 ? null : inputs[index + 1];
       if (next) { event.preventDefault(); next.focus(); }
+    });
+    // Frete e order bump: atualizam o resumo e o total na hora.
+    const currentOffer = () => (upgrade && form.bump?.checked ? upgrade : baseOffer);
+    form.addEventListener('change', (event) => {
+      if (event.target.name === 'shipping') shippingChoice = getShipping(event.target.value);
+      if (event.target.name !== 'shipping' && event.target.name !== 'bump') return;
+      overlay.querySelector('[data-order-summary]').innerHTML = summaryHtml(currentOffer(), shippingChoice);
+      overlay.querySelector('[data-inline-total]').textContent = money(currentOffer().price + shippingChoice.price);
     });
     // O pixel da UTMify procura campos novos a cada 2 s e grava em nome/e-mail/telefone o último lead salvo
     // (ou " " no nome), por cima do que o cliente já digitou. Nos primeiros segundos, escritas feitas por
@@ -655,7 +681,7 @@
           sessionStorage.setItem('yumme_private_tracking_code', trackingCode);
           payload = { tracking_code: trackingCode, pix_code: `DEMO-PIX-NAO-PAGAVEL-${trackingCode}` };
         } else {
-          const response = await fetch(CONFIG.form.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ offer: { id: state.offer.id, label: state.offer.label, price: state.offer.price, qty: state.offer.qty, image: state.offer.image }, customer: { name: data.name, email: data.email, phone: data.phone, document: data.document }, address: { zipcode: data.zipcode, street: data.street, number: data.number, complement: data.complement, neighborhood: data.neighborhood, city: data.city, state: data.state }, tracking: Object.fromEntries(params()), payment_method: 'pix' }) });
+          const response = await fetch(CONFIG.form.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ offer: { id: currentOffer().id, label: currentOffer().label, qty: currentOffer().qty }, shipping: shippingChoice.id, order_bump: currentOffer() !== baseOffer, bump_from: baseOffer.id, customer: { name: data.name, email: data.email, phone: data.phone, document: data.document }, address: { zipcode: data.zipcode, street: data.street, number: data.number, complement: data.complement, neighborhood: data.neighborhood, city: data.city, state: data.state }, tracking: Object.fromEntries(params()), payment_method: 'pix' }) });
           payload = await response.json(); if (!response.ok) throw new Error(payload.error || 'Não foi possível gerar o pagamento PIX.');
         }
         const demoNotice = localDemo ? '<p role="note"><strong>SIMULAÇÃO LOCAL — PIX fictício, não pagável. Nenhuma cobrança foi criada.</strong></p>' : '';
@@ -675,7 +701,7 @@
           const status = current.status || 'pending';
           const waiting = status === 'pending';
           const title = status === 'paid' ? 'Pagamento aprovado!' : waiting ? `PIX ${localDemo ? 'simulado' : 'gerado com sucesso'}` : 'Este PIX não está mais disponível';
-          const lead = status === 'paid' ? 'Recebemos seu pagamento. Seu pedido já está sendo preparado.'
+          const lead = status === 'paid' ? `Recebemos seu pagamento. Seu pedido já está sendo preparado — ${esc(shippingChoice.label.toLowerCase())}: ${shippingChoice.etaMinDays} a ${shippingChoice.etaMaxDays} dias úteis.`
             : !waiting ? 'Feche esta janela e gere um novo pagamento.'
             : localDemo ? 'Este código serve apenas para visualizar a etapa de pagamento.'
             : pixCode ? 'Escaneie o QR Code ou copie o código abaixo para concluir.' : 'Estamos gerando seu código PIX. Aguarde alguns segundos nesta tela.';

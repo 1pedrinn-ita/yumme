@@ -43,14 +43,19 @@
     return d;
   }
 
-  function deliveryWindow() {
-    const { etaMinDays, etaMaxDays } = CONFIG.shipping;
+  function deliveryWindow(option = getShipping()) {
+    const { etaMinDays, etaMaxDays } = option;
     const now = new Date();
     return { from: shortDate(addBusinessDays(now, etaMinDays)), to: shortDate(addBusinessDays(now, etaMaxDays)) };
   }
 
   /* ---------- Dados ---------- */
   const params = () => new URLSearchParams(window.location.search);
+
+  const getShipping = (id) =>
+    CONFIG.shipping.options.find((o) => o.id === id) ||
+    CONFIG.shipping.options.find((o) => o.id === CONFIG.shipping.defaultOption) ||
+    CONFIG.shipping.options[0];
 
   const getOffer = (id) =>
     CONFIG.offers.find((o) => o.id === String(id)) ||
@@ -320,7 +325,7 @@
 
   window.Shop = {
     CONFIG, $, $$, esc, money, compact, discount, longDate, deliveryWindow,
-    params, getOffer, clampQty, store, icon, stars, media, hydrateMedia, footer, field, fieldState, shake, checkoutUrl,
+    params, getOffer, getShipping, clampQty, store, icon, stars, media, hydrateMedia, footer, field, fieldState, shake, checkoutUrl,
     toast, sheet, reveal, navigate, goBack, setLoading, prefersReducedMotion,
   };
 })();

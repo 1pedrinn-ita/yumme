@@ -43,6 +43,7 @@
           <label>Cidade<input name="city" enterkeyhint="next" autocomplete="address-level2" required></label>
           <label>Estado<input name="state" maxlength="2" placeholder="UF" required></label>
         </div>
+        <div class="shipping-options" id="shipping-options" role="radiogroup" aria-label="Opções de entrega"></div>
         <div class="checkout-divider"></div>
         <div class="checkout-step"><span>3</span> Forma de pagamento</div>
         <div class="payment-choice" aria-label="Pagamento via PIX">
@@ -56,7 +57,7 @@
     <aside class="order-card" aria-label="Resumo do pedido">
       <p class="order-kicker">Resumo do pedido</p><div id="order-summary"></div>
       <div class="order-line"><span>Subtotal</span><strong id="order-subtotal">R$ 0,00</strong></div>
-      <div class="order-line"><span>Frete</span><strong class="order-free">Grátis</strong></div>
+      <div class="order-line"><span id="order-shipping-label">Frete</span><strong id="order-shipping">R$ 0,00</strong></div>
       <div class="order-total"><span>Total</span><strong id="order-total">R$ 0,00</strong></div>
       <div class="order-security"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 2.9 8.5 7 10 4.1-1.5 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg><span>Seus dados são protegidos e usados apenas para processar o pedido.</span></div>
     </aside>
