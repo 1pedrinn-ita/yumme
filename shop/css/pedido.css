@@ -36,7 +36,8 @@
 .order-page { min-height: 100vh; margin: 0; background: #f5f5f7; color: var(--ot-ink); font-family: Inter, system-ui, Arial, sans-serif; }
 .order-page * { box-sizing: border-box; }
 .order-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px max(20px, calc((100% - 960px) / 2)); background: #fff; border-bottom: 1px solid var(--ot-line); }
-.order-top__brand { color: var(--ot-pink); font-size: 18px; font-weight: 800; text-decoration: none; }
+.order-top__brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ot-pink); font-size: 18px; font-weight: 800; text-decoration: none; }
+.order-top__brand img { width: 48px; height: 48px; border: 1px solid var(--ot-line); border-radius: 14px; object-fit: cover; }
 .order-top__secure { color: var(--ot-muted); font-size: 13px; font-weight: 600; }
 .order-shell { width: min(960px, 100%); margin: 0 auto; padding: 24px 16px 56px; }
 .order-card { margin-top: 16px; padding: 24px; border: 1px solid var(--ot-line); border-radius: 20px; background: #fff; box-shadow: 0 12px 36px rgba(16, 25, 54, .06); }
