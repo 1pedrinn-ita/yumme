@@ -10,6 +10,18 @@
 
   const { product, shipping } = CONFIG;
   const shipPrice = (option) => (option.price ? money(option.price) : 'Grátis');
+  // Card de frete: transportadora ao lado (logo autorizado do config ou ícone genérico), modalidade, descrição, prazo e preço.
+  const TRUCK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6h11v10H2zM13 10h5l3 3v3h-8z"/><circle cx="6.5" cy="18" r="1.6"/><circle cx="17.5" cy="18" r="1.6"/></svg>';
+  const shippingCard = (option, checked) => {
+    const range = deliveryWindow(option);
+    const fastest = option.etaMaxDays === Math.min(...shipping.options.map((o) => o.etaMaxDays));
+    const badge = option.recommended ? 'Recomendada' : fastest && shipping.options.length > 1 ? 'Mais rápida' : '';
+    const carrier = option.carrier || shipping.carrier;
+    return `<label class="shipping-option${option.recommended ? ' is-recommended' : ''}"><input type="radio" name="shipping" value="${esc(option.id)}"${checked ? ' checked' : ''}>`
+      + `<span class="shipping-option__carrier">${option.logo ? `<img src="${esc(option.logo)}" alt="">` : TRUCK}<small>${esc(carrier)}</small></span>`
+      + `<span class="shipping-option__text"><strong>${esc(option.label)}${badge ? `<em class="shipping-badge">${badge}</em>` : ''}</strong>${option.description ? `<small>${esc(option.description)}</small>` : ''}<small>${option.etaMinDays} a ${option.etaMaxDays} dias úteis · chega entre ${esc(range.from)} e ${esc(range.to)}</small></span>`
+      + `<b>${shipPrice(option)}</b></label>`;
+  };
 
   const state = {
     offer: getOffer(params().get('oferta')),
@@ -539,7 +551,7 @@
     for (let attempt = 0; attempt < 360 && !stopped(); attempt += 1) {
       await new Promise((resolve) => setTimeout(resolve, 5000));
       try {
-        const response = await fetch(`/api/pix-status?reference=${encodeURIComponent(initial.reference)}`);
+        const response = await fetch(`/api/pix-status?reference=${encodeURIComponent(initial.reference)}&t=${encodeURIComponent(initial.access_token || '')}`);
         if (!response.ok) continue;
         const current = await response.json();
         const key = `${current.status}|${current.pix_code}`;
@@ -554,6 +566,14 @@
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
     const filler = '-######-########-##########'.replace(/#/g, () => chars[Math.floor(Math.random() * chars.length)]);
     return `<span class="tracking-masked">${esc(preview)}<span class="tracking-masked__hidden" aria-hidden="true">${filler}</span><span class="sr-only">(liberado após o pagamento)</span></span><small class="tracking-masked__note">Liberado após a confirmação do pagamento.</small>`;
+  }
+
+  // Endereço da busca de CEP: só preenche campo vazio ou que a própria busca preencheu (não apaga o que o cliente digitou).
+  function fillAddress(form, data) {
+    [['street', data.logradouro], ['neighborhood', data.bairro], ['city', data.localidade], ['state', data.uf]].forEach(([name, value]) => {
+      const field = form[name];
+      if (!field.value || field.dataset.autofill === '1') { field.value = value || ''; field.dataset.autofill = '1'; }
+    });
   }
 
   function openCheckout() {
@@ -595,7 +615,7 @@
                 <label>Estado<input name="state" maxlength="2" placeholder="UF" required></label>
               </div>
               <div class="shipping-options" role="radiogroup" aria-label="Opções de entrega">
-                ${CONFIG.shipping.options.map((option) => { const range = deliveryWindow(option); return `<label class="shipping-option"><input type="radio" name="shipping" value="${esc(option.id)}"${option.id === shippingChoice.id ? ' checked' : ''}><span class="shipping-option__text"><strong>${esc(option.label)}</strong><small>${option.etaMinDays} a ${option.etaMaxDays} dias úteis · chega entre ${esc(range.from)} e ${esc(range.to)}</small></span><b>${shipPrice(option)}</b></label>`; }).join('')}
+                ${CONFIG.shipping.options.map((option) => shippingCard(option, option.id === shippingChoice.id)).join('')}
               </div>
               <div class="checkout-divider"></div>
               <div class="checkout-step"><span>3</span> Pagamento</div>
@@ -625,9 +645,10 @@
       const cep = digits(form.zipcode.value);
       if (cep.length !== 8 || cep === lastCep) return;
       lastCep = cep;
-      try { const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`); const data = await response.json(); if (!data.erro) { form.street.value = data.logradouro || ''; form.neighborhood.value = data.bairro || ''; form.city.value = data.localidade || ''; form.state.value = data.uf || ''; if (document.activeElement === form.zipcode) form.number.focus(); } } catch (_) { lastCep = ''; }
+      try { const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`); const data = await response.json(); if (!data.erro) { fillAddress(form, data); if (document.activeElement === form.zipcode) form.number.focus(); } } catch (_) { lastCep = ''; }
     };
     form.zipcode.addEventListener('input', lookupCep);
+    ['street', 'neighborhood', 'city', 'state'].forEach((name) => form[name].addEventListener('input', (event) => { if (event.isTrusted) delete form[name].dataset.autofill; }));
     form.zipcode.addEventListener('blur', lookupCep);
     // Enter/"Ir" do teclado passa para o próximo campo em vez de enviar o formulário incompleto.
     // Só campos de texto: ignora os ocultos utm_* da UTMify, o frete e o order bump.
@@ -686,27 +707,39 @@
         }
         const demoNotice = localDemo ? '<p role="note"><strong>SIMULAÇÃO LOCAL — PIX fictício, não pagável. Nenhuma cobrança foi criada.</strong></p>' : '';
         // Antes do pagamento só os 2 primeiros caracteres do código aparecem; o código real chega com a aprovação.
+        // Página de obrigado do pedido: a oferta e as UTMs servem para o "voltar ao produto" se o PIX não for pago;
+        // o token vai depois do "#" (não é enviado a servidores nem a outros sites).
+        const postSale = new URLSearchParams(params());
+        postSale.set('oferta', state.offer.id);
+        postSale.set('pedido', payload.reference || '');
+        const orderPage = `../obrigado/?${postSale}#t=${encodeURIComponent(payload.access_token || '')}`;
+        if (!localDemo && payload.reference && payload.access_token) {
+          try { const saved = JSON.parse(localStorage.getItem('yumme_pedidos') || '{}'); saved[payload.reference] = payload.access_token; localStorage.setItem('yumme_pedidos', JSON.stringify(saved)); } catch (_) { /* sem armazenamento: o token segue no link */ }
+        }
+        // Antes do pagamento só os 2 primeiros caracteres do código aparecem; o código real chega com a aprovação.
         const trackingBlock = (current) => {
           const code = current.tracking_code || '';
-          if (code && current.status === 'paid') return `<p><strong>Código de rastreio:</strong> ${esc(code)}</p><a href="../rastreio/?code=${encodeURIComponent(code)}">Abrir pós-venda</a>`;
+          if (code && current.status === 'paid') return `<p><strong>Código de rastreio:</strong> ${esc(code)}</p><a href="${esc(localDemo ? `../rastreio/?code=${encodeURIComponent(code)}` : orderPage)}">Abrir pós-venda</a>`;
           const preview = payload.tracking_preview || (payload.tracking_code || '').slice(0, 2);
           if (!preview) return '';
-          const postSale = new URLSearchParams(params());
-          postSale.set('oferta', state.offer.id);
-          if (localDemo) postSale.set('code', payload.tracking_code); else postSale.set('pedido', payload.reference);
-          return `<p><strong>Código ${localDemo ? 'fictício ' : ''}de rastreio:</strong> ${maskedCode(preview)}</p><a href="../rastreio/?${postSale}">Abrir ${localDemo ? 'pós-venda simulado' : 'pós-venda'}</a>`;
+          const demoLink = new URLSearchParams(params()); demoLink.set('oferta', state.offer.id); demoLink.set('code', payload.tracking_code || '');
+          return `<p><strong>Código ${localDemo ? 'fictício ' : ''}de rastreio:</strong> ${maskedCode(preview)}</p><a href="${esc(localDemo ? `../rastreio/?${demoLink}` : orderPage)}">Abrir ${localDemo ? 'pós-venda simulado' : 'pós-venda'}</a>`;
         };
         const showPayment = (current) => {
           const pixCode = current.pix_code || '';
           const status = current.status || 'pending';
           const waiting = status === 'pending';
           const title = status === 'paid' ? 'Pagamento aprovado!' : waiting ? `PIX ${localDemo ? 'simulado' : 'gerado com sucesso'}` : 'Este PIX não está mais disponível';
-          const lead = status === 'paid' ? `Recebemos seu pagamento. Seu pedido já está sendo preparado — ${esc(shippingChoice.label.toLowerCase())}: ${shippingChoice.etaMinDays} a ${shippingChoice.etaMaxDays} dias úteis.`
+          const redirecting = status === 'paid' && !localDemo && payload.access_token;
+          const lead = redirecting ? `Recebemos seu pagamento. Abrindo a página do seu pedido… <a href="${esc(orderPage)}">Ver meu pedido</a>`
+            : status === 'paid' ? `Recebemos seu pagamento. Seu pedido já está sendo preparado — ${esc(shippingChoice.label.toLowerCase())}: ${shippingChoice.etaMinDays} a ${shippingChoice.etaMaxDays} dias úteis.`
             : !waiting ? 'Feche esta janela e gere um novo pagamento.'
             : localDemo ? 'Este código serve apenas para visualizar a etapa de pagamento.'
             : pixCode ? 'Escaneie o QR Code ou copie o código abaixo para concluir.' : 'Estamos gerando seu código PIX. Aguarde alguns segundos nesta tela.';
           resultBox.hidden = false; resultBox.innerHTML = `${demoNotice}<strong>${title}</strong><p>${lead}</p>${waiting && current.qr_code_image ? `<img src="${esc(current.qr_code_image)}" alt="QR Code PIX">` : ''}${waiting && pixCode ? `<textarea readonly aria-label="Código PIX">${esc(pixCode)}</textarea><button type="button" class="checkout-copy" data-copy-pix>Copiar código PIX</button>` : ''}${trackingBlock(current)}`;
           resultBox.querySelector('[data-copy-pix]')?.addEventListener('click', async (copyEvent) => { await navigator.clipboard.writeText(pixCode); copyEvent.currentTarget.textContent = 'Código copiado'; });
+          // Pagamento aprovado: leva o cliente para a página de obrigado do pedido.
+          if (redirecting) setTimeout(() => window.location.assign(orderPage), 1500);
         };
         showPayment(payload);
         form.hidden = true; overlay.querySelector('.checkout-step').hidden = true;

@@ -1,9 +1,8 @@
-const crypto = require('crypto');
-const { neon } = require('@neondatabase/serverless');
 const { pagpix, qrImage } = require('./_pagpix');
 const { toCents, findOffer, findShipping, etaText } = require('./_catalog');
+const { sql, ensureSchema, logIntegrationError } = require('./_db');
+const { newAccessToken, hashToken, addEvent } = require('./_orders');
 
-const sql = neon(process.env.DATABASE_URL);
 const UTM_KEYS = ['source', 'medium', 'campaign', 'content', 'term'];
 const CLICK_IDS = ['fbclid', 'gclid', 'ttclid'];
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -14,13 +13,6 @@ function clean(value, max = 160) {
 
 function onlyDigits(value) {
   return clean(value, 32).replace(/\D/g, '');
-}
-
-function generateTrackingCode(zipcode = '') {
-  const zipSuffix = onlyDigits(zipcode).slice(-6).padStart(6, '0');
-  const timeStamp = Date.now().toString(36).toUpperCase();
-  const randomPart = crypto.randomBytes(8).toString('hex').toUpperCase();
-  return `YM-${zipSuffix}-${timeStamp}-${randomPart.slice(0, 10)}`;
 }
 
 function campaignParams(tracking = {}) {
@@ -82,7 +74,7 @@ module.exports = async function handler(req, res) {
       },
     });
     if (!created.ok) {
-      console.error('[pagpix] create transaction failed', created.status, created.data);
+      await ensureSchema().then(() => logIntegrationError('pagpix', `Criação do PIX recusada (HTTP ${created.status})`, { reference, details: created.data })).catch(() => {});
       return res.status(502).json({ error: created.data.error?.message || 'Não foi possível criar o PIX' });
     }
 
@@ -94,42 +86,31 @@ module.exports = async function handler(req, res) {
       const check = await pagpix(`/transactions/${encodeURIComponent(transaction.id)}`);
       if (check.ok) transaction = check.data;
     }
-    if (transaction.pix_status === 'failed') return res.status(502).json({ error: 'Não foi possível gerar o PIX. Tente novamente.' });
+    if (transaction.pix_status === 'failed') {
+      await ensureSchema().then(() => logIntegrationError('pagpix', 'A PagPix não conseguiu gerar o código PIX', { reference, details: { transaction_id: transaction.id } })).catch(() => {});
+      return res.status(502).json({ error: 'Não foi possível gerar o PIX. Tente novamente.' });
+    }
     const pixCode = transaction.pix?.copy_paste || null;
 
-    await sql`CREATE TABLE IF NOT EXISTS orders (
-      id BIGSERIAL PRIMARY KEY, reference TEXT UNIQUE NOT NULL, gateway_transaction_id TEXT, transaction_id TEXT,
-      status TEXT NOT NULL DEFAULT 'pending', amount INTEGER NOT NULL, offer_id TEXT, offer JSONB NOT NULL,
-      customer JSONB NOT NULL, address JSONB, tracking JSONB, pix_code TEXT, qr_code_base64 TEXT,
-      tracking_code TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-    )`;
-    // O banco recusa qualquer código de rastreio repetido, mesmo com pedidos simultâneos.
-    await sql`CREATE UNIQUE INDEX IF NOT EXISTS orders_tracking_code_key ON orders (tracking_code)`;
-
-    let trackingCode;
-    for (let attempt = 1; ; attempt += 1) {
-      trackingCode = generateTrackingCode(address.zipcode);
-      const trackingData = {
-        ...tracking, code: trackingCode, estimate: etaText(shippingOption), house_number: shippingAddress.number,
-        // Frete escolhido: define o prazo e o valor mostrados no pós-venda.
-        shipping: { id: shippingOption.id, label: shippingOption.label, price_cents: shippingCents, eta_min: shippingOption.etaMinDays, eta_max: shippingOption.etaMaxDays },
-      };
-      try {
-        // offer_id e transaction_id vêm do formato original da tabela (criada pelo v0); offer_id é obrigatória.
-        await sql`INSERT INTO orders (reference, gateway_transaction_id, transaction_id, status, amount, offer_id, offer, customer, address, tracking, pix_code, tracking_code)
-          VALUES (${reference}, ${String(transaction.id || '')}, ${String(transaction.id || '')}, 'pending', ${amount}, ${String(offer.id || '')}, ${JSON.stringify(offer)}, ${JSON.stringify(buyer)}, ${JSON.stringify(shippingAddress)}, ${JSON.stringify(trackingData)}, ${pixCode}, ${trackingCode})`;
-        break;
-      } catch (insertError) {
-        // 23505 = código já existe no banco: gera outro e tenta de novo.
-        const duplicateCode = insertError.code === '23505' && insertError.constraint === 'orders_tracking_code_key';
-        if (!duplicateCode || attempt >= 5) throw insertError;
-      }
-    }
+    await ensureSchema();
+    const trackingData = {
+      ...tracking, estimate: etaText(shippingOption), house_number: shippingAddress.number,
+      // Frete escolhido: define o prazo e o valor mostrados no pós-venda.
+      shipping: { id: shippingOption.id, label: shippingOption.label, price_cents: shippingCents, eta_min: shippingOption.etaMinDays, eta_max: shippingOption.etaMaxDays },
+    };
+    // Abre a página de obrigado deste pedido (o banco guarda só o hash).
+    const accessToken = newAccessToken();
+    // O código de acompanhamento só é gerado quando o pagamento é confirmado (api/_orders.js → markPaid).
+    // offer_id e transaction_id vêm do formato original da tabela (criada pelo v0); offer_id é obrigatória.
+    await sql`INSERT INTO orders (reference, gateway_transaction_id, transaction_id, status, amount, offer_id, offer, customer, address, tracking, pix_code, access_token_hash)
+      VALUES (${reference}, ${String(transaction.id || '')}, ${String(transaction.id || '')}, 'pending', ${amount}, ${String(offer.id || '')}, ${JSON.stringify(offer)}, ${JSON.stringify(buyer)}, ${JSON.stringify(shippingAddress)}, ${JSON.stringify(trackingData)}, ${pixCode}, ${hashToken(accessToken)})`;
+    await addEvent(reference, { code: 'pedido_realizado', description: `${offer.label} · ${shippingOption.label}`, source: 'sistema', externalId: 'criado' });
 
     return res.status(200).json({
       reference,
-      // O código completo só é entregue pelo /api/pix-status depois do pagamento.
-      tracking_preview: trackingCode.slice(0, 2),
+      access_token: accessToken,
+      // O código de acompanhamento só existe depois do pagamento; antes disso a tela mostra só "YM" e o resto desfocado.
+      tracking_preview: 'YM',
       amount_cents: amount,
       shipping: { id: shippingOption.id, label: shippingOption.label, eta: etaText(shippingOption) },
       status: 'pending',
@@ -139,7 +120,7 @@ module.exports = async function handler(req, res) {
       expires_at: transaction.pix?.expires_at || null,
     });
   } catch (error) {
-    console.error('[v0] create transaction error', error);
+    await logIntegrationError('checkout', `Erro ao criar o pedido: ${error.message}`, { details: { code: error.code || null, column: error.column || null } });
     return res.status(500).json({ error: 'Erro interno ao criar o pagamento' });
   }
 };

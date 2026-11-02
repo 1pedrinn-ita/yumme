@@ -69,14 +69,16 @@
 
   /**
    * Opções de entrega do checkout. O preço é somado ao total do pedido (0 = grátis) e o prazo aparece no pós-venda.
-   * `defaultOption` é a opção já marcada quando o checkout abre.
+   * `defaultOption` é a opção já marcada quando o checkout abre; `recommended` ganha o selo "Recomendada".
+   * `carrier`: nome da transportadora da opção (vazio = `shipping.carrier`).
+   * `logo`: caminho de um logotipo que você tenha autorização para usar (vazio = ícone genérico de caminhão).
    */
   shipping: {
     carrier: 'Transportadora',
     defaultOption: 'padrao',
     options: [
-      { id: 'padrao', label: 'Entrega padrão', price: 0, etaMinDays: 5, etaMaxDays: 12 },
-      { id: 'expressa', label: 'Entrega expressa', price: 9.9, etaMinDays: 3, etaMaxDays: 5 },
+      { id: 'padrao', label: 'Entrega padrão', description: 'Envio econômico, com código de rastreio.', carrier: '', logo: '', price: 0, etaMinDays: 5, etaMaxDays: 12 },
+      { id: 'expressa', label: 'Entrega expressa', description: 'Chega mais rápido, com código de rastreio.', carrier: '', logo: '', recommended: true, price: 9.9, etaMinDays: 3, etaMaxDays: 5 },
     ],
   },
 

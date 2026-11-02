@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>Pedido confirmado | Yumme Kids</title>
+  <script>
+    // O link traz o token do pedido depois do "#": fica guardado neste aparelho e sai da barra de endereço.
+    (function () {
+      var match = location.hash.match(/[#&]t=([A-Za-z0-9_-]+)/);
+      if (!match) return;
+      window.__ORDER_TOKEN__ = match[1];
+      try {
+        var ref = new URLSearchParams(location.search).get('pedido');
+        var saved = JSON.parse(localStorage.getItem('yumme_pedidos') || '{}');
+        if (ref) { saved[ref] = match[1]; localStorage.setItem('yumme_pedidos', JSON.stringify(saved)); }
+      } catch (e) { /* sem armazenamento: o token segue só nesta visita */ }
+      history.replaceState(null, '', location.pathname + location.search);
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../shop/css/pedido.css">
+</head>
+<body class="order-page">
+  <header class="order-top">
+    <a class="order-top__brand" href="../">Yumme Kids</a>
+    <span class="order-top__secure">Pedido confirmado</span>
+  </header>
+  <main class="order-shell" id="order-root" aria-live="polite">
+    <p class="order-loading">Carregando seu pedido…</p>
+  </main>
+  <script src="../shop/js/config.js" defer></script>
+  <script src="../shop/js/order-steps.js" defer></script>
+  <script src="../shop/js/order-timeline.js" defer></script>
+  <script src="./obrigado.js" defer></script>
+</body>
+</html>

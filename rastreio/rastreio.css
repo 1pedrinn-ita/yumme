@@ -5,3 +5,11 @@
 .tracking-empty strong{display:block;font-size:18px;color:#111936}
 .tracking-empty p{margin:6px 0 16px;color:#6d7180}
 .tracking-return{display:inline-block;padding:13px 18px;border-radius:12px;background:var(--yumme-gradient);color:#fff;font-weight:800;text-decoration:none;box-shadow:0 9px 20px rgba(255,35,81,.22)}
+
+/* Código em destaque e linha do tempo do rastreio */
+.tracking-code-box{display:flex;flex-direction:column;gap:4px;margin-top:28px;padding:18px 20px;border-radius:16px;background:#fff1f4;border:1px solid #ffd6df}
+.tracking-code-box span{color:#7a7d88;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.tracking-code-box strong{color:#d81b45;font:800 clamp(16px,4vw,22px)/1.25 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}
+.tracking-code-box small{color:#6d7180;font-size:13px;overflow-wrap:anywhere}
+.tracking-subtitle{margin:28px 0 14px;font-size:18px;letter-spacing:-.02em}
+.tracking-card .ot-progress{margin-top:22px}

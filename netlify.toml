@@ -10,3 +10,23 @@
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+# Consulta as movimentações na transportadora de hora em hora (só age se a integração estiver configurada).
+[functions."logistics-sync"]
+  schedule = "@hourly"
+
+# Painel administrativo: fora dos buscadores, sem cache e sem ser exibido dentro de outros sites.
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
+    Referrer-Policy = "no-referrer"
+    X-Frame-Options = "DENY"
+
+# Página de obrigado: o link tem o token do pedido, então não vai para buscadores nem para outros sites.
+[[headers]]
+  for = "/obrigado/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Referrer-Policy = "no-referrer"

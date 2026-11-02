@@ -6,7 +6,8 @@ module.exports = (handler) => async (event) => {
       statusCode: 200,
       status(code) { this.statusCode = code; return this; },
       json(data) {
-        resolve({ statusCode: this.statusCode, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+        // Respostas da API nunca ficam em cache (têm dados de pedido).
+        resolve({ statusCode: this.statusCode, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' }, body: JSON.stringify(data) });
         return this;
       },
     };
